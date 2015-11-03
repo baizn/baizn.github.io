@@ -5,25 +5,25 @@
   
   <title>promise | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
+  <meta name="description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
 ##获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
 ##获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlPara">
+123456789//获取URL中的参数值function getUrlParams">
 <meta property="og:type" content="article">
 <meta property="og:title" content="promise">
 <meta property="og:url" content="http://baizn.github.io/2015/11/03/promise/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
+<meta property="og:description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
 ##获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
 ##获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlPara">
-<meta property="og:updated_time" content="2015-11-03T07:15:30.000Z">
+123456789//获取URL中的参数值function getUrlParams">
+<meta property="og:updated_time" content="2015-11-03T07:17:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="promise">
-<meta name="twitter:description" content="##获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
+<meta name="twitter:description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
 ##获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
 ##获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlPara">
+123456789//获取URL中的参数值function getUrlParams">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -91,16 +91,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##获取页面来源<br><strong>document.referrer:</strong>获取页面来源，只能获取上一次页面。</p>
+        <h2 id="获取页面来源">获取页面来源</h2><p><strong>document.referrer:</strong>获取页面来源，只能获取上一次页面。</p>
 <p>##获取请求的URL<br>window.location.href: 获取请求的URL，包括查询参数</p>
 <p>##获取URL中的查询参数<br>window.location.search: 获取查询参数，形式如：?type=1&amp;name=23</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取URL中的参数值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrlParamsByName</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"(^|&amp;)"</span> + name + <span class="string">"([^&amp;]*)(&amp;|$)"</span>);</span><br><span class="line">	<span class="keyword">var</span> param = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg);</span><br><span class="line">	<span class="keyword">if</span>(param !== <span class="literal">null</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">decodeURI</span>(param[<span class="number">2</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>##Javascript之Cookie</p>
-<h3 id="什么是cookie">什么是cookie</h3><p>cookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。</p>
+<h2 id="Javascript之Cookie">Javascript之Cookie</h2><h3 id="什么是cookie">什么是cookie</h3><p>cookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。</p>
 <p>cookie是访问过的网站创建的文件，用于存储浏览信息。</p>
 <p>在javascript中可以通过document.cookie来读取或设置这些信息。</p>
-<p>###cookie基础知识</p>
-<blockquote>
+<h3 id="cookie基础知识">cookie基础知识</h3><blockquote>
 <ul>
 <li>cookie有大小限制，每个cookie所存放的数据不能超过4KB，如果超过，则返回空字符串</li>
 <li>cookie是以文本形式存放在客户端的计算机中</li>
@@ -111,25 +109,22 @@
 <li>多个cookie可以存放在一个cookie文件中</li>
 </ul>
 </blockquote>
-<p>###操作cookie</p>
-<p>####设置cookie<br>在javascript中存取cookie时，必须使用Document对象的cookie属性：<figure class="highlight"><figcaption><span>= 'name=baizn';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;####&#35835;&#21462;cookie</span><br></pre></td></tr></table></figure></p>
-<p>function getCookie(name) {<br>    var start = 0;<br>    var end = 0;<br>    if(document.cookie.length &gt; 0) {<br>        start = document.cookie.indexOf(name + ‘=’);<br>        if(start !== -1) {<br>            //获取cookie值的开始位置<br>            start = start + name.length + 1;<br>            end = document.cookie.indexOf(‘;’, start);<br>            if(end === -1) {<br>                end = document.cookie.length;<br>            }<br>            return decodeURI(document.cookie.substring(start, end));<br>        }<br>    }<br>    return ‘’;<br>}<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">####设置cookie的有效期</span></span><br><span class="line">默认情况下，cookie会在浏览器关闭时候自动清除。可以通过expires来设置cookie的有效期，语法如下：```document.cookie = 'name=baizn; expires=<span class="typedef"><span class="keyword">data</span>';</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="操作cookie">操作cookie</h3><h4 id="设置cookie">设置cookie</h4><p>在javascript中存取cookie时，必须使用Document对象的cookie属性：<figure class="highlight"><figcaption><span>= 'name=baizn';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#### &#35835;&#21462;cookie</span><br></pre></td></tr></table></figure></p>
+<p>function getCookie(name) {<br>    var start = 0;<br>    var end = 0;<br>    if(document.cookie.length &gt; 0) {<br>        start = document.cookie.indexOf(name + ‘=’);<br>        if(start !== -1) {<br>            //获取cookie值的开始位置<br>            start = start + name.length + 1;<br>            end = document.cookie.indexOf(‘;’, start);<br>            if(end === -1) {<br>                end = document.cookie.length;<br>            }<br>            return decodeURI(document.cookie.substring(start, end));<br>        }<br>    }<br>    return ‘’;<br>}<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="preprocessor">#### 设置cookie的有效期</span></span><br><span class="line">默认情况下，cookie会在浏览器关闭时候自动清除。可以通过expires来设置cookie的有效期，语法如下：```document.cookie = 'name=baizn; expires=<span class="typedef"><span class="keyword">data</span>';</span></span><br></pre></td></tr></table></figure></p>
 <p>data的格式如下：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var _date = new Date()<span class="comment">;</span></span><br><span class="line">_date.setDate(_date.getDate() + 30)<span class="comment">;</span></span><br><span class="line">_date.toGMTString()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>###cookie的路径<br>cookie一般都是由于用户访问页面而创建的。默认情况下，只有与创建cookie的页面在同一个目录下的网页才可以访问。</p>
-<p>如何让cookie能被其他目录或路径访问呢，可以通过设置cookie的路径来实现：<figure class="highlight"><figcaption><span>= 'name=baizn; path=path';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;###cookie&#30340;&#22495;&#10;&#23454;&#29616;cookie&#21516;&#22495;&#20043;&#38388;&#30340;&#35775;&#38382;&#65306;```document.cookie = &#39;name=baizn; domain=b.cn&#39;;</span><br></pre></td></tr></table></figure></p>
-<p>##Ajax跨域请求</p>
-<p>###Jsonp<br>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个<script>元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
+<h3 id="cookie的路径">cookie的路径</h3><p>cookie一般都是由于用户访问页面而创建的。默认情况下，只有与创建cookie的页面在同一个目录下的网页才可以访问。</p>
+<p>如何让cookie能被其他目录或路径访问呢，可以通过设置cookie的路径来实现：<figure class="highlight"><figcaption><span>= 'name=baizn; path=path';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;### cookie&#30340;&#22495;&#10;&#23454;&#29616;cookie&#21516;&#22495;&#20043;&#38388;&#30340;&#35775;&#38382;&#65306;```document.cookie = &#39;name=baizn; domain=b.cn&#39;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个<script>元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
 <p>Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。</p>
-<p>###CORS(Cross-Origin Resource Sharing)<br>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
+<h3 id="CORS(Cross-Origin_Resource_Sharing)">CORS(Cross-Origin Resource Sharing)</h3><p>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
 <p>请求过程：发送方XHR请求报头里有一条Origin:请求页面的域，被请求服务器设置根据Access-Control-Allow-Origin设置判断是否允许该请求，如果允许会把内容返回给请求页面。</p>
 <p>详情可参考MDN文档：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&amp;redirectslug=HTTP_access_control">HTTP access control CORS</a>。</p>
-<p>###服务器代理请求<br>页面发送请求给本域服务器的一个代理脚本，代理脚本完成对其他域的请求，然后把结果返回给客户端。优点是可以模拟GET或POST请求方法，并把参数和客户端Cookies传递过去，缺点是实施起来比较麻烦。</p>
-<p>##不同域之间的JavaScript交互</p>
-<p>###document.domain<br>只能解决一个域名下的不同二级域名页面跨域，如bzn.zbj.com和yxl.bzj.com，设置document.domain=’zbj.com’。</p>
-<p>###window.name<br>window.name一般用来获取子窗口：window.frames[windowName]。一个窗口无论加载什么页面，window.name都保持不变。</p>
-<p>###window.postMessage<br>window.postMessage出现在HTML5规范中，可以实现脚本跨域通信。当window.postMessage方法被调用时，目标窗口的message事件被触发，就可以实现不同域之间的信息交流。</p>
-<p>###Iframe<br>页面Iframe呈树形嵌套，它的特点如下：</p>
+<h3 id="服务器代理请求">服务器代理请求</h3><p>页面发送请求给本域服务器的一个代理脚本，代理脚本完成对其他域的请求，然后把结果返回给客户端。优点是可以模拟GET或POST请求方法，并把参数和客户端Cookies传递过去，缺点是实施起来比较麻烦。</p>
+<h2 id="不同域之间的JavaScript交互">不同域之间的JavaScript交互</h2><h3 id="document-domain">document.domain</h3><p>只能解决一个域名下的不同二级域名页面跨域，如bzn.zbj.com和yxl.bzj.com，设置document.domain=’zbj.com’。</p>
+<h3 id="window-name">window.name</h3><p>window.name一般用来获取子窗口：window.frames[windowName]。一个窗口无论加载什么页面，window.name都保持不变。</p>
+<h3 id="window-postMessage">window.postMessage</h3><p>window.postMessage出现在HTML5规范中，可以实现脚本跨域通信。当window.postMessage方法被调用时，目标窗口的message事件被触发，就可以实现不同域之间的信息交流。</p>
+<h3 id="Iframe">Iframe</h3><p>页面Iframe呈树形嵌套，它的特点如下：</p>
 <blockquote>
 <ul>
 <li>任何一个节点窗口都能获取树上其他窗口的引用。子iframe可以通过top／parent来引用父窗口，父窗口可以通过window.frames[0]或window.frames[name]来引用子窗口</li>
