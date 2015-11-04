@@ -60,7 +60,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="/img/github.png" class="js-avatar">
+			<img lazy-src="/img/avatar.png" class="js-avatar">
 			
 		</a>
 
@@ -126,8 +126,6 @@
 				        
 							<li><a href="/tags/">标签云</a></li>
 				        
-							<li><a href="/about/">关于我</a></li>
-				        
 						</ul>
 					</nav>
 					<nav class="header-nav">
@@ -135,7 +133,7 @@
 							
 								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
 					        
-								<li id="GitHub"><a class="GitHub" target="_blank" href="/#" title="GitHub"></a></li>
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
 					        
 								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
 					        
@@ -169,7 +167,7 @@
 				
 				<section class="switch-part switch-part4">
 				
-					<div id="js-aboutme">专注于前端, 专注于JavaScript</div>
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
 				</section>
 				
 			</div>
@@ -186,7 +184,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<a href="/" class="profilepic">
-				<img lazy-src="/img/github.png" class="js-avatar">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
 			</a>
 			<hgroup>
 			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
@@ -201,8 +199,6 @@
 		        
 					<li><a href="/tags/">标签云</a></li>
 		        
-					<li><a href="/about/">关于我</a></li>
-		        
 		        <div class="clearfix"></div>
 				</ul>
 			</nav>
@@ -211,7 +207,7 @@
 							
 								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
 					        
-								<li id="GitHub"><a class="GitHub" target="_blank" href="/#" title="GitHub"></a></li>
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
 					        
 								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
 					        
@@ -423,11 +419,23 @@
 <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="/js/main.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-  var backgroundList = ["url(/background/bg-1.jpg)", "url(/background/bg-2.jpg)","url(/background/bg-3.jpg)","url(/background/bg-4.jpg)","url(/background/bg-5.jpg)"];
-  var background = Math.floor(Math.random() * backgroundList.length);
-  $("body").css({"background": backgroundList[background], "background-attachment": "fixed", "background-size": "cover"});
-</script>
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
 
 
 
