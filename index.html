@@ -220,7 +220,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个<script>元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
+        <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个’<script>‘元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
 <p>Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。</p>
 <h3 id="CORS(Cross-Origin_Resource_Sharing)">CORS(Cross-Origin Resource Sharing)</h3><p>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
 <p>请求过程：发送方XHR请求报头里有一条Origin:请求页面的域，被请求服务器设置根据Access-Control-Allow-Origin设置判断是否允许该请求，如果允许会把内容返回给请求页面。</p>
