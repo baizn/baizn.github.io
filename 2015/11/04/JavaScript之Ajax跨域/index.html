@@ -5,22 +5,22 @@
   
   <title>JavaScript之Ajax跨域 | baizn得github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个’‘元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+  <meta name="description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个script元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
 Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
-CORS(Cross-Origin Resource Sharing)CO">
+CORS(Cross-Origin Resource Sharin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript之Ajax跨域">
 <meta property="og:url" content="http://baizn.github.io/2015/11/04/JavaScript之Ajax跨域/index.html">
 <meta property="og:site_name" content="baizn得github博客">
-<meta property="og:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个’‘元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+<meta property="og:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个script元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
 Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
-CORS(Cross-Origin Resource Sharing)CO">
-<meta property="og:updated_time" content="2015-11-04T03:20:34.000Z">
+CORS(Cross-Origin Resource Sharin">
+<meta property="og:updated_time" content="2015-11-04T03:25:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript之Ajax跨域">
-<meta name="twitter:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个’‘元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+<meta name="twitter:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个script元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
 Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
-CORS(Cross-Origin Resource Sharing)CO">
+CORS(Cross-Origin Resource Sharin">
   
     <link rel="alternative" href="/atom.xml" title="baizn得github博客" type="application/atom+xml">
   
@@ -39,7 +39,7 @@ CORS(Cross-Origin Resource Sharing)CO">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="/img/yxl.png" class="js-avatar">
+			<img lazy-src="/img/github.png" class="js-avatar">
 			
 		</a>
 
@@ -165,7 +165,7 @@ CORS(Cross-Origin Resource Sharing)CO">
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<a href="/" class="profilepic">
-				<img lazy-src="/img/yxl.png" class="js-avatar">
+				<img lazy-src="/img/github.png" class="js-avatar">
 			</a>
 			<hgroup>
 			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
@@ -236,11 +236,11 @@ CORS(Cross-Origin Resource Sharing)CO">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个’<script>‘元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
+        <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个script元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
 <p>Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。</p>
 <h3 id="CORS(Cross-Origin_Resource_Sharing)">CORS(Cross-Origin Resource Sharing)</h3><p>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
 <p>请求过程：发送方XHR请求报头里有一条Origin:请求页面的域，被请求服务器设置根据Access-Control-Allow-Origin设置判断是否允许该请求，如果允许会把内容返回给请求页面。</p>
-<p>详情可参考MDN文档：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&amp;redirectslug=HTTP_access_control">HTTP access control CORS</a>。</p>
+<p>详情可参考MDN文档：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&amp;redirectslug=HTTP_access_control" target="_blank" rel="external">HTTP access control CORS</a>。</p>
 <h3 id="服务器代理请求">服务器代理请求</h3><p>页面发送请求给本域服务器的一个代理脚本，代理脚本完成对其他域的请求，然后把结果返回给客户端。优点是可以模拟GET或POST请求方法，并把参数和客户端Cookies传递过去，缺点是实施起来比较麻烦。</p>
 <h2 id="不同域之间的JavaScript交互">不同域之间的JavaScript交互</h2><h3 id="document-domain">document.domain</h3><p>只能解决一个域名下的不同二级域名页面跨域，如bzn.zbj.com和yxl.bzj.com，设置document.domain=’zbj.com’。</p>
 <h3 id="window-name">window.name</h3><p>window.name一般用来获取子窗口：window.frames[windowName]。一个窗口无论加载什么页面，window.name都保持不变。</p>
@@ -251,7 +251,7 @@ CORS(Cross-Origin Resource Sharing)CO">
 <li>任何一个节点窗口都能获取树上其他窗口的引用。子iframe可以通过top／parent来引用父窗口，父窗口可以通过window.frames[0]或window.frames[name]来引用子窗口</li>
 <li>树上不同源的窗口不能获取对方的内部状态</li>
 <li>树上任何窗口可以设置(不能读取)其他窗口的location/url</li>
-<li>一个页面URL的锚点(<a href="http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新">http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新</a></li>
+<li>一个页面URL的锚点(<a href="http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新" target="_blank" rel="external">http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新</a></li>
 </ul>
 </blockquote>
 <p>根据以上特点，Iframe进行跨域交互的方法：</p>
@@ -261,7 +261,7 @@ CORS(Cross-Origin Resource Sharing)CO">
 <li>不同域的iframe不能获取内部状态，可以通过创建一个根目标iframe相同域的隐藏iframe来传递数据</li>
 </ul>
 </blockquote>
-</script></strong></p>
+
       
       
 
@@ -320,7 +320,7 @@ CORS(Cross-Origin Resource Sharing)CO">
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ajax跨域请求"><span class="toc-number">1.</span> <span class="toc-text">Ajax跨域请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jsonp"><span class="toc-number">1.1.</span> <span class="toc-text">Jsonp</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ajax跨域请求"><span class="toc-number">1.</span> <span class="toc-text">Ajax跨域请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jsonp"><span class="toc-number">1.1.</span> <span class="toc-text">Jsonp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CORS(Cross-Origin_Resource_Sharing)"><span class="toc-number">1.2.</span> <span class="toc-text">CORS(Cross-Origin Resource Sharing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器代理请求"><span class="toc-number">1.3.</span> <span class="toc-text">服务器代理请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不同域之间的JavaScript交互"><span class="toc-number">2.</span> <span class="toc-text">不同域之间的JavaScript交互</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#document-domain"><span class="toc-number">2.1.</span> <span class="toc-text">document.domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#window-name"><span class="toc-number">2.2.</span> <span class="toc-text">window.name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#window-postMessage"><span class="toc-number">2.3.</span> <span class="toc-text">window.postMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iframe"><span class="toc-number">2.4.</span> <span class="toc-text">Iframe</span></a></li></ol></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
