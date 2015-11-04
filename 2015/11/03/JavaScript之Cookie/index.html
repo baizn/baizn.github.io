@@ -3,18 +3,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tagcloud | baizn得github博客</title>
+  <title>JavaScript之Cookie | baizn得github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tagcloud">
-<meta property="og:url" content="http://baizn.github.io/tags/index.html">
+  <meta name="description" content="Javascript之Cookie什么是cookiecookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。
+cookie是访问过的网站创建的文件，用于存储浏览信息。
+在javascript中可以通过document.cookie来读取或设置这些信息。
+cookie基础知识
+
+cookie有大小限制，每个cookie所存放的数据不能超过4KB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript之Cookie">
+<meta property="og:url" content="http://baizn.github.io/2015/11/03/JavaScript之Cookie/index.html">
 <meta property="og:site_name" content="baizn得github博客">
-<meta property="og:description">
-<meta property="og:updated_time" content="2015-11-03T08:27:47.000Z">
+<meta property="og:description" content="Javascript之Cookie什么是cookiecookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。
+cookie是访问过的网站创建的文件，用于存储浏览信息。
+在javascript中可以通过document.cookie来读取或设置这些信息。
+cookie基础知识
+
+cookie有大小限制，每个cookie所存放的数据不能超过4KB">
+<meta property="og:updated_time" content="2015-11-04T02:25:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tagcloud">
-<meta name="twitter:description">
+<meta name="twitter:title" content="JavaScript之Cookie">
+<meta name="twitter:description" content="Javascript之Cookie什么是cookiecookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。
+cookie是访问过的网站创建的文件，用于存储浏览信息。
+在javascript中可以通过document.cookie来读取或设置这些信息。
+cookie基础知识
+
+cookie有大小限制，每个cookie所存放的数据不能超过4KB">
   
     <link rel="alternative" href="/atom.xml" title="baizn得github博客" type="application/atom+xml">
   
@@ -193,11 +208,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-JavaScript之Cookie" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/tags/index.html" class="article-date">
-  	<time datetime="2015-11-03T08:27:47.000Z" itemprop="datePublished">2015-11-03</time>
+      <a href="/2015/11/03/JavaScript之Cookie/" class="article-date">
+  	<time datetime="2015-11-03T07:14:21.000Z" itemprop="datePublished">2015-11-03</time>
 </a>
     </div>
   
@@ -210,7 +225,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tagcloud
+      JavaScript之Cookie
     </h1>
   
 
@@ -220,137 +235,41 @@
         
 
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cookie/">Cookie</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
         <div class="clearfix"></div>
       </div>
       
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="Javascript之Cookie">Javascript之Cookie</h2><h3 id="什么是cookie">什么是cookie</h3><p>cookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。</p>
+<p>cookie是访问过的网站创建的文件，用于存储浏览信息。</p>
+<p>在javascript中可以通过document.cookie来读取或设置这些信息。</p>
+<h3 id="cookie基础知识">cookie基础知识</h3><blockquote>
+<ul>
+<li>cookie有大小限制，每个cookie所存放的数据不能超过4KB，如果超过，则返回空字符串</li>
+<li>cookie是以文本形式存放在客户端的计算机中</li>
+<li>cookie的格式：<cookie名>＝<cookie值></cookie值></cookie名></li>
+<li>cookie的有效期，默认的生命周期是浏览器关闭时候，如果希望在浏览器关闭后还能使用，则需要设置cookie的有效期</li>
+<li>typeof document.cookie的结果是string</li>
+<li>cookie有域和路径的概念，默认不能跨域访问cookie</li>
+<li>多个cookie可以存放在一个cookie文件中</li>
+</ul>
+</blockquote>
+<h3 id="操作cookie">操作cookie</h3><h4 id="设置cookie">设置cookie</h4><p>在javascript中存取cookie时，必须使用Document对象的cookie属性：<figure class="highlight"><figcaption><span>= 'name=baizn';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;#### &#35835;&#21462;cookie</span><br></pre></td></tr></table></figure></p>
+<p>function getCookie(name) {<br>    var start = 0;<br>    var end = 0;<br>    if(document.cookie.length &gt; 0) {<br>        start = document.cookie.indexOf(name + ‘=’);<br>        if(start !== -1) {<br>            //获取cookie值的开始位置<br>            start = start + name.length + 1;<br>            end = document.cookie.indexOf(‘;’, start);<br>            if(end === -1) {<br>                end = document.cookie.length;<br>            }<br>            return decodeURI(document.cookie.substring(start, end));<br>        }<br>    }<br>    return ‘’;<br>}<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="haskell"><span class="preprocessor">#### 设置cookie的有效期</span></span><br><span class="line"></span><br><span class="line">默认情况下，cookie会在浏览器关闭时候自动清除。可以通过expires来设置cookie的有效期，语法如下：```document.cookie = 'name=baizn; expires=<span class="typedef"><span class="keyword">data</span>';</span></span></span><br></pre></td></tr></table></figure></p>
+<p>data的格式如下：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var _date = new Date()<span class="comment">;</span></span><br><span class="line">_date.setDate(_date.getDate() + 30)<span class="comment">;</span></span><br><span class="line">_date.toGMTString()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h3 id="cookie的路径">cookie的路径</h3><p>cookie一般都是由于用户访问页面而创建的。默认情况下，只有与创建cookie的页面在同一个目录下的网页才可以访问。</p>
+<p>如何让cookie能被其他目录或路径访问呢，可以通过设置cookie的路径来实现：<figure class="highlight"><figcaption><span>= 'name=baizn; path=path';```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;### cookie&#30340;&#22495;&#10;&#10;&#23454;&#29616;cookie&#21516;&#22495;&#20043;&#38388;&#30340;&#35775;&#38382;&#65306;```document.cookie = &#39;name=baizn; domain=b.cn&#39;;</span><br></pre></td></tr></table></figure></p>
+
       
-      
-        <hr>
-<br>
-
-<div class="tags">
-  <a href="/tags/Ajax/" style="font-size: 16px; color: #808080">Ajax</a> <a href="/tags/CORS/" style="font-size: 16px; color: #808080">CORS</a> <a href="/tags/Cookie/" style="font-size: 16px; color: #808080">Cookie</a> <a href="/tags/Document/" style="font-size: 16px; color: #808080">Document</a> <a href="/tags/JavaScript/" style="font-size: 35px; color: #000">JavaScript</a> <a href="/tags/referrer/" style="font-size: 16px; color: #808080">referrer</a> <a href="/tags/跨域/" style="font-size: 16px; color: #808080">跨域</a>
-</div>
-<style type="text/css">
-	.category-list li{
-		display: inline;
-		font-size: 1.2em;
-		margin-right: 1em;
-		line-height: 60px;
-		border: 1px solid lightgray;
-		padding: 6px;
-	}
-	.category-list a {
-		color: gray;
-	}
-	.category-list:hover a {
-		color: gray;
-		text-decoration: none;
-		font-weight: bold;
-	}
-	.category-list-count {
-		margin-left: 2px;
-		font-size: .9em;
-	}
-	.article-entry ul li:before{
-		display: none;
-	}
-	.article-inner  {
-		text-align: center;
-	}
-	.article-meta {
-		display: none;
-	}
-	.article-header {
-		padding-right: 35px;
-	}
-	#container .article .article-title {
-		padding-right: 0;
-	}
-	.tags {
-		max-width: 40em;
-		margin: 2em auto;
-		margin-top: 0em;
-	}
-	.tags a {
-		margin-right: 1em;
-		line-height: 65px;
-		border-bottom: 1px solid gray;
-	}
-	.tags a:hover {
-		font-weight: bold;
-		text-decoration: none;
-	}
-</style>
-
-
       
 
       <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
-        
-            <hr>
-<br>
-
-<div class="tags">
-  <a href="/tags/Ajax/" style="font-size: 16px; color: #808080">Ajax</a> <a href="/tags/CORS/" style="font-size: 16px; color: #808080">CORS</a> <a href="/tags/Cookie/" style="font-size: 16px; color: #808080">Cookie</a> <a href="/tags/Document/" style="font-size: 16px; color: #808080">Document</a> <a href="/tags/JavaScript/" style="font-size: 35px; color: #000">JavaScript</a> <a href="/tags/referrer/" style="font-size: 16px; color: #808080">referrer</a> <a href="/tags/跨域/" style="font-size: 16px; color: #808080">跨域</a>
-</div>
-<style type="text/css">
-	.category-list li{
-		display: inline;
-		font-size: 1.2em;
-		margin-right: 1em;
-		line-height: 60px;
-		border: 1px solid lightgray;
-		padding: 6px;
-	}
-	.category-list a {
-		color: gray;
-	}
-	.category-list:hover a {
-		color: gray;
-		text-decoration: none;
-		font-weight: bold;
-	}
-	.category-list-count {
-		margin-left: 2px;
-		font-size: .9em;
-	}
-	.article-entry ul li:before{
-		display: none;
-	}
-	.article-inner  {
-		text-align: center;
-	}
-	.article-meta {
-		display: none;
-	}
-	.article-header {
-		padding-right: 35px;
-	}
-	#container .article .article-title {
-		padding-right: 0;
-	}
-	.tags {
-		max-width: 40em;
-		margin: 2em auto;
-		margin-top: 0em;
-	}
-	.tags a {
-		margin-right: 1em;
-		line-height: 65px;
-		border-bottom: 1px solid gray;
-	}
-	.tags a:hover {
-		font-weight: bold;
-		text-decoration: none;
-	}
-</style>
-
-
         
     </div>
     
@@ -358,13 +277,13 @@
   
     
 <div class="copyright">
-  <p><span>本文标题:</span><a href="/tags/index.html">tagcloud</a></p>
+  <p><span>本文标题:</span><a href="/2015/11/03/JavaScript之Cookie/">JavaScript之Cookie</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
-  <p><span>发布时间:</span>2015年11月3日 - 16时11分</p>
-  <p><span>最后更新:</span>2015年11月3日 - 16时11分</p>
+  <p><span>发布时间:</span>2015年11月3日 - 15时11分</p>
+  <p><span>最后更新:</span>2015年11月4日 - 10时11分</p>
   <p>
-    <span>原始链接:</span><a href="/tags/index.html" title="tagcloud">http://baizn.github.io/tags/index.html</a>
-    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/tags/index.html　　作者: baizn" title="点击复制文章链接">
+    <span>原始链接:</span><a href="/2015/11/03/JavaScript之Cookie/" title="JavaScript之Cookie">http://baizn.github.io/2015/11/03/JavaScript之Cookie/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/03/JavaScript之Cookie/　　作者: baizn" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -387,6 +306,17 @@
 
 
 
+<nav id="article-nav">
+  
+    <div id="article-nav-newer" class="article-nav-title">
+      <a href="/2015/11/04/JavaScript基础知识点/">
+        JavaScript基础知识点
+      </a>
+    </div>
+  
+  
+</nav>
+
   
 </article>
 
@@ -394,7 +324,7 @@
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Javascript之Cookie"><span class="toc-number">1.</span> <span class="toc-text">Javascript之Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是cookie"><span class="toc-number">1.1.</span> <span class="toc-text">什么是cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie基础知识"><span class="toc-number">1.2.</span> <span class="toc-text">cookie基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作cookie"><span class="toc-number">1.3.</span> <span class="toc-text">操作cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置cookie"><span class="toc-number">1.3.1.</span> <span class="toc-text">设置cookie</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie的路径"><span class="toc-number">1.4.</span> <span class="toc-text">cookie的路径</span></a></li></ol></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
@@ -461,6 +391,17 @@
     </div>
 
 
+  
+    <div  class="post-nav-button">
+    <a href="/2015/11/04/JavaScript基础知识点/" title="上一篇: JavaScript基础知识点">
+    <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    </div>
+  
+  
+    
+
 </div>
       <footer id="footer">
   <div class="outer">
@@ -497,7 +438,7 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | baizn得github博客</title>
+  <title>JavaScript之Ajax跨域 | baizn得github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
+CORS(Cross-Origin Resource Sharing)CORS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://baizn.github.io/2015/11/02/hello-world/index.html">
+<meta property="og:title" content="JavaScript之Ajax跨域">
+<meta property="og:url" content="http://baizn.github.io/2015/11/04/JavaScript之Ajax跨域/index.html">
 <meta property="og:site_name" content="baizn得github博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-11-02T09:40:37.000Z">
+<meta property="og:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
+CORS(Cross-Origin Resource Sharing)CORS">
+<meta property="og:updated_time" content="2015-11-04T02:26:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="JavaScript之Ajax跨域">
+<meta name="twitter:description" content="Ajax跨域请求JsonpJsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是通过动态创建一个元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。
+Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。
+CORS(Cross-Origin Resource Sharing)CORS">
   
     <link rel="alternative" href="/atom.xml" title="baizn得github博客" type="application/atom+xml">
   
@@ -122,7 +125,7 @@ Quick">
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a>
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a>
 					</div>
 				</section>
 				
@@ -196,11 +199,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-JavaScript之Ajax跨域" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/11/02/hello-world/" class="article-date">
-  	<time datetime="2015-11-02T09:40:37.000Z" itemprop="datePublished">2015-11-02</time>
+      <a href="/2015/11/04/JavaScript之Ajax跨域/" class="article-date">
+  	<time datetime="2015-11-04T02:25:40.000Z" itemprop="datePublished">2015-11-04</time>
 </a>
     </div>
   
@@ -213,7 +216,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      JavaScript之Ajax跨域
     </h1>
   
 
@@ -223,22 +226,42 @@ Quick">
         
 
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ajax/">Ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CORS/">CORS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨域/">跨域</a></li></ul>
+	</div>
+
         <div class="clearfix"></div>
       </div>
       
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个<script>元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
+<p>Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。</p>
+<h3 id="CORS(Cross-Origin_Resource_Sharing)">CORS(Cross-Origin Resource Sharing)</h3><p>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
+<p>请求过程：发送方XHR请求报头里有一条Origin:请求页面的域，被请求服务器设置根据Access-Control-Allow-Origin设置判断是否允许该请求，如果允许会把内容返回给请求页面。</p>
+<p>详情可参考MDN文档：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&amp;redirectslug=HTTP_access_control">HTTP access control CORS</a>。</p>
+<h3 id="服务器代理请求">服务器代理请求</h3><p>页面发送请求给本域服务器的一个代理脚本，代理脚本完成对其他域的请求，然后把结果返回给客户端。优点是可以模拟GET或POST请求方法，并把参数和客户端Cookies传递过去，缺点是实施起来比较麻烦。</p>
+<h2 id="不同域之间的JavaScript交互">不同域之间的JavaScript交互</h2><h3 id="document-domain">document.domain</h3><p>只能解决一个域名下的不同二级域名页面跨域，如bzn.zbj.com和yxl.bzj.com，设置document.domain=’zbj.com’。</p>
+<h3 id="window-name">window.name</h3><p>window.name一般用来获取子窗口：window.frames[windowName]。一个窗口无论加载什么页面，window.name都保持不变。</p>
+<h3 id="window-postMessage">window.postMessage</h3><p>window.postMessage出现在HTML5规范中，可以实现脚本跨域通信。当window.postMessage方法被调用时，目标窗口的message事件被触发，就可以实现不同域之间的信息交流。</p>
+<h3 id="Iframe">Iframe</h3><p>页面Iframe呈树形嵌套，它的特点如下：</p>
+<blockquote>
+<ul>
+<li>任何一个节点窗口都能获取树上其他窗口的引用。子iframe可以通过top／parent来引用父窗口，父窗口可以通过window.frames[0]或window.frames[name]来引用子窗口</li>
+<li>树上不同源的窗口不能获取对方的内部状态</li>
+<li>树上任何窗口可以设置(不能读取)其他窗口的location/url</li>
+<li>一个页面URL的锚点(<a href="http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新">http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新</a></li>
+</ul>
+</blockquote>
+<p>根据以上特点，Iframe进行跨域交互的方法：</p>
+<blockquote>
+<ul>
+<li>改变iframe嵌套树上的目标窗口的URL，目标窗口通过轮询来监听URL的变化，以此通过锚点链在不同iframe直接传递数据</li>
+<li>不同域的iframe不能获取内部状态，可以通过创建一个根目标iframe相同域的隐藏iframe来传递数据</li>
+</ul>
+</blockquote>
+</script></strong></p>
       
       
 
@@ -250,13 +273,13 @@ Quick">
   
     
 <div class="copyright">
-  <p><span>本文标题:</span><a href="/2015/11/02/hello-world/">Hello World</a></p>
+  <p><span>本文标题:</span><a href="/2015/11/04/JavaScript之Ajax跨域/">JavaScript之Ajax跨域</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
-  <p><span>发布时间:</span>2015年11月2日 - 17时11分</p>
-  <p><span>最后更新:</span>2015年11月2日 - 17时11分</p>
+  <p><span>发布时间:</span>2015年11月4日 - 10时11分</p>
+  <p><span>最后更新:</span>2015年11月4日 - 10时11分</p>
   <p>
-    <span>原始链接:</span><a href="/2015/11/02/hello-world/" title="Hello World">http://baizn.github.io/2015/11/02/hello-world/</a>
-    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/02/hello-world/　　作者: baizn" title="点击复制文章链接">
+    <span>原始链接:</span><a href="/2015/11/04/JavaScript之Ajax跨域/" title="JavaScript之Ajax跨域">http://baizn.github.io/2015/11/04/JavaScript之Ajax跨域/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/04/JavaScript之Ajax跨域/　　作者: baizn" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -281,12 +304,12 @@ Quick">
 
 <nav id="article-nav">
   
-    <div id="article-nav-newer" class="article-nav-title">
-      <a href="/2015/11/03/promise/">
-        promise
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2015/11/04/JavaScript基础知识点/">
+        JavaScript基础知识点
       </a>
     </div>
-  
   
 </nav>
 
@@ -297,7 +320,7 @@ Quick">
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ajax跨域请求"><span class="toc-number">1.</span> <span class="toc-text">Ajax跨域请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jsonp"><span class="toc-number">1.1.</span> <span class="toc-text">Jsonp</span></a></li></ol></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
@@ -365,13 +388,13 @@ Quick">
 
 
   
-    <div  class="post-nav-button">
-    <a href="/2015/11/03/promise/" title="上一篇: promise">
-    <i class="fa fa-angle-left"></i>
-    </a>
-    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
-    </div>
   
+    <div  class="post-nav-button">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2015/11/04/JavaScript基础知识点/" title="下一篇: JavaScript基础知识点">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
   
     
 
