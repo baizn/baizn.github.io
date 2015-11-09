@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Webpack code splitting | baizn得github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Webpack Code Splitting对于大型应用来说，将所有的代码都打包到一个文件中一次加载不是很明智的做法，尤其是在某些代码块只需要在特定情况下加载的时候。Webpack可以将你的代码按需分割成“chunks”加载。其他的一些“bundlers”被成为“layers”、“rollups”或“fragments”。这个特性被成为代码分割（code splitting）。
+这是一个可选的功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack code splitting">
+<meta property="og:url" content="http://baizn.github.io/2015/11/05/Webpack-code-splitting/index.html">
+<meta property="og:site_name" content="baizn得github博客">
+<meta property="og:description" content="Webpack Code Splitting对于大型应用来说，将所有的代码都打包到一个文件中一次加载不是很明智的做法，尤其是在某些代码块只需要在特定情况下加载的时候。Webpack可以将你的代码按需分割成“chunks”加载。其他的一些“bundlers”被成为“layers”、“rollups”或“fragments”。这个特性被成为代码分割（code splitting）。
+这是一个可选的功能">
+<meta property="og:updated_time" content="2015-11-05T08:44:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack code splitting">
+<meta name="twitter:description" content="Webpack Code Splitting对于大型应用来说，将所有的代码都打包到一个文件中一次加载不是很明智的做法，尤其是在某些代码块只需要在特定情况下加载的时候。Webpack可以将你的代码按需分割成“chunks”加载。其他的一些“bundlers”被成为“layers”、“rollups”或“fragments”。这个特性被成为代码分割（code splitting）。
+这是一个可选的功能">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn得github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/ECMAScript/" style="font-size: 15px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/webpack/" style="font-size: 15px;">webpack</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Webpack-code-splitting" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/05/Webpack-code-splitting/" class="article-date">
+  	<time datetime="2015-11-05T06:26:25.000Z" itemprop="datePublished">2015-11-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Webpack code splitting
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/codeSplitting/">codeSplitting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优化/">优化</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Webpack_Code_Splitting">Webpack Code Splitting</h2><p>对于大型应用来说，将所有的代码都打包到一个文件中一次加载不是很明智的做法，尤其是在某些代码块只需要在特定情况下加载的时候。Webpack可以将你的代码按需分割成“chunks”加载。其他的一些“bundlers”被成为“layers”、“rollups”或“fragments”。这个特性被成为代码分割（code splitting）。</p>
+<p>这是一个可选的功能。你可以在代码中定义自己的分割点。Webpack的任务只关心依赖关（dependencies）系、输出文件（output files）和运行时的东西（runtime stuff）。</p>
+<p>Code Splitting不只是提取共同的代码放到一个公共的文件中，更重要的功能是拆分代码，按需加载。这可以保证应用程序首次请求时下载的是最小的和所需求的文件。</p>
+<h3 id="Defining_a_split_point">Defining a split point</h3><p>AMD和CommonJs都可以通过不同的方式按需加载代码。两个都支持分割点。</p>
+<h4 id="require-ensure_(CommonJs)">require.ensure (CommonJs)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require.<span class="function"><span class="title">ensure</span><span class="params">(dependencies, callback)</span></span></span><br></pre></td></tr></table></figure>
+<p>require.ensure方法保证了当调用callback的时候，dependencies中的每一个dependency都可以异步加载。callback调用时需要require方法作为参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>.ensure([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">require</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> module1 = <span class="built_in">require</span>(module1);</span><br><span class="line">	<span class="comment">//dosomething</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>require.ensure只加载模块，并不执行它们。</strong></p>
+<h4 id="require_(AMD)">require (AMD)</h4><p>AMD规范定义了一个require的异步方法。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">require</span><span class="params">(dependencies, callback)</span></span></span><br></pre></td></tr></table></figure>
+<p>当require被调用的时候，所有的dependencies都被加载，callback被调用时依赖所有被加载的dependencies。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>AMD require方法加载并执行这些modules，在webpack modules中从左向右执行；require方法可以不加回调函数。</strong></p>
+<h3 id="Chunk_content（chunk内容）">Chunk content（chunk内容）</h3><p>所有的dependencies都是在split point处生成新的chunk。Dependencies也都是递归添加。</p>
+<p>如果将函数表达式（或绑定函数表达式）作为回调函数传递给split point，Webpack也会自动在这个函数表达式中通过所需的依赖（dependencies require）生成chunk文件。</p>
+<h3 id="Chunk_optimization（chunk优化）">Chunk optimization（chunk优化）</h3><blockquote>
+<ul>
+<li>如果两个chunks包含相同的modules， 它们会被合并成一个。这可能会导致chunks有多个parents</li>
+<li>如果一个module在一个chunk的所有parents中都是可用的，它应该从这个chunk中删除</li>
+<li>如果一个chunk包含了另一个chunk的所有modules，这个chunk应该被保留，因为它能满足多个chunks</li>
+</ul>
+</blockquote>
+<h3 id="Chunk_loading（chunk加载）">Chunk loading（chunk加载）</h3><p>根据目标（target）运行时逻辑的配置选项，加载chunk并添加到bundle中。对于web target chunks是通过JSONP加载。一个chunk只能加载一次，并行请求被合并成一个。运行时检测所加载的chunks是否满足多个chunks。</p>
+<h3 id="Chunk_types">Chunk types</h3><h4 id="Entry_chunk">Entry chunk</h4><p>一个entry chunk（入口块）包含运行时的多个modules。如果chunk包含模块0就在运行时执行它，如果没有，则会等待chunks中包含了模块0后在执行它（每次当chunk中包含module 0）。</p>
+<h4 id="Noraml_chunk">Noraml chunk</h4><p>normal chunk不包含runtime，它仅包含一组modules，结构取决于chunk的加载算法。JSONP模块被封装在jsonp的回调函数中。chunk还包含chunk id的一个列表。</p>
+<h4 id="Initial_chunk(non-entry)（初始chunk，非入口）">Initial chunk(non-entry)（初始chunk，非入口）</h4><p>一个initial chunk是一个normal chunk。唯一的区别是：优化（optimization）将其来说更重要，因为它要计算初次加载的时间（像entry chunks）。chunk type可结合使用CommonsChunkPlugin。</p>
+<h3 id="Split_app_and_vendor_code">Split app and vendor code</h3><p>把应用分成两个文件，如index.js和vendor.js，我们可以require这个vendor文件在vendor.js中。然后将这个名字传递给CommonsChunkPlugin。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="module"><span class="keyword">module</span>.exports = </span>&#123;</span><br><span class="line">	entry: &#123;</span><br><span class="line">		app: <span class="string">'./app.js'</span>,</span><br><span class="line">		vendor: [<span class="string">'jquery'</span>, <span class="string">'underscore'</span>]</span><br><span class="line">	&#125;,</span><br><span class="line">	output: &#123;</span><br><span class="line">		filename: <span class="string">'bundle.js'</span></span><br><span class="line">	&#125;,</span><br><span class="line">	plugins: [</span><br><span class="line">		<span class="keyword">new</span> webpack.optimize. CommonsChunkPlugin(<span class="comment">/*chunkName=*/</span><span class="string">'vendor'</span>, <span class="comment">/*filename=*/</span><span class="string">'vendor.bundle.js'</span>)</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这将会从应用程序的chunk中删除掉所有在vendor chunk中的modules。bundle.js文件将不会包含任何依赖关系，只包含应用程序代码。其他的都在vendor.bundle.js中。</p>
+<p>在HTMl中，要先引入vendor.bundle.js，然后在引入bundle.js。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'vendor.bundle.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'bundle.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Multiple_entry_chunks（多入口chunks）">Multiple entry chunks（多入口chunks）</h3><p>可以配置多个entry points，因此就会有多个entry chunks。运行时会包含这个entry chunk，但在运行时一个页面只能包含一个entry chunk（也有例外情况）。</p>
+<h4 id="Running_multiple_entry_points（运行多个entry_points）">Running multiple entry points（运行多个entry points）</h4><p>随着运行时CommonsChunkPlugin被移到commons chunk，这个entry point现在是initial chunks。然而只有一个initial chunk，多个entry chunks已经被加载，这样暴露了一个页面上可以运行多个entry points的可能性。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="module"><span class="keyword">module</span>.exports = </span>&#123;</span><br><span class="line">	entry: &#123;</span><br><span class="line">		a: <span class="string">'./a'</span>,</span><br><span class="line">		b: <span class="string">'./b'</span></span><br><span class="line">	&#125;,</span><br><span class="line">	output: &#123;</span><br><span class="line">		filename: <span class="string">'[name].js'</span></span><br><span class="line">	&#125;,</span><br><span class="line">	plugins: [</span><br><span class="line">		<span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(<span class="string">'init.js'</span>)</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'init.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'a.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'b.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Commons_chunk">Commons chunk</h4><p>CommonsChunkPlugin插件可以把出现在多个entry chunks中的modules移到一个新的entry chunk（commons chunk）中，运行时也可以移到commons chunk中。它的意思就是说原来旧的entry chunks就是现在的initial chunks。请参考所有的<a href="http://webpack.github.io/docs/list-of-plugins.html" target="_blank" rel="external">list of plugin</a>。</p>
+<h4 id="Optimization">Optimization</h4><p>一些优化的插件根据标准块进行合并。</p>
+<blockquote>
+<ul>
+<li>LimitChunkCountPlugin</li>
+<li>MinChunkSizePlugin</li>
+<li>AggressiveMergingPlugin</li>
+</ul>
+</blockquote>
+<h4 id="Named_chunks">Named chunks</h4><p>require.ensure函数接收第三个参数，必须是个字符串。如果两个split point传递相同的字符串，那它们就使用相同的chunk。</p>
+<p><strong>require.include</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require.<span class="function"><span class="title">include</span><span class="params">(request)</span></span></span><br></pre></td></tr></table></figure>
+<p>require.include是Webpack的专用函数，用来在当前chunk中添加新的module，但不执行该module（该语句在bundle中会被移除）。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span>.ensure([<span class="string">'./file'</span>], <span class="function"><span class="keyword">function</span><span class="params">(require)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">require</span>(<span class="string">'./file2'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//和下面的代码片段作用相同</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span>.ensure([], <span class="function"><span class="keyword">function</span><span class="params">(require)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">require</span>.<span class="keyword">include</span>(<span class="string">'./file'</span>);</span><br><span class="line">	<span class="keyword">require</span>(<span class="string">'./file2'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果一个module有多个child chunks的话，require.include函数是比较有用的。require.include父级会包含这个module，chunk中的modules实例会在chunks中消失。</p>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/11/05/Webpack-code-splitting/">Webpack code splitting</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2015年11月5日 - 14时11分</p>
+  <p><span>最后更新:</span>2015年11月5日 - 16时11分</p>
+  <p>
+    <span>原始链接:</span><a href="/2015/11/05/Webpack-code-splitting/" title="Webpack code splitting">http://baizn.github.io/2015/11/05/Webpack-code-splitting/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/05/Webpack-code-splitting/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+    <div id="article-nav-newer" class="article-nav-title">
+      <a href="/2015/11/05/Webpack-缓存策略/">
+        Webpack 缓存策略
+      </a>
+    </div>
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2015/11/04/JavaScript之异步操作/">
+        JavaScript之异步操作
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack_Code_Splitting"><span class="toc-number">1.</span> <span class="toc-text">Webpack Code Splitting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Defining_a_split_point"><span class="toc-number">1.1.</span> <span class="toc-text">Defining a split point</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#require-ensure_(CommonJs)"><span class="toc-number">1.1.1.</span> <span class="toc-text">require.ensure (CommonJs)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#require_(AMD)"><span class="toc-number">1.1.2.</span> <span class="toc-text">require (AMD)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chunk_content（chunk内容）"><span class="toc-number">1.2.</span> <span class="toc-text">Chunk content（chunk内容）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chunk_optimization（chunk优化）"><span class="toc-number">1.3.</span> <span class="toc-text">Chunk optimization（chunk优化）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chunk_loading（chunk加载）"><span class="toc-number">1.4.</span> <span class="toc-text">Chunk loading（chunk加载）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chunk_types"><span class="toc-number">1.5.</span> <span class="toc-text">Chunk types</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry_chunk"><span class="toc-number">1.5.1.</span> <span class="toc-text">Entry chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Noraml_chunk"><span class="toc-number">1.5.2.</span> <span class="toc-text">Noraml chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Initial_chunk(non-entry)（初始chunk，非入口）"><span class="toc-number">1.5.3.</span> <span class="toc-text">Initial chunk(non-entry)（初始chunk，非入口）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Split_app_and_vendor_code"><span class="toc-number">1.6.</span> <span class="toc-text">Split app and vendor code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Multiple_entry_chunks（多入口chunks）"><span class="toc-number">1.7.</span> <span class="toc-text">Multiple entry chunks（多入口chunks）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Running_multiple_entry_points（运行多个entry_points）"><span class="toc-number">1.7.1.</span> <span class="toc-text">Running multiple entry points（运行多个entry points）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Commons_chunk"><span class="toc-number">1.7.2.</span> <span class="toc-text">Commons chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Optimization"><span class="toc-number">1.7.3.</span> <span class="toc-text">Optimization</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Named_chunks"><span class="toc-number">1.7.4.</span> <span class="toc-text">Named chunks</span></a></li></ol></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Webpack-code-splitting" data-title="Webpack code splitting" data-url="http://baizn.github.io/2015/11/05/Webpack-code-splitting/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    
+    <div  class="post-nav-button">
+    <a href="/2015/11/05/Webpack-缓存策略/" title="上一篇: Webpack 缓存策略">
+    <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="/2015/11/04/JavaScript之异步操作/" title="下一篇: JavaScript之异步操作">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2015 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
