@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaScript执行环境、作用域及垃圾收集 | baizn得github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JavaScript执行环境、作用域及垃圾收集执行环境是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。每个执行环境都有一个与之关联的变量对象，环境中定义的所有变量和函数都保存在这个对象中。
+全局执行环境是最外围的一个执行环境。根据ECMAScript实现所在的宿主环境不同，表示执行环境的对象也不一样。在WEB浏览器中，全局执行环境被认为是window对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript执行环境、作用域及垃圾收集">
+<meta property="og:url" content="http://baizn.github.io/2015/11/11/JavaScript执行环境、作用域及垃圾收集/index.html">
+<meta property="og:site_name" content="baizn得github博客">
+<meta property="og:description" content="JavaScript执行环境、作用域及垃圾收集执行环境是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。每个执行环境都有一个与之关联的变量对象，环境中定义的所有变量和函数都保存在这个对象中。
+全局执行环境是最外围的一个执行环境。根据ECMAScript实现所在的宿主环境不同，表示执行环境的对象也不一样。在WEB浏览器中，全局执行环境被认为是window对">
+<meta property="og:updated_time" content="2015-11-11T09:22:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript执行环境、作用域及垃圾收集">
+<meta name="twitter:description" content="JavaScript执行环境、作用域及垃圾收集执行环境是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。每个执行环境都有一个与之关联的变量对象，环境中定义的所有变量和函数都保存在这个对象中。
+全局执行环境是最外围的一个执行环境。根据ECMAScript实现所在的宿主环境不同，表示执行环境的对象也不一样。在WEB浏览器中，全局执行环境被认为是window对">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn得github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/Drag/" style="font-size: 10px;">Drag</a> <a href="/tags/ECMAScript/" style="font-size: 16.67px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Flux/" style="font-size: 10px;">Flux</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/alt/" style="font-size: 10px;">alt</a> <a href="/tags/ant-design/" style="font-size: 10px;">ant-design</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/div拖拽/" style="font-size: 10px;">div拖拽</a> <a href="/tags/instanceof/" style="font-size: 10px;">instanceof</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/typeof/" style="font-size: 10px;">typeof</a> <a href="/tags/webpack/" style="font-size: 13.33px;">webpack</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/优缺点/" style="font-size: 10px;">优缺点</a> <a href="/tags/作用域/" style="font-size: 10px;">作用域</a> <a href="/tags/单页面Web应用/" style="font-size: 10px;">单页面Web应用</a> <a href="/tags/坐标/" style="font-size: 10px;">坐标</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/引用类型/" style="font-size: 10px;">引用类型</a> <a href="/tags/执行环境/" style="font-size: 10px;">执行环境</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/类型检测/" style="font-size: 10px;">类型检测</a> <a href="/tags/自动分号插入/" style="font-size: 10px;">自动分号插入</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/遇到的问题/" style="font-size: 10px;">遇到的问题</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-JavaScript执行环境、作用域及垃圾收集" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/11/JavaScript执行环境、作用域及垃圾收集/" class="article-date">
+  	<time datetime="2015-11-11T09:22:13.000Z" itemprop="datePublished">2015-11-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript执行环境、作用域及垃圾收集
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/作用域/">作用域</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/垃圾回收/">垃圾回收</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/执行环境/">执行环境</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="JavaScript执行环境、作用域及垃圾收集">JavaScript执行环境、作用域及垃圾收集</h2><p>执行环境是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。每个执行环境都有一个与之关联的<strong>变量对象</strong>，环境中定义的所有变量和函数都保存在这个对象中。</p>
+<p>全局执行环境是最外围的一个执行环境。根据ECMAScript实现所在的宿主环境不同，表示执行环境的对象也不一样。在WEB浏览器中，全局执行环境被认为是window对象，因此所有的全局变量和函数都是作为window对象的属性和方法创建的。某个执行环境中的所有代码执行完毕后，该环境被销毁，保存在其中的所有变量和函数定义也随之销毁（全局执行环境直到应用程序退出时才销毁）。</p>
+<p>每个函数都有自己的<strong>执行环境</strong>。当执行流进入一个函数时，函数的环境就会被推入一个环境栈中。而在函数执行之后，栈将其环境弹出，把控制权返回给之前的执行环境。</p>
+<p>当代码在一个环境中执行时，会创建变量对象的一个<strong>作用域链</strong>。作用域链的用途是保证对执行环境有权访问的所有变量和函数的有序访问。作用域链的前端始终是当前执行的代码所在的变量对象。如果这个环境是函数，则将其<strong>活动对象</strong>作为变量对象。活动对象在最开始时只包含一个变量，即arguments对象（这个对象在全局环境中是不存在的）。作用域链中的下一个变量对象来自包含对象，再下一个变量对象则来自下一个包含对象。这样一直延续到全局执行环境，全局执行环境的变量对象始终是作用域链中的最后一个对象。</p>
+<p>标示符解析是沿着作用域链一级一级地搜索标示符的过程。搜索过程始终从作用域链的前端开始，然后逐级地向后回溯，直到找到标示符为止。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">'blue'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	color = color === <span class="string">'blue'</span> ? <span class="string">'red'</span> : <span class="string">'blue'</span>;</span><br><span class="line">&#125;</span><br><span class="line">changeColor();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'color is '</span> + color);</span><br></pre></td></tr></table></figure>
+<p>函数change Color的作用域链包含两对象：它自己的变量对象（定义了arguments对象）和全局环境的变量对象。</p>
+<p><strong>在局部作用域链中定义的变量可以在局部环境中与全局变量互换使用。</strong></p>
+<p>内部环境可以通过作用域链访问所有的外部环境，但外部环境不能访问内部环境中的任何变量和函数。这些环境之间的连续是线性、有序的。每个环境都可以向上搜索作用域链，以查询变量和函数名，但任何环境都不能通过向下搜索作用域链而进入另一个执行环境。</p>
+<h3 id="延长作用域链">延长作用域链</h3><p>执行环境的类型只有两种——全局和局部，但还是可以延长作用域链。以下两个语句会延长作用域链。</p>
+<blockquote>
+<ul>
+<li>try-catch语句的catch块</li>
+<li>with语句</li>
+</ul>
+</blockquote>
+<p>这两个语句都会在作用域链的前端添加一个变量对象。对于with语句来说，会将指定的对象添加到作用域链中；对于catch语句来说，会创建一个新的变量对象，其中包含的是被抛出的错误对象的声明。</p>
+<h3 id="没有块级作用域链">没有块级作用域链</h3><p>JS没有块级作用域，只有函数级作用域。</p>
+<h4 id="声明变量">声明变量</h4><p>使用var声明的变量会自动添加到最接近的环境中。在函数内部，最接近的环境就是函数的局部环境；在with语句中，最接近的环境是函数环境。如果初始化变量时候没有使用var声明，该变量会自定被添加到全局变量。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="title">fun</span><span class="params">(num)</span> &#123;</span></span><br><span class="line">	<span class="variable"><span class="keyword">var</span> sum</span> = num * <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable"><span class="keyword">var</span> result</span> = <span class="function"><span class="title">fun</span><span class="params">(3)</span>; <span class="comment">//6</span></span></span><br><span class="line">sum; <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码在fun函数外面是访问不到sum变量的。如果声明sum时候不加var则可以在函数外面访问。</p>
+<h4 id="查询标识符">查询标识符</h4><p>当在某个环境中为了读取或写入而引用一个标识符时，必须通过搜索来确定该标识符实际代表什么。搜索过程从作用域链的前端开始，向上逐级查询与给定名字匹配的标识符。如果在局部环境中找到了该标识符，则搜索过程停止，变量就绪。如果在局部环境中没有找到该变量名，则继续沿作用域链向上搜索。搜索过程将一直追溯到全局环境的变量对象。如果在全局环境中也没有找到这个标识符，则意味着该变量未声明。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">'blue'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> color;</span><br><span class="line">&#125;</span><br><span class="line">getColor(); <span class="comment">//blue</span></span><br></pre></td></tr></table></figure>
+<h3 id="垃圾收集">垃圾收集</h3><p>JS具有自动垃圾收集机制，即执行环境会负责管理代码执行过程中使用的内存。</p>
+<p><strong>局部变量只在函数执行过程中存在。</strong></p>
+<p>JS的垃圾收集有两种策略：标记清除和引用计数。</p>
+<h4 id="标记清除">标记清除</h4><p>JS中最常用的垃圾收集方式是<strong>标记清除</strong>。当变量进入环境时，就将这个变量标记为“进入环境”。永远不能释放进入环境的变量所占的内存，因为只要执行流进入相应的环境，就可能用到它们。而当变量离开环境时，则将其标记为“离开环境”。</p>
+<p>可以使用任何方式来标记变量。标记清除的一般流程如下。</p>
+<blockquote>
+<ul>
+<li>垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记</li>
+<li>然后，它会去掉环境中的变量以及被环境中的变量应用的变量的标记。而在此之后再被加上标记的变量将视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了</li>
+<li>最后，垃圾收集器完成<strong>内存清除</strong>工作，销毁那些带标记的值并回收它们所占用的内存空间</li>
+</ul>
+</blockquote>
+<h4 id="引用计数">引用计数</h4><p>另一种不太常见的垃圾收集策略是<strong>引用计数</strong>。引用计数的含义是跟踪记录每个值被引用的次数。当声明一个变量并将一个引用类型值赋值给该变量时，则这个值的引用次数就是1。如果同一个值又被赋给另一个变量，则该值的引用次数加1。相反，如果包含对这个值的引用的变量又取得了另外一个值，则这个值的引用次数就减1.当这个值的引用次数变为0时，则说明没办法再访问这个值了，就可以将其占用的内存回收。这样，当垃圾收集器下次再运行的时候，它就会释放那些引用次数为0的值所占的内存。</p>
+<p>引用计数策略遇到最严重的一个问题是<strong>循环引用</strong>。循环引用指的是对象A中包含一个指向对象B的指针，而对象B中也包含一个指向对象A的引用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">forLink</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> oa = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">	<span class="keyword">var</span> ob = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"></span><br><span class="line">	oa.someObject = ob;</span><br><span class="line">	ob.anotherObject = oa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>oa和ob通过各自的属性相互引用，也就是说，这两个对象的引用次数都是2。在采用标记清除策略的实现中，由于函数执行之后，这两个对象都离开了作用域，因此这种相互引用并不是问题。但在引用计数策略的实现中，当函数执行完后，oa和ob还将继续存在，因为它们的引用次数不为0。</p>
+<p><strong>只要IE中涉及COM对象，就会存在循环引用的问题。为了避免COM这种循环引用时候，在不使用它们时候最好手动断开原生JS对象和DOM元素之间的连接。</strong></p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj.element = <span class="literal">null</span>;</span><br><span class="line">element.obj = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="执行环境、作用域及垃圾回收总结">执行环境、作用域及垃圾回收总结</h3><p>JS变量可以用来保存两种类型的值：基本类型和引用类型值。基本类型值包含：undefined、null、Boolean、Number和String。基本类型值和引用类型值具有以下特点：</p>
+<blockquote>
+<ul>
+<li>基本类型值在内存中所占固定大小的空间，因此被保存在栈内存中</li>
+<li>从一个变量向另一个变量复制基本类型的值，会创建这个值的一个副本</li>
+<li>引用类型的值是对象，保存在堆内存中</li>
+<li>包含引用类型值的变量实际上包含的并不是对象本身，而是一个指向该对象的指针</li>
+<li>从一个变量向另一个变量复制引用类型的值，复制的其实是指针，因此两个变量最终指向同一个对象</li>
+<li>确定一个值是哪种类型可以使用typeof操作符，而确定一个值是哪种引用类型可以使用instanceof操作符</li>
+</ul>
+</blockquote>
+<p>所有变量都存在一个执行环境中（作用域），这个执行环境决定了变量的生命周期，以及那一部分代码可以访问其中的变量。</p>
+<blockquote>
+<ul>
+<li>执行环境有全局执行环境和函数执行环境之分</li>
+<li>每次进入一个新执行环境，都会创建一个用于搜索变量和函数的作用域链</li>
+<li>函数的局部环境不仅有权访问函数作用域中的变量，而且有权访问其包含环境（父环境），乃至全局环境</li>
+<li>全局环境只能访问在全局环境中定义的变量和函数，而不能直接访问局部环境中的任何数据</li>
+<li>变量的执行环境有助于确定应该何时释放内存</li>
+</ul>
+</blockquote>
+<p>JS具有自动垃圾收集机制，我们不必关心内存分配和回收问题。</p>
+<blockquote>
+<ul>
+<li>离开作用域的值将被自动标记为可回收，将在垃圾收集期间被删除</li>
+<li>标记清除是目前主流的垃圾收集算法，其思想是给当前不使用的值加上标记，然后再回收其内存</li>
+<li>引用计数的思想是跟踪记录所有值被引用的次数</li>
+<li>当代码中存在循环引用现象时，引用计数算法会导致问题</li>
+<li>解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处，为了确保有效地回收内存，应该及时解除不再使用的全局对象、全局对象属性及循环引用变量的引用</li>
+</ul>
+</blockquote>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/11/11/JavaScript执行环境、作用域及垃圾收集/">JavaScript执行环境、作用域及垃圾收集</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2015年11月11日 - 17时11分</p>
+  <p><span>最后更新:</span>2015年11月11日 - 17时11分</p>
+  <p>
+    <span>原始链接:</span><a href="/2015/11/11/JavaScript执行环境、作用域及垃圾收集/" title="JavaScript执行环境、作用域及垃圾收集">http://baizn.github.io/2015/11/11/JavaScript执行环境、作用域及垃圾收集/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/11/JavaScript执行环境、作用域及垃圾收集/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+    <div id="article-nav-newer" class="article-nav-title">
+      <a href="/2015/11/18/JavaScript引用类型/">
+        JavaScript引用类型
+      </a>
+    </div>
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2015/11/11/JavaScript类型检测/">
+        JavaScript类型检测
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript执行环境、作用域及垃圾收集"><span class="toc-number">1.</span> <span class="toc-text">JavaScript执行环境、作用域及垃圾收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#延长作用域链"><span class="toc-number">1.1.</span> <span class="toc-text">延长作用域链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#没有块级作用域链"><span class="toc-number">1.2.</span> <span class="toc-text">没有块级作用域链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#声明变量"><span class="toc-number">1.2.1.</span> <span class="toc-text">声明变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询标识符"><span class="toc-number">1.2.2.</span> <span class="toc-text">查询标识符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#垃圾收集"><span class="toc-number">1.3.</span> <span class="toc-text">垃圾收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标记清除"><span class="toc-number">1.3.1.</span> <span class="toc-text">标记清除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#引用计数"><span class="toc-number">1.3.2.</span> <span class="toc-text">引用计数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行环境、作用域及垃圾回收总结"><span class="toc-number">1.4.</span> <span class="toc-text">执行环境、作用域及垃圾回收总结</span></a></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JavaScript执行环境、作用域及垃圾收集" data-title="JavaScript执行环境、作用域及垃圾收集" data-url="http://baizn.github.io/2015/11/11/JavaScript执行环境、作用域及垃圾收集/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    
+    <div  class="post-nav-button">
+    <a href="/2015/11/18/JavaScript引用类型/" title="上一篇: JavaScript引用类型">
+    <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="/2015/11/11/JavaScript类型检测/" title="下一篇: JavaScript类型检测">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2015 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
