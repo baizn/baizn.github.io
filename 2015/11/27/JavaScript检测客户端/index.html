@@ -31,7 +31,7 @@
 
 
 在可能的情况下，尽量使用t">
-<meta property="og:updated_time" content="2015-11-27T04:23:27.000Z">
+<meta property="og:updated_time" content="2015-11-27T04:26:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript检测客户端">
 <meta name="twitter:description" content="使用JavaScript检测客户端能力检测能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。
@@ -293,7 +293,7 @@
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">va ua = navigator.userAgent;</span><br><span class="line"><span class="keyword">if</span>(system.mac &amp;&amp; ua.indexOf(<span class="string">'Mobile'</span>) &gt; -<span class="number">1</span>) &#123;</span><br><span class="line">	if(/CPU (?:iPhone)?OS (\d+<span class="number">_</span>\d+)/.test(ua)) &#123;</span><br><span class="line">		system.ios = parseFloat(RegExp.<span class="variable">$1</span>.replace(<span class="string">'_'</span>, <span class="string">'.'</span>));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		system.ios = <span class="number">2</span>; // 默认</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>识别游戏系统</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> system = &#123;</span><br><span class="line">	wii: <span class="literal">false</span>,</span><br><span class="line">	ps: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">system.wii = ua.indexOf(<span class="string">'Wii'</span>) &gt; -<span class="number">1</span>;</span><br><span class="line">system.ps = <span class="regexp">/playstation/i</span>.test(ua);</span><br></pre></td></tr></table></figure>
-<p>上面简单介绍了检测呈现引擎、浏览器、平台及移动设备等的基本思路，完整的检测呈现引擎、浏览器、平台、Window操作系统、<br>移动设备和游戏系统的代码请猛戳<a href="https://github.com/baizn/client-detecting/blob/master/clientDetecting.js" target="_blank" rel="external">这里</a>。</p>
+<p>上面简单介绍了检测呈现引擎、浏览器、平台及移动设备等的基本思路，完整的检测呈现引擎、浏览器、平台、Window操作系统、移动设备和游戏系统的代码请猛戳<a href="https://github.com/baizn/client-detecting/blob/master/clientDetecting.js" target="_blank" rel="external">这里</a>。</p>
 
       
       
