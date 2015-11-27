@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaScript继承 | baizn的github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JavaScript继承许多面向对象语言都支持接口继承和实现继承。接口继承只继承方法签名，实现继承则继承实际的方法。由于函数没有签名，所以ECMAScript只支持实现继承，主要是依靠原型链来实现。
+原型链实现原型链的基本模式。
+1234567891011121314151617181920function Parent() &amp;#123;	this.flag = true;&amp;#125;Parent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript继承">
+<meta property="og:url" content="http://baizn.github.io/2015/11/20/JavaScript继承/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="JavaScript继承许多面向对象语言都支持接口继承和实现继承。接口继承只继承方法签名，实现继承则继承实际的方法。由于函数没有签名，所以ECMAScript只支持实现继承，主要是依靠原型链来实现。
+原型链实现原型链的基本模式。
+1234567891011121314151617181920function Parent() &amp;#123;	this.flag = true;&amp;#125;Parent">
+<meta property="og:updated_time" content="2015-11-20T08:58:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript继承">
+<meta name="twitter:description" content="JavaScript继承许多面向对象语言都支持接口继承和实现继承。接口继承只继承方法签名，实现继承则继承实际的方法。由于函数没有签名，所以ECMAScript只支持实现继承，主要是依靠原型链来实现。
+原型链实现原型链的基本模式。
+1234567891011121314151617181920function Parent() &amp;#123;	this.flag = true;&amp;#125;Parent">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/Drag/" style="font-size: 10px;">Drag</a> <a href="/tags/ECMAScript/" style="font-size: 16.67px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Flux/" style="font-size: 10px;">Flux</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/alt/" style="font-size: 10px;">alt</a> <a href="/tags/ant-design/" style="font-size: 10px;">ant-design</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/div拖拽/" style="font-size: 10px;">div拖拽</a> <a href="/tags/instanceof/" style="font-size: 10px;">instanceof</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/typeof/" style="font-size: 10px;">typeof</a> <a href="/tags/webpack/" style="font-size: 13.33px;">webpack</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/优缺点/" style="font-size: 10px;">优缺点</a> <a href="/tags/作用域/" style="font-size: 10px;">作用域</a> <a href="/tags/单页面Web应用/" style="font-size: 10px;">单页面Web应用</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/坐标/" style="font-size: 10px;">坐标</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/客户端/" style="font-size: 10px;">客户端</a> <a href="/tags/对象/" style="font-size: 10px;">对象</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/引用类型/" style="font-size: 10px;">引用类型</a> <a href="/tags/执行环境/" style="font-size: 10px;">执行环境</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/检测/" style="font-size: 10px;">检测</a> <a href="/tags/类型检测/" style="font-size: 10px;">类型检测</a> <a href="/tags/继承/" style="font-size: 10px;">继承</a> <a href="/tags/自动分号插入/" style="font-size: 10px;">自动分号插入</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/遇到的问题/" style="font-size: 10px;">遇到的问题</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-JavaScript继承" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/20/JavaScript继承/" class="article-date">
+  	<time datetime="2015-11-20T08:57:23.000Z" itemprop="datePublished">2015-11-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript继承
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prototype/">prototype</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型链/">原型链</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/继承/">继承</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="JavaScript继承">JavaScript继承</h2><p>许多面向对象语言都支持接口继承和实现继承。接口继承只继承方法签名，实现继承则继承实际的方法。由于函数没有签名，所以ECMAScript只支持实现继承，主要是依靠原型链来实现。</p>
+<h3 id="原型链">原型链</h3><p>实现原型链的基本模式。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.flag = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.getFlag = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Children</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.cFlag = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承Parent</span></span><br><span class="line">Children.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Children.prototype.getCflag = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.cFlag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> Children();</span><br><span class="line">instance.flag; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>原来存在与Parent中的所有属性和方法，现在也存在于Children.prototype中了。Children的原型指向了另外一个对象————Parent的原型，而这个原型对象的constructor属性指向的是Parent。</p>
+<p><strong>所有的引用类型默认都继承了Object，而这个继承也是通过原型链实现的。</strong></p>
+<p>可以通过以下两种方法来确定原型和实例之间的关系。</p>
+<blockquote>
+<ul>
+<li>instanceof操作符</li>
+<li>isPrototypeOf()方法</li>
+</ul>
+</blockquote>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">instance instanceof Object; // true<span class="instruction"></span><br><span class="line">instance </span>instanceof Parent; // true<span class="instruction"></span><br><span class="line">instance </span>instanceof Children; // true</span><br><span class="line"></span><br><span class="line">Object.prototype.isPropertyOf(instance<span class="function">)</span>; // true</span><br><span class="line">Parent.prototype.isPropertyOf(instance<span class="function">)</span>; // true</span><br><span class="line">Children.prototype.isPropertyOf(instance<span class="function">)</span>; // true</span><br></pre></td></tr></table></figure>
+<p>给原型添加方法的代码一定要放在替换原型的语句之后。</p>
+<p><strong>重点提醒：</strong>通过原型链实现继承时，不能使用对象字面量创建原型方法，因为这样会重写原型链。</p>
+<p>原型链存在的问题：</p>
+<blockquote>
+<ul>
+<li>原型包含引用类型的值，会被所有实例共享</li>
+<li>创建子类型的实例时，不能向父类的构造函数中传递参数</li>
+</ul>
+</blockquote>
+<h3 id="借用构造函数">借用构造函数</h3><p>基本思路：在子类型构造函数的内部调用父类的构造函数。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.colors = [<span class="string">'red'</span>, <span class="string">'blue'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//继承Parent</span></span><br><span class="line">	Parent.call(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child();</span><br><span class="line">c1.colors.push(<span class="string">'green'</span>);</span><br><span class="line"></span><br><span class="line">c1.colors; <span class="comment">// red, blue, green</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child();</span><br><span class="line">c2.colors; <span class="comment">// red, blue</span></span><br></pre></td></tr></table></figure>
+<p>相比原型链而言，借用构造函数有一个很大的优势：<strong>可以在子类型的构造函数中向父类构造函数传递参数</strong>。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//继承Parent</span></span><br><span class="line">	Parent.call(<span class="keyword">this</span>, <span class="string">'bzn'</span>);</span><br><span class="line">	<span class="keyword">this</span>.age = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child();</span><br><span class="line">c1.name; <span class="comment">// bzn</span></span><br><span class="line">c1.age;  <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+<p><strong>借用构造函数存在的问题：</strong>方法都要在构造函数中定义，因此做不到函数复用。</p>
+<h3 id="组合继承（原型链和构造函数）">组合继承（原型链和构造函数）</h3><p>基本思路：使用原型链实现对原型属性和方法的继承，通过借用构造函数实现对实例属性的继承。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">	<span class="keyword">this</span>.colors = [<span class="string">'red'</span>, <span class="string">'blue'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(name, age)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//继承Parent</span></span><br><span class="line">	Parent.call(<span class="keyword">this</span>, name);</span><br><span class="line">	<span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承方法</span></span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line"></span><br><span class="line">Child.prototype.getAge = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child(<span class="string">'bzn'</span>, <span class="number">20</span>);</span><br><span class="line">c1.colors.push(<span class="string">'green'</span>);</span><br><span class="line">c1.colors; <span class="comment">// red, blue, green ==&gt; Parent</span></span><br><span class="line">c1.name; <span class="comment">// bzn ==&gt; Parent</span></span><br><span class="line">c1.age; <span class="comment">// 20 ==&gt; Child</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child(<span class="string">'baizn'</span>, <span class="number">21</span>);</span><br><span class="line">c2.colors; <span class="comment">// red, blue</span></span><br></pre></td></tr></table></figure>
+<p>组合继承的问题：</p>
+<blockquote>
+<p>无论什么情况下，都会调用两次父类的构造函数。一次是在创建子类型原型的时候，另一次是在子类型构造函数内部</p>
+</blockquote>
+<h3 id="原型式继承">原型式继承</h3><p>基本思路：借助原型可以基于已有对象创建新对象，同时还不必创建自定义类型。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObject</span><span class="params">(o)</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	F.prototype = o;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> F();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>createObject对传入的对象执行了一次浅复制。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	name: <span class="string">'bzn'</span>,</span><br><span class="line">	colors: [<span class="string">'red'</span>, <span class="string">'blue'</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = createObject(person);</span><br><span class="line">p1.name = <span class="string">'baizn'</span>;</span><br><span class="line">p1.colors.push(<span class="string">'green'</span>);</span><br><span class="line">p1.colors; <span class="comment">// red, blue, green</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p2 = createObject(person);</span><br><span class="line">p2.colors.push(<span class="string">'rt'</span>);</span><br><span class="line">p2.colors; <span class="comment">// red, blue, green, rt</span></span><br></pre></td></tr></table></figure>
+<p>ECMAScript5新增了Object.create()方法，该方法接收两个参数：一个用作新对象原型的对象和一个为新对象定义属性的对象（可选）。当传入一个参数时候，Object.create()和createObject()方法行为一致。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	name: <span class="string">'bzn'</span>,</span><br><span class="line">	colors: [<span class="string">'red'</span>, <span class="string">'blue'</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="built_in">Object</span>.create(person);</span><br><span class="line">p1.colors.push(<span class="string">'green'</span>);</span><br><span class="line">p1.colors; <span class="comment">// red, blue, green</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p2 = <span class="built_in">Object</span>.create(person);</span><br><span class="line">p2.colors.push(<span class="string">'rb'</span>);</span><br><span class="line">p2.colors; <span class="comment">// red, blue, green, rb</span></span><br></pre></td></tr></table></figure>
+<p>Object.create()的第二个参数与Object.defineProperties()方法的第二个参数格式相同，每个属性都式通过自己的描述符定义的。以这种方式指定的任何属性都会覆盖原型对象上的同名属性。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p3 = Object.create(person, &#123;</span><br><span class="line">	name: &#123;</span><br><span class="line">		<span class="keyword">value</span>: <span class="string">'baizn'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">p3.name; <span class="comment">// baizn</span></span><br></pre></td></tr></table></figure>
+<h3 id="寄生式继承">寄生式继承</h3><p>基本思路：创建一个仅用于封装继承过程的函数，该函数内部以某种方式来增强对象，最后返回对象。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObj</span><span class="params">(o)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> <span class="keyword">clone</span> = Object.create(o); <span class="comment">//创建一个新对象</span></span><br><span class="line">	<span class="keyword">clone</span>.say = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		console.log(<span class="string">'hello'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">clone</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	name: <span class="string">'bzn'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = createObj(person);</span><br><span class="line">p1.say(); <span class="comment">// hello</span></span><br></pre></td></tr></table></figure>
+<p>基于person对象返回新对象p1，新对象不仅具有person的所有属性和方法，而且还有自己定义的say方法。</p>
+<h3 id="寄生组合继承">寄生组合继承</h3><p>基本思路：借用构造函数来继承属性，通过原型链的混成形式来继承方法。即不必为指定子类型的原型而调用父类的构造函数，只需父类原型的一个副本而已。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">child, parent</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> o = <span class="built_in">Object</span>.create(parent.prototype); <span class="comment">// 创建对象</span></span><br><span class="line">	o.constructor = child; <span class="comment">// 增强对象</span></span><br><span class="line">	child.prototype = o; <span class="comment">// 指定对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本步骤如下。</p>
+<blockquote>
+<ul>
+<li>创建父类原型的一个副本</li>
+<li>为创建的副本添加constructor属性，弥补因重写原型而失去的默认的constructor属性</li>
+<li>将新创建的对象（副本）赋值给子类型的原型</li>
+</ul>
+</blockquote>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">	<span class="keyword">this</span>.colors = [<span class="string">'red'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(name, age)</span> </span>&#123;</span><br><span class="line">	Parent.call(<span class="keyword">this</span>, name);</span><br><span class="line">	<span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inheritPrototype(Child, Parent);</span><br><span class="line"></span><br><span class="line">Child.prototype.getAge = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>寄生组合继承模式的优点：</p>
+<blockquote>
+<ul>
+<li>只调用一次父类构造函数</li>
+<li>原型链保存不变</li>
+<li>能够正常使用instanceof和isPropertyOf()</li>
+</ul>
+</blockquote>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/11/20/JavaScript继承/">JavaScript继承</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2015年11月20日 - 16时11分</p>
+  <p><span>最后更新:</span>2015年11月20日 - 16时11分</p>
+  <p>
+    <span>原始链接:</span><a href="/2015/11/20/JavaScript继承/" title="JavaScript继承">http://baizn.github.io/2015/11/20/JavaScript继承/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/20/JavaScript继承/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+    <div id="article-nav-newer" class="article-nav-title">
+      <a href="/2015/11/27/JavaScript检测客户端/">
+        JavaScript检测客户端
+      </a>
+    </div>
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2015/11/20/JavaScript对象/">
+        JavaScript对象
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript继承"><span class="toc-number">1.</span> <span class="toc-text">JavaScript继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原型链"><span class="toc-number">1.1.</span> <span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#借用构造函数"><span class="toc-number">1.2.</span> <span class="toc-text">借用构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合继承（原型链和构造函数）"><span class="toc-number">1.3.</span> <span class="toc-text">组合继承（原型链和构造函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原型式继承"><span class="toc-number">1.4.</span> <span class="toc-text">原型式继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寄生式继承"><span class="toc-number">1.5.</span> <span class="toc-text">寄生式继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寄生组合继承"><span class="toc-number">1.6.</span> <span class="toc-text">寄生组合继承</span></a></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JavaScript继承" data-title="JavaScript继承" data-url="http://baizn.github.io/2015/11/20/JavaScript继承/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    
+    <div  class="post-nav-button">
+    <a href="/2015/11/27/JavaScript检测客户端/" title="上一篇: JavaScript检测客户端">
+    <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="/2015/11/20/JavaScript对象/" title="下一篇: JavaScript对象">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2015 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

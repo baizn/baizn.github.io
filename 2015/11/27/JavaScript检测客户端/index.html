@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaScript检测客户端 | baizn的github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用JavaScript检测客户端能力检测能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。
+能力检测的基本模式如下：
+123if(object.property) &amp;#123;	//存在该属性或方法，使用object.property&amp;#125;
+使用能力检测要注意一下两点：
+
+
+先检测达成目的的最常用的特性
+必须测试实际要用到的特性
+
+
+在可能的情况下，尽量使用t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript检测客户端">
+<meta property="og:url" content="http://baizn.github.io/2015/11/27/JavaScript检测客户端/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="使用JavaScript检测客户端能力检测能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。
+能力检测的基本模式如下：
+123if(object.property) &amp;#123;	//存在该属性或方法，使用object.property&amp;#125;
+使用能力检测要注意一下两点：
+
+
+先检测达成目的的最常用的特性
+必须测试实际要用到的特性
+
+
+在可能的情况下，尽量使用t">
+<meta property="og:updated_time" content="2015-11-27T04:23:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript检测客户端">
+<meta name="twitter:description" content="使用JavaScript检测客户端能力检测能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。
+能力检测的基本模式如下：
+123if(object.property) &amp;#123;	//存在该属性或方法，使用object.property&amp;#125;
+使用能力检测要注意一下两点：
+
+
+先检测达成目的的最常用的特性
+必须测试实际要用到的特性
+
+
+在可能的情况下，尽量使用t">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/Drag/" style="font-size: 10px;">Drag</a> <a href="/tags/ECMAScript/" style="font-size: 16.67px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Flux/" style="font-size: 10px;">Flux</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/alt/" style="font-size: 10px;">alt</a> <a href="/tags/ant-design/" style="font-size: 10px;">ant-design</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/div拖拽/" style="font-size: 10px;">div拖拽</a> <a href="/tags/instanceof/" style="font-size: 10px;">instanceof</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/typeof/" style="font-size: 10px;">typeof</a> <a href="/tags/webpack/" style="font-size: 13.33px;">webpack</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/优缺点/" style="font-size: 10px;">优缺点</a> <a href="/tags/作用域/" style="font-size: 10px;">作用域</a> <a href="/tags/单页面Web应用/" style="font-size: 10px;">单页面Web应用</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/坐标/" style="font-size: 10px;">坐标</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/客户端/" style="font-size: 10px;">客户端</a> <a href="/tags/对象/" style="font-size: 10px;">对象</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/引用类型/" style="font-size: 10px;">引用类型</a> <a href="/tags/执行环境/" style="font-size: 10px;">执行环境</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/检测/" style="font-size: 10px;">检测</a> <a href="/tags/类型检测/" style="font-size: 10px;">类型检测</a> <a href="/tags/继承/" style="font-size: 10px;">继承</a> <a href="/tags/自动分号插入/" style="font-size: 10px;">自动分号插入</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/遇到的问题/" style="font-size: 10px;">遇到的问题</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-JavaScript检测客户端" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/27/JavaScript检测客户端/" class="article-date">
+  	<time datetime="2015-11-27T04:22:43.000Z" itemprop="datePublished">2015-11-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript检测客户端
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/客户端/">客户端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/检测/">检测</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="使用JavaScript检测客户端">使用JavaScript检测客户端</h2><h3 id="能力检测">能力检测</h3><p>能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。</p>
+<p>能力检测的基本模式如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="class"><span class="keyword">object</span>.<span class="title">property</span>) &#123;</span></span><br><span class="line">	<span class="comment">//存在该属性或方法，使用object.property</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用能力检测要注意一下两点：</p>
+<blockquote>
+<ul>
+<li>先检测达成目的的最常用的特性</li>
+<li>必须测试实际要用到的特性</li>
+</ul>
+</blockquote>
+<p>在可能的情况下，尽量使用typeof进行能力检测。但各个浏览器队typeof的返回值又不尽相同，可以采用下面的代码进行检测。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function isHostMethod(<span class="class"><span class="keyword">object</span>, <span class="title">property</span>) &#123;</span></span><br><span class="line">	<span class="keyword">var</span> tp = typeof <span class="class"><span class="keyword">object</span>[</span>property];</span><br><span class="line">	<span class="keyword">return</span> tp === <span class="symbol">'functio</span>n' ||</span><br><span class="line">		(!!(tp === <span class="symbol">'objec</span>t' &amp;&amp; <span class="class"><span class="keyword">object</span>[</span>property])) ||</span><br><span class="line">		t === <span class="symbol">'unknow</span>n';</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果知道应用程序需要使用某些特定的浏览器特性，那么最好是一次性检测所有相关的特性，而不要分别检测。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//确定浏览器是否支持Netscape风格的插件</span></span><br><span class="line"><span class="keyword">var</span> hasNSPlugins = !!(navigator.plugins &amp;&amp; navigator.plugins.length);</span><br><span class="line"></span><br><span class="line"><span class="comment">//确认浏览器是否具有DOM1级规定的能力</span></span><br><span class="line"><span class="keyword">var</span> hasDOM1 = !!(<span class="built_in">document</span>.getElementById &amp;&amp; <span class="built_in">document</span>.createElement &amp;&amp; <span class="built_in">document</span>.getElementByTagName);</span><br></pre></td></tr></table></figure>
+<h3 id="用户代理检测">用户代理检测</h3><p>用户代理检测通过检测用户代理字符串确定实际使用的浏览器。该字符串在javascript中可以通过navigator.userAgent属性访问。</p>
+<h4 id="用户代理字符串检测技术">用户代理字符串检测技术</h4><p>使用用户代理字符串来检测特定浏览器，一般情况下知道呈现引擎和最低限度的版本就可以决定正确的操作方法。</p>
+<p><strong>识别呈现引擎</strong></p>
+<p>知道确切的浏览器名字和版本号不如确切知道它使用的什么呈现引擎。如果Firefox，Camino和Netscape都使用相同版本的Gecko，那它们肯定支持相同的特性。因此，可以编写脚本检测5大呈现引擎：IE，Gecko，WebKit，KHTML和Opera。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> clientCheck = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> engine = &#123;</span><br><span class="line">		ie: <span class="number">0</span>,</span><br><span class="line">		gecko: <span class="number">0</span>,</span><br><span class="line">		webkit: <span class="number">0</span>,</span><br><span class="line">		khtml: <span class="number">0</span>,</span><br><span class="line">		opera: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//具体版本号</span></span><br><span class="line">		version: <span class="literal">null</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		engine: engine</span><br><span class="line">	&#125;</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
+<p><strong>识别浏览器</strong></p>
+<p>大多数情况下，识别了浏览器的呈现引擎就可以为我们采取正确的操作提供依据了。但只有呈现引擎还不能说明存在所需的JavaScript功能。</p>
+<p>因此，还需要在上面代码的基础中加入一下部分代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var browser = &#123;</span><br><span class="line">	ie: <span class="number">0</span>,</span><br><span class="line">	firefox: <span class="number">0</span>,</span><br><span class="line">	safari: <span class="number">0</span>,</span><br><span class="line">	konq: <span class="number">0</span>,</span><br><span class="line">	opera: <span class="number">0</span>,</span><br><span class="line">	chrome: <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">	version: null</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">	engine: engine,</span><br><span class="line">	browser: browser</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>识别平台</strong></p>
+<p>很多时候，只要知道呈现引擎就足以编写适当的代码了。但在某些条件下，平台可能是必须关注的问题，那些具有各种平台版本的浏览器在不同平台下可能会有不同的问题。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var <span class="keyword">system</span> = &#123;</span><br><span class="line">	win: <span class="constant">false</span>,</span><br><span class="line">	mac: <span class="constant">false</span>,</span><br><span class="line">	unix: <span class="constant">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="constant">return</span> &#123;</span><br><span class="line">	engine: engine,</span><br><span class="line">	browser: browser,</span><br><span class="line">	<span class="keyword">system</span>: <span class="keyword">system</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>识别Window平台</strong></p>
+<p>在Windows平台下，还可以通过用户代理字符串中进一步取得具体的操作系统信息。</p>
+<p>使用下面的正则表达式匹配各个Windows版本：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">Win</span>(?:dows)?([^<span class="keyword">do</span>]&#123;2&#125;)\s?(\<span class="keyword">d</span>+\.\<span class="keyword">d</span>+)?/</span><br></pre></td></tr></table></figure>
+<p><strong>识别移动设备</strong></p>
+<p>添加所有移动设备属性。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable"><span class="keyword">var</span> system</span> = &#123;</span><br><span class="line">	<span class="comment">//移动设备</span></span><br><span class="line">	iphone: <span class="literal">false</span>,</span><br><span class="line">	ipod: <span class="literal">false</span>,</span><br><span class="line">	ipad: <span class="literal">false</span>,</span><br><span class="line">	ios: <span class="literal">false</span>,</span><br><span class="line">	android: <span class="literal">false</span>,</span><br><span class="line">	nokiaN: <span class="literal">false</span>,</span><br><span class="line">	winMobile: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检测IOS版本：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">va ua = navigator.userAgent;</span><br><span class="line"><span class="keyword">if</span>(system.mac &amp;&amp; ua.indexOf(<span class="string">'Mobile'</span>) &gt; -<span class="number">1</span>) &#123;</span><br><span class="line">	if(/CPU (?:iPhone)?OS (\d+<span class="number">_</span>\d+)/.test(ua)) &#123;</span><br><span class="line">		system.ios = parseFloat(RegExp.<span class="variable">$1</span>.replace(<span class="string">'_'</span>, <span class="string">'.'</span>));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		system.ios = <span class="number">2</span>; // 默认</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>识别游戏系统</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> system = &#123;</span><br><span class="line">	wii: <span class="literal">false</span>,</span><br><span class="line">	ps: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">system.wii = ua.indexOf(<span class="string">'Wii'</span>) &gt; -<span class="number">1</span>;</span><br><span class="line">system.ps = <span class="regexp">/playstation/i</span>.test(ua);</span><br></pre></td></tr></table></figure>
+<p>上面简单介绍了检测呈现引擎、浏览器、平台及移动设备等的基本思路，完整的检测呈现引擎、浏览器、平台、Window操作系统、<br>移动设备和游戏系统的代码请猛戳<a href="https://github.com/baizn/client-detecting/blob/master/clientDetecting.js" target="_blank" rel="external">这里</a>。</p>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/11/27/JavaScript检测客户端/">JavaScript检测客户端</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2015年11月27日 - 12时11分</p>
+  <p><span>最后更新:</span>2015年11月27日 - 12时11分</p>
+  <p>
+    <span>原始链接:</span><a href="/2015/11/27/JavaScript检测客户端/" title="JavaScript检测客户端">http://baizn.github.io/2015/11/27/JavaScript检测客户端/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/27/JavaScript检测客户端/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2015/11/20/JavaScript继承/">
+        JavaScript继承
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用JavaScript检测客户端"><span class="toc-number">1.</span> <span class="toc-text">使用JavaScript检测客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#能力检测"><span class="toc-number">1.1.</span> <span class="toc-text">能力检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户代理检测"><span class="toc-number">1.2.</span> <span class="toc-text">用户代理检测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用户代理字符串检测技术"><span class="toc-number">1.2.1.</span> <span class="toc-text">用户代理字符串检测技术</span></a></li></ol></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JavaScript检测客户端" data-title="JavaScript检测客户端" data-url="http://baizn.github.io/2015/11/27/JavaScript检测客户端/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    <div  class="post-nav-button">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2015/11/20/JavaScript继承/" title="下一篇: JavaScript继承">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+    
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2015 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
