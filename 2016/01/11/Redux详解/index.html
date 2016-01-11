@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redux详解 | baizn的github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Redux详解redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。
+action数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。
+这种对数据来源做萃取工作的函数，就叫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux详解">
+<meta property="og:url" content="http://baizn.github.io/2016/01/11/Redux详解/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="Redux详解redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。
+action数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。
+这种对数据来源做萃取工作的函数，就叫">
+<meta property="og:updated_time" content="2016-01-11T09:34:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redux详解">
+<meta name="twitter:description" content="Redux详解redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。
+action数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。
+这种对数据来源做萃取工作的函数，就叫">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/Drag/" style="font-size: 10px;">Drag</a> <a href="/tags/ECMAScript/" style="font-size: 16.67px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Float/" style="font-size: 10px;">Float</a> <a href="/tags/Flux/" style="font-size: 10px;">Flux</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MEAT/" style="font-size: 10px;">MEAT</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/Props/" style="font-size: 10px;">Props</a> <a href="/tags/React/" style="font-size: 16.67px;">React</a> <a href="/tags/Redux/" style="font-size: 13.33px;">Redux</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/action/" style="font-size: 10px;">action</a> <a href="/tags/after伪元素/" style="font-size: 10px;">after伪元素</a> <a href="/tags/alt/" style="font-size: 10px;">alt</a> <a href="/tags/ant-design/" style="font-size: 10px;">ant-design</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/clearfix/" style="font-size: 10px;">clearfix</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/div拖拽/" style="font-size: 10px;">div拖拽</a> <a href="/tags/instanceof/" style="font-size: 10px;">instanceof</a> <a href="/tags/meat/" style="font-size: 10px;">meat</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/reducer/" style="font-size: 10px;">reducer</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/state/" style="font-size: 10px;">state</a> <a href="/tags/store/" style="font-size: 10px;">store</a> <a href="/tags/type-file/" style="font-size: 10px;">type=file</a> <a href="/tags/typeof/" style="font-size: 10px;">typeof</a> <a href="/tags/webpack/" style="font-size: 13.33px;">webpack</a> <a href="/tags/事件处理/" style="font-size: 10px;">事件处理</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/优缺点/" style="font-size: 10px;">优缺点</a> <a href="/tags/作用域/" style="font-size: 10px;">作用域</a> <a href="/tags/单页面Web应用/" style="font-size: 10px;">单页面Web应用</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/坐标/" style="font-size: 10px;">坐标</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/客户端/" style="font-size: 10px;">客户端</a> <a href="/tags/对象/" style="font-size: 10px;">对象</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/引用类型/" style="font-size: 10px;">引用类型</a> <a href="/tags/执行环境/" style="font-size: 10px;">执行环境</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/样式修改/" style="font-size: 10px;">样式修改</a> <a href="/tags/检测/" style="font-size: 10px;">检测</a> <a href="/tags/清除浮动/" style="font-size: 10px;">清除浮动</a> <a href="/tags/生命周期/" style="font-size: 10px;">生命周期</a> <a href="/tags/类型检测/" style="font-size: 10px;">类型检测</a> <a href="/tags/纯函数/" style="font-size: 10px;">纯函数</a> <a href="/tags/继承/" style="font-size: 10px;">继承</a> <a href="/tags/自动分号插入/" style="font-size: 10px;">自动分号插入</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨浏览器/" style="font-size: 10px;">跨浏览器</a> <a href="/tags/连续赋值/" style="font-size: 10px;">连续赋值</a> <a href="/tags/遇到的问题/" style="font-size: 10px;">遇到的问题</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Redux详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/11/Redux详解/" class="article-date">
+  	<time datetime="2016-01-11T09:33:49.000Z" itemprop="datePublished">2016-01-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redux详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redux/">Redux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/action/">action</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reducer/">reducer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/store/">store</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Redux详解">Redux详解</h2><p>redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。</p>
+<h3 id="action">action</h3><p>数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。</p>
+<p>这种对数据来源做萃取工作的函数，就叫action。action不是［数据预处理］的功能，而是在web应用中所有的数据与状态的变化，几乎都来自［事件］。</p>
+<p>javascript中的事件：DOM事件、ajax、路由change、setTimeout定时器、自定义事件等。</p>
+<h4 id="action与event(事件)的区别">action与event(事件)的区别</h4><p>在表单keyup事件中，只在e.keyCode等于回车键或取消键时，才出发一类action。DOM事件提供的数据是event对象，里面主要包括跟DOM相关的数据，我们无法直接合并到全局数据对象里，只是将需要的部分数据传入action函数而已。所以，<strong>是event响应函数里主动调用了action函数，并且传入它需要的数据。</strong></p>
+<h3 id="reducer">reducer</h3><p>action仅仅是预处理，将脏数据筛选掉，但没有产生可以直接合并到全局对象的数据和结构，甚至可能只是提供了线索，表示［需要获取那些数据，但数据不在我这里］。action函数的设计，也为它［只提供线索］的做法提供了支持，action函数必须返回一个带有<strong>type</strong>属性的plain object。</p>
+<h4 id="action函数的设计理念">action函数的设计理念</h4><blockquote>
+<ul>
+<li><p>action的参数用来筛选掉脏数据，调用action函数的人，有义务传入他需要的数据</p>
+</li>
+<li><p>action返回的plain object中包含属性为type常量值</p>
+<blockquote>
+<p><em>表明这个对象携带的其他数据应该被［如何］再处理
+</em>或者不带其他数据，仅仅启示已有数据需要如何调整，或需要主要获取那些数据</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<p><strong>reducer就是处理action函数返回的线索的［数据再处理函数］，action是［预处理函数］。</strong></p>
+<p>由于action返回的数据有个固定的结构，所以reducer函数也有固定的结构。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//reducer函数接收两个参数:  全局数据对象<span class="keyword">state</span>以及action函数返回的action对象</span><br><span class="line">//返回新的全局数据对象new <span class="keyword">state</span></span><br><span class="line">export <span class="keyword">default</span>(<span class="keyword">state</span>, action) =&gt; &#123;</span><br><span class="line">	switch(action.type) &#123;</span><br><span class="line">		case A:</span><br><span class="line">			return handleA(<span class="keyword">state</span>);</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			return <span class="keyword">state</span>; //没有匹配上就直接返回原<span class="keyword">state</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>reducer只是一个<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### &#20026;&#20160;&#20040;&#21483;reducer&#20989;&#25968;&#10;&#22240;&#20026;action&#23545;&#35937;&#21508;&#31181;&#21508;&#26679;&#65292;&#27599;&#31181;&#23545;&#24212;&#26576;&#20010;case&#65292;&#20294;&#26368;&#21518;&#37117;&#27719;&#24635;&#21040;state&#23545;&#35937;&#65292;&#20174;&#22810;&#21040;&#19968;&#65292;&#26159;&#19968;&#20010;&#20943;&#23569;&#65288;reduce&#65289;&#30340;&#36807;&#31243;&#65292;&#25152;&#20197;&#23436;&#25104;&#36825;&#20010;&#36807;&#31243;&#30340;&#20989;&#25968;&#23601;&#21483;```reducer```&#12290;&#10;### combineReducers&#10;reducer&#30340;&#31532;&#19968;&#20010;&#21442;&#25968;&#26159;&#20840;&#23616;&#23545;&#35937;&#65292;&#22240;&#27492;state&#23545;&#35937;&#30340;&#26641;&#24418;&#32467;&#26500;&#24517;&#23450;&#20250;&#38543;&#30528;web&#24212;&#29992;&#30340;&#22797;&#26434;&#24615;&#32780;&#21464;&#24471;&#36234;&#26469;&#36234;&#28145;&#65292;&#24403;action.type&#25152;&#23545;&#24212;&#30340;case&#21482;&#26159;&#20462;&#25913;state.a.b.c&#36825;&#20010;&#23646;&#24615;&#26102;&#65292;handleCase&#20989;&#25968;&#23601;&#20250;&#23884;&#22871;&#30340;&#29305;&#21035;&#28145;&#65292;&#24517;&#39035;&#22312;&#36825;&#20010;&#20989;&#25968;&#30340;&#22836;&#37096;&#39564;&#35777;state&#23545;&#35937;&#26377;&#27809;&#26377;&#37027;&#20010;&#23646;&#24615;&#12290;&#10;&#38656;&#35201;&#22914;&#19979;&#27169;&#24335;&#65306;</span><br></pre></td></tr></table></figure></p>
+<p>//这个reducer的state属性不是全局state本身<br>//而是他的一个子代属性，如state.todos这个对象<br>//返回的new state也会合并到state.todos对象中<br>export default (state, action) =&gt; {<br>    switch(action.type) {<br>        case B:<br>            return newstate;<br>    }<br>}<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">如上所示，写起来是普通的reducer，但获取的不是全局的state。</span><br><span class="line"></span><br><span class="line">**实现方法：**遍历一个［全是方法］的［函数储存对象］，返回新对象，这个新对象的<span class="escape">``</span><span class="escape">`k</span>ey<span class="escape">``</span><span class="escape">`跟</span>［函数储存对象］一样，它的<span class="escape">``</span><span class="escape">`v</span>alue<span class="escape">``</span><span class="escape">`则</span>是［函数储存对象］的同名方法接收<span class="escape">``</span><span class="escape">`(</span>state[key], action)<span class="escape">``</span><span class="escape">`参</span>数的返回值。</span><br><span class="line"></span><br><span class="line">目前redux不提供映射到一级以上深度的state的方法，解决思路：</span><br><span class="line">&gt;* superGetter／superSetter</span><br><span class="line">&gt;* 嵌套combineReducers</span><br><span class="line">&gt;* 修改源码，使用模式走transformer</span><br><span class="line"></span><br><span class="line"><span class="label">详情参考[这里](http:</span>//div.io/topic/<span class="number">1309</span>)。</span><br><span class="line"></span><br><span class="line">总的来说，combineReduers不是一个必需品，它只是用来分发对象的属性到各个<span class="escape">``</span><span class="escape">`r</span>educer<span class="escape">``</span><span class="escape">`中</span>去，如果觉得太绕，可以直接选择在每个handleCase函数中查询state属性，合成newState并返回即可，这时候，只需要一个reducers函数，它的switch语句处理所有可能的action.type。</span><br><span class="line">### createStore</span><br><span class="line">action函数只返回一个普通对象，是谁把它传递到reducers(state, action)调用呢？<span class="escape">``</span><span class="escape">`r</span>educers | state | action<span class="escape">``</span><span class="escape">`这</span>三个由谁来协调？</span><br><span class="line"></span><br><span class="line">此时，createStore(reducer, initialState)呼之欲出，它接收一个reducer函数跟initialState初始化的全局状态对象，返回几个［公共方法］：<span class="escape">``</span><span class="escape">`d</span>ispatch | getState | subscribe<span class="escape">``</span><span class="escape">`。</span></span><br><span class="line"></span><br><span class="line"><span class="escape">``</span><span class="escape">`c</span>reateStore<span class="escape">``</span><span class="escape">`的</span>返回值是一个对象，通常保存在store这个变量名里。其实store只是一个方法，没有数据属性的对象，用<span class="escape">``</span><span class="escape">`J</span>SON.stringify<span class="escape">``</span><span class="escape">`去</span>序列化，得到的是空对象。真正的<span class="escape">``</span><span class="escape">`s</span>tate<span class="escape">``</span><span class="escape">`包</span>含在必包中，通过公用方法<span class="escape">``</span><span class="escape">`g</span>etState<span class="escape">``</span><span class="escape">`获</span>取。</span><br><span class="line"></span><br><span class="line">而<span class="escape">``</span><span class="escape">`d</span>ispatch<span class="escape">``</span><span class="escape">`方</span>法，是<span class="escape">``</span><span class="escape">`s</span>tore<span class="escape">``</span><span class="escape">`对</span>象提供的更改<span class="escape">``</span><span class="escape">`c</span>urrentState<span class="escape">``</span><span class="escape">`这</span>个必包变量的唯一建议途径。</span><br><span class="line"></span><br><span class="line"><span class="escape">``</span><span class="escape">`s</span>ubscribe<span class="escape">``</span><span class="escape">`方</span>法是一个简单的事件侦听方法，在dispatch里更新完currentState后调用，不管是什么action触发的更新，都会被调用，并且没有任何参数，只是告诉你<span class="escape">``</span><span class="escape">`s</span>tate<span class="escape">``</span><span class="escape">`更</span>新了。</span><br><span class="line">### bindActionCreators</span><br><span class="line">通过<span class="escape">``</span><span class="escape">`c</span>reateStore<span class="escape">``</span><span class="escape">`拿</span>到了<span class="escape">``</span><span class="escape">`s</span>tore<span class="escape">``</span><span class="escape">`，</span>通过<span class="escape">``</span><span class="escape">`s</span>tore.dispatch(action)<span class="escape">``</span><span class="escape">`我</span>们可以免去手动调用<span class="escape">``</span><span class="escape">`r</span>educer<span class="escape">``</span><span class="escape">`的</span>负担，只处理<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`就</span>可以了。这里有两种意义上的<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`，</span>一种是<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`函</span>数，一种是<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`对</span>象，<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`函</span>数接收参数并返回一个<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`对</span>象。</span><br><span class="line"></span><br><span class="line"><span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`函</span>数是工厂模式，专门生产<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`对</span>象。所以通过重命名，更清晰的区分两者，<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`函</span>数就叫<span class="escape">``</span><span class="escape">`a</span>ctionCreator<span class="escape">``</span><span class="escape">`，</span>它的返回值叫<span class="escape">``</span><span class="escape">`a</span>ction<span class="escape">``</span><span class="escape">`。</span></span><br><span class="line"></span><br><span class="line"><span class="escape">``</span><span class="escape">`s</span>tore.dispatch(action)<span class="escape">``</span><span class="escape">`这</span>里的action是对象，而不是函数，它是actionCreator返回的，所以实际上要这样调用<span class="escape">``</span><span class="escape">`s</span>tore.dispatch(actionCreator(...args))<span class="escape">``</span><span class="escape">`。</span></span><br><span class="line"></span><br><span class="line">原本的<span class="escape">``</span><span class="escape">`r</span>educer(state, action)<span class="escape">``</span><span class="escape">`模</span>式，用<span class="escape">``</span><span class="escape">`c</span>reateStore(reducer, initalState)<span class="escape">``</span><span class="escape">`转</span>换成<span class="escape">``</span><span class="escape">`s</span>tore.dispatch(action)<span class="escape">``</span><span class="escape">`，</span>发现还不够，再封装一层，这就是函数式思想的体现，通过反复组合，将多参数模式，转化成单参数模式。</span><br><span class="line">#### 怎样组合</span><br><span class="line">&gt;单个actionCreator，通过bindActionCreator。</span><br></pre></td></tr></table></figure></p>
+<p>//将actionCreator和dispatch绑定<br>let bindActionCreator =&gt; (actionCreator, dispatch) {<br>    return (…args) =&gt; dispatch(actionCreator(…args));<br>}<br>//普通工厂函数，返回一个对象<br>let addItem = text =&gt; ({<br>    type: ‘ADD_ITEM’,<br>    text<br>})<br>//跟store.dispatch绑定，成为真正可以改变currentState的action函数<br>let addItem = bindActionCreator(addItem, store.dispatch);<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;对于多个actionCreator，可以像reducers一样，组成一个<span class="escape">``</span><span class="escape">`k</span>ey/action<span class="escape">``</span><span class="escape">`组</span>合。</span><br></pre></td></tr></table></figure></p>
+<p>export default function bindActionCreators(actionCreators, dispatch) {<br>    if(typeof actionCreators === ‘function’) {<br>        return bindActionCreator(actionCreators, dispatch);<br>    }<br>    //返回一个改造过的[函数组合]<br>    return mapValues(actionCreators, actionCreator =&gt; bindActionCreator(actionCreator, dispatch))<br>}<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如上，我们用<span class="escape">``</span><span class="escape">`b</span>indActionCreator<span class="escape">``</span><span class="escape">`得</span>到了真正具有改变全局state能力的许多函数，接下来就是将这些函数分发到各个地方，由各个<span class="escape">``</span><span class="escape">`e</span>vent<span class="escape">``</span><span class="escape">`自</span>主调用即可。</span><br><span class="line">### redux工作流程</span><br><span class="line">&gt;首先，需要设计一些［常量］，因为action.type通常是字符串常量。为了便于集中管理，以及利于压缩代码，所以最好将常量单独放在单独的文件夹里，根据类型的不同放置在不同的文件夹中。</span><br></pre></td></tr></table></figure></p>
+<p>//ActionTypes.js 真正改动了数据的 actionType 在这里<br>export const ADD_ITEM = ‘ADD_ITEM’<br>export const DELETE_ITEM = ‘DELETE_ITEM’<br>export const DELETE_ITEMS = ‘DELETE_ITEMS’<br>export const UPDATE_ITEM = ‘UPDATE_ITEM’<br>export const UPDATE_ITEMS = ‘UPDATE_ITEMS’</p>
+<p>//API.js 服务端接口统一放这里<br>export const API_TODOS = ‘/todos’</p>
+<p>//SocketTypes.js websocket 也触发了某个 action 改变了 state，单独放这里<br>export const SERVER_UPDATE = ‘SERVER_UPDATE’</p>
+<p>//KeyCode.js 键盘的回车键与取消键对应的编码<br>export const ENTER_KEY = 13<br>export const ESCAPE_KEY = 27</p>
+<p>//FilterTypes.js 只是筛选数据，没有改变 state 的过滤 action 的常量<br>export const FILTER_ITEMS = ‘FILTER_ITEMS’<br>export const SHOW_ALL = ‘SHOW_ALL’<br>export const SHOW_ACTIVE = ‘SHOW_ACTIVE’<br>export const SHOW_COMPLETED = ‘SHOW_COMPLETED’<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">通过常量设计，可以清晰地反应出我们整个web应用的业务架构设计，这方面如果没设计好，随着应用复杂性的增加，会越来越难以维护。</span><br><span class="line">&gt;比设计常量更靠前的，是设计整个应用的<span class="keyword">state</span>树的结构</span><br><span class="line">&gt;有了常量，就可以写```actionCreator```了，它们被放置在actions文件里</span><br></pre></td></tr></table></figure></p>
+<p>//index.js<br>import * as types from ‘../constants/ActionTypes’</p>
+<p>export function addItem(text) {<br>    return { type: types.ADD_ITEM, text }<br>}<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;action是预处理，下一个环节是再处理函数```reducer```，它们被放置再reducers文件夹里</span><br><span class="line"></span><br><span class="line"><span class="comment">#### redux的流程</span></span><br><span class="line">&gt;* 设计全局<span class="keyword">state</span>的数据结构</span><br><span class="line">&gt;* 设计更改<span class="keyword">state</span>数据的actionTypes常量以及其他跟视图展现相关的actionTypes常量</span><br><span class="line">&gt;* 根据actionTypes常量，写actionCreator</span><br><span class="line">&gt;* 根据各个actionCreator的返回值，涉及reducer做数据的最后处理</span><br><span class="line">&gt;* 在有了reducer函数之后，creatorStore(reducer, initState)得到store对象</span><br><span class="line">&gt;* 用bindActionCreators函数将actionCreators和store.dispatch绑定起来，得到一组能够修改全局状态的函数</span><br><span class="line">&gt;* 分发各个状态修改函数到各个DOM事件中</span><br><span class="line"></span><br><span class="line"><span class="comment">#### action creator函数</span></span><br></pre></td></tr></table></figure></p>
+<p>function makeActionCreator(type, …argNames) {<br>    return function(…args) {<br>        let action = {type};<br>        argNames.forEach((arg, index) =&gt; {<br>            action[argNames[index]] = args[i];<br>        });<br>        return action;<br>    }<br>}</p>
+<p>export const addTodo = makeActionCreator(‘ADD_TODO’, ‘todo’);<br>```</p>
+<p>参考资料：<a href="http://div.io/topic/1309" target="_blank" rel="external">深入到源码：解读 redux 的设计思路与用法 </a>。</p>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2016/01/11/Redux详解/">Redux详解</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2016年1月11日 - 17时01分</p>
+  <p><span>最后更新:</span>2016年1月11日 - 17时01分</p>
+  <p>
+    <span>原始链接:</span><a href="/2016/01/11/Redux详解/" title="Redux详解">http://baizn.github.io/2016/01/11/Redux详解/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/01/11/Redux详解/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+    <div id="article-nav-newer" class="article-nav-title">
+      <a href="/2016/01/11/React中Props的传递/">
+        React中Props的传递
+      </a>
+    </div>
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2016/01/11/Redux三大原则/">
+        Redux三大原则
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux详解"><span class="toc-number">1.</span> <span class="toc-text">Redux详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#action"><span class="toc-number">1.1.</span> <span class="toc-text">action</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#action与event(事件)的区别"><span class="toc-number">1.1.1.</span> <span class="toc-text">action与event(事件)的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reducer"><span class="toc-number">1.2.</span> <span class="toc-text">reducer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#action函数的设计理念"><span class="toc-number">1.2.1.</span> <span class="toc-text">action函数的设计理念</span></a></li></ol></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Redux详解" data-title="Redux详解" data-url="http://baizn.github.io/2016/01/11/Redux详解/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    
+    <div  class="post-nav-button">
+    <a href="/2016/01/11/React中Props的传递/" title="上一篇: React中Props的传递">
+    <i class="fa fa-angle-left"></i>
+    </a>
+    <a href="/2016/01/11/Redux三大原则/" title="下一篇: Redux三大原则">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2016 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
