@@ -5,22 +5,25 @@
   
   <title>React中Props的传递 | baizn的github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
-可以使用JSX展开属性来合并现有的props和其他值：1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
-如果不使用JSX，可以使用一些对象辅助方法如ES6的1###&amp;#25163;&amp;#2">
+  <meta name="description" content="传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
+可以使用JSX展开属性来合并现有的props和其他值：
+1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
+如果不使用JSX，可以使用一些对象辅助方法如ES6的1### &amp;#25163;&amp;#2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React中Props的传递">
 <meta property="og:url" content="http://baizn.github.io/2016/01/11/React中Props的传递/index.html">
 <meta property="og:site_name" content="baizn的github博客">
-<meta property="og:description" content="##传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
-可以使用JSX展开属性来合并现有的props和其他值：1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
-如果不使用JSX，可以使用一些对象辅助方法如ES6的1###&amp;#25163;&amp;#2">
-<meta property="og:updated_time" content="2016-01-11T09:38:30.000Z">
+<meta property="og:description" content="传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
+可以使用JSX展开属性来合并现有的props和其他值：
+1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
+如果不使用JSX，可以使用一些对象辅助方法如ES6的1### &amp;#25163;&amp;#2">
+<meta property="og:updated_time" content="2016-01-11T10:23:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React中Props的传递">
-<meta name="twitter:description" content="##传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
-可以使用JSX展开属性来合并现有的props和其他值：1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
-如果不使用JSX，可以使用一些对象辅助方法如ES6的1###&amp;#25163;&amp;#2">
+<meta name="twitter:description" content="传递PropsReact里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。
+可以使用JSX展开属性来合并现有的props和其他值：
+1return &amp;lt;Component &amp;#123;...this.props&amp;#125; more=&quot;values&quot; /&amp;gt;;
+如果不使用JSX，可以使用一些对象辅助方法如ES6的1### &amp;#25163;&amp;#2">
   
     <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
   
@@ -232,14 +235,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##传递Props<br>React里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。</p>
-<p>可以使用<strong>JSX展开属性</strong>来合并现有的props和其他值：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &lt;Component &#123;...<span class="keyword">this</span>.props&#125; more=<span class="string">"values"</span> /&gt;;</span><br></pre></td></tr></table></figure></p>
-<p>如果不使用JSX，可以使用一些对象辅助方法如ES6的<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">###&#25163;&#21160;&#20256;&#36882;&#10;&#22823;&#37096;&#20998;&#24773;&#20917;&#19979;&#24212;&#35813;&#26174;&#24335;&#22320;&#21521;&#19979;&#20256;&#36882;props&#65292;&#36825;&#26679;&#21487;&#20197;&#30830;&#20445;&#21482;&#20844;&#24320;&#20320;&#35748;&#20026;&#26159;&#23433;&#20840;&#30340;&#20869;&#37096;API&#30340;&#23383;&#38598;&#12290;</span><br></pre></td></tr></table></figure></p>
+        <h2 id="传递Props">传递Props</h2><p>React里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性［Props］来实现功能。</p>
+<p>可以使用<strong>JSX展开属性</strong>来合并现有的props和其他值：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &lt;Component &#123;...<span class="keyword">this</span>.props&#125; more=<span class="string">"values"</span> /&gt;;</span><br></pre></td></tr></table></figure>
+<p>如果不使用JSX，可以使用一些对象辅助方法如ES6的<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### &#25163;&#21160;&#20256;&#36882;&#10;&#22823;&#37096;&#20998;&#24773;&#20917;&#19979;&#24212;&#35813;&#26174;&#24335;&#22320;&#21521;&#19979;&#20256;&#36882;props&#65292;&#36825;&#26679;&#21487;&#20197;&#30830;&#20445;&#21482;&#20844;&#24320;&#20320;&#35748;&#20026;&#26159;&#23433;&#20840;&#30340;&#20869;&#37096;API&#30340;&#23383;&#38598;&#12290;</span><br></pre></td></tr></table></figure></p>
 <p>var FancyCheckBox = React.createClass({<br>    render() {<br>        var fancyClass = this.props.checked ? ‘FancyChecked’ : ‘FancyUnchecked’;<br>        return (<br>            <div classname="{fancyClass}" onclick="{this.props.onClick}"><br>                {this.props.children}<br>            </div><br>        );<br>    }<br>});</p>
-<p>React.render(<br>    <fancycheckbox checked="{true}" onclick="{consoe.log.bind(console)}"><br>        Hello world!<br>    </fancycheckbox>,<br>    document.body<br>);<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">但如果还有name、title等很多属性时候怎么办呢？</span><br><span class="line"><span class="comment">###在JSX里使用 ... 传递</span></span><br><span class="line">有时把所有的属性都传下去是不安全的，这时可以使用的<span class="keyword">*</span><span class="keyword">*</span>[解构赋值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)<span class="keyword">*</span><span class="keyword">*</span>中的剩余属性特性来把未知属性批量提取出来。</span><br></pre></td></tr></table></figure></p>
-<p>var {checked, …other} = this.props;<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这样能确保把所有的props传下去，除了已经使用了的属性。</span><br><span class="line"></span><br><span class="line">使用<span class="escape">``</span><span class="escape">`.</span>..<span class="escape">``</span><span class="escape">`特</span>性重写上面的示例：</span><br></pre></td></tr></table></figure></p>
+<p>React.render(<br>    <fancycheckbox checked="{true}" onclick="{consoe.log.bind(console)}"><br>        Hello world!<br>    </fancycheckbox>,<br>    document.body<br>);<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">但如果还有name、title等很多属性时候怎么办呢？</span><br><span class="line"><span class="comment">### 在JSX里使用 ... 传递</span></span><br><span class="line">有时把所有的属性都传下去是不安全的，这时可以使用的<span class="keyword">*</span><span class="keyword">*</span>[解构赋值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)<span class="keyword">*</span><span class="keyword">*</span>中的剩余属性特性来把未知属性批量提取出来。</span><br></pre></td></tr></table></figure></p>
+<p>var {checked, …other} = this.props;<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这样能确保把所有的props传下去，除了已经使用了的属性。</span><br><span class="line"></span><br><span class="line">使用<span class="escape">``</span><span class="escape">`.</span>..<span class="escape">``</span><span class="escape">`特</span>性重写上面的示例：</span><br></pre></td></tr></table></figure></p>
 <p>var FancyCheckBox = React.createClass({<br>    render() {<br>        var {checked, …other} = this.props;<br>        var fancyClass = checked ? ‘FancyChecked’ : ‘FancyUnchecked’;<br>        //other包含{onClick: console.log} 但checked属性除外<br>        return (<br>            <div {...other}="" classname="{fancyClass}"><br>        );<br>    }<br>});</div></p>
-<p>React.render(<br>    <fancycheckbox checked="{true}" onclick="{consoe.log.bind(console)}"><br>        Hello world!<br>    </fancycheckbox>,<br>    document.body<br>);<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">###传递和使用同一个Props</span><br><span class="line">如果组件需要使用一个属性又要往下传递，可以直接使用<span class="escape">``</span><span class="escape">`c</span>hecked=&#123;checked&#125;<span class="escape">``</span><span class="escape">`再</span>传一次，这样做比传整个this.props对象要好，因为更利于重构和语法检查。</span><br></pre></td></tr></table></figure></p>
+<p>React.render(<br>    <fancycheckbox checked="{true}" onclick="{consoe.log.bind(console)}"><br>        Hello world!<br>    </fancycheckbox>,<br>    document.body<br>);<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 传递和使用同一个Props</span><br><span class="line">如果组件需要使用一个属性又要往下传递，可以直接使用<span class="escape">``</span><span class="escape">`c</span>hecked=&#123;checked&#125;<span class="escape">``</span><span class="escape">`再</span>传一次，这样做比传整个this.props对象要好，因为更利于重构和语法检查。</span><br></pre></td></tr></table></figure></p>
 <p>var CheckBox = React.createClass({<br>    render() {<br>        var {checked, title, …other} = this.props;<br>        var box = checked ? ‘ok’ : ‘no’;<br>        var boxTitle = checked: ‘X’ : ‘Y’;<br>        return(<br>            <label><br>                <input {...other}="" checked="{checked}" type="checkbox"><br>                {title}<br>            </label><br>        );<br>    }<br>});<br>```</p>
 
       
@@ -256,7 +260,7 @@
   <p><span>本文标题:</span><a href="/2016/01/11/React中Props的传递/">React中Props的传递</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
   <p><span>发布时间:</span>2016年1月11日 - 17时01分</p>
-  <p><span>最后更新:</span>2016年1月11日 - 17时01分</p>
+  <p><span>最后更新:</span>2016年1月11日 - 18时01分</p>
   <p>
     <span>原始链接:</span><a href="/2016/01/11/React中Props的传递/" title="React中Props的传递">http://baizn.github.io/2016/01/11/React中Props的传递/</a>
     <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/01/11/React中Props的传递/　　作者: baizn" title="点击复制文章链接">
@@ -306,7 +310,7 @@
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#传递Props"><span class="toc-number">1.</span> <span class="toc-text">传递Props</span></a></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
