@@ -3,27 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JavaScript基础知识点 | baizn的github博客</title>
+  <title>(A =&gt; B) !=&gt; (B =&gt; A) | baizn的github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
-获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
-获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlParamsByNa">
+  <meta name="description" content="[翻译](A =&amp;gt; B) !=&amp;gt; (B =&amp;gt; A)componentWillReceiveProps的文档中指出：当props改变的时候，componentWillReceiveProps就会被调用，结果就会重新渲染。因此，一些人误以为：如果componentWillReceiveProps被调用，则props一定发生了变化。但是，这样的结论是不正确的。
+我最喜欢的形式逻辑或数学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript基础知识点">
-<meta property="og:url" content="http://baizn.github.io/2015/11/04/JavaScript基础知识点/index.html">
+<meta property="og:title" content="(A => B) !=> (B => A)">
+<meta property="og:url" content="http://baizn.github.io/2016/01/28/A-B-B-A/index.html">
 <meta property="og:site_name" content="baizn的github博客">
-<meta property="og:description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
-获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
-获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlParamsByNa">
-<meta property="og:updated_time" content="2015-11-10T02:11:16.000Z">
+<meta property="og:description" content="[翻译](A =&amp;gt; B) !=&amp;gt; (B =&amp;gt; A)componentWillReceiveProps的文档中指出：当props改变的时候，componentWillReceiveProps就会被调用，结果就会重新渲染。因此，一些人误以为：如果componentWillReceiveProps被调用，则props一定发生了变化。但是，这样的结论是不正确的。
+我最喜欢的形式逻辑或数学">
+<meta property="og:updated_time" content="2016-01-28T09:05:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript基础知识点">
-<meta name="twitter:description" content="获取页面来源document.referrer:获取页面来源，只能获取上一次页面。
-获取请求的URLwindow.location.href: 获取请求的URL，包括查询参数
-获取URL中的查询参数window.location.search: 获取查询参数，形式如：?type=1&amp;amp;name=23
-123456789//获取URL中的参数值function getUrlParamsByNa">
+<meta name="twitter:title" content="(A => B) !=> (B => A)">
+<meta name="twitter:description" content="[翻译](A =&amp;gt; B) !=&amp;gt; (B =&amp;gt; A)componentWillReceiveProps的文档中指出：当props改变的时候，componentWillReceiveProps就会被调用，结果就会重新渲染。因此，一些人误以为：如果componentWillReceiveProps被调用，则props一定发生了变化。但是，这样的结论是不正确的。
+我最喜欢的形式逻辑或数学">
   
     <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
   
@@ -198,11 +192,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-JavaScript基础知识点" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-A-B-B-A" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/11/04/JavaScript基础知识点/" class="article-date">
-  	<time datetime="2015-11-04T02:23:16.000Z" itemprop="datePublished">2015-11-04</time>
+      <a href="/2016/01/28/A-B-B-A/" class="article-date">
+  	<time datetime="2016-01-28T09:04:19.000Z" itemprop="datePublished">2016-01-28</time>
 </a>
     </div>
   
@@ -215,7 +209,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JavaScript基础知识点
+      (A =&gt; B) !=&gt; (B =&gt; A)
     </h1>
   
 
@@ -226,7 +220,7 @@
 
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Document/">Document</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/referrer/">referrer</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/componentWillReceiveProps/">componentWillReceiveProps</a></li></ul>
 	</div>
 
         <div class="clearfix"></div>
@@ -235,11 +229,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="获取页面来源">获取页面来源</h2><p><strong>document.referrer:</strong>获取页面来源，只能获取上一次页面。</p>
-<h2 id="获取请求的URL">获取请求的URL</h2><p>window.location.href: 获取请求的URL，包括查询参数</p>
-<h2 id="获取URL中的查询参数">获取URL中的查询参数</h2><p>window.location.search: 获取查询参数，形式如：?type=1&amp;name=23</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取URL中的参数值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrlParamsByName</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"(^|&amp;)"</span> + name + <span class="string">"([^&amp;]*)(&amp;|$)"</span>);</span><br><span class="line">	<span class="keyword">var</span> param = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg);</span><br><span class="line">	<span class="keyword">if</span>(param !== <span class="literal">null</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">decodeURI</span>(param[<span class="number">2</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="动态创建script标签">动态创建script标签</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">script.async = <span class="literal">true</span>;</span><br><span class="line">script.src = <span class="string">'http://www.xxx.com/xx.js'</span>;</span><br><span class="line">script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//script 加载完成后处理</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="[翻译](A_=&gt;_B)_!=&gt;_(B_=&gt;_A)">[翻译](A =&gt; B) !=&gt; (B =&gt; A)</h2><p>componentWillReceiveProps的文档中指出：当props改变的时候，componentWillReceiveProps就会被调用，结果就会重新渲染。因此，一些人误以为：如果componentWillReceiveProps被调用，则props一定发生了变化。但是，这样的结论是不正确的。</p>
+<p>我最喜欢的形式逻辑或数学的指导原则如下：</p>
+<blockquote>
+<p>A implies B does not imply B implies A</p>
+</blockquote>
+<p>举个栗子：“如果我吃了坏了的食物，我可能就会生病”并不能说“如果我生病了，那我就一定是吃了坏了的食物导致”。还有很多其它原因导致我不舒服的，比如办公室里的流感。类似的，有很多原因使得componentWillReceiveProps被调用，即使props并没有改变。</p>
+<p>如果你不相信我说的，使用相同的props调用ReactDOM.render()三次，试着预测一下componentWillReceiveProps被调用的次数。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">React</span>.<span class="title">Component</span> &#123;</span></span><br><span class="line">	componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">		console.log(<span class="symbol">'componentWillReceiveProps</span>: ' + nextProps.data.bar);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;<span class="type">Bar</span> &#123;<span class="keyword">this</span>.props.data.bar&#125;&lt;/div&gt;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> container = document.getElementById(<span class="symbol">'containe</span>r');</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myData = &#123;</span><br><span class="line">	bar: <span class="symbol">'drink</span>s'</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> data=&#123;myData&#125; /&gt;, container);</span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> data=&#123;myData&#125; /&gt;, container);</span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> data=&#123;myData&#125; /&gt;, container);</span><br></pre></td></tr></table></figure>
+<p>在本例中，答案是“2”。React调用componentWillReceiveProps两次（只有两次更新）。在这两次中，drinks的值被打印出来（props的值并没有变化）。</p>
+<p>为了理解为什么会这样，我们需要想想会发生什么。在初始渲染和两次后续更新之间数据可能已经被改变了，如果代码像下面这样执行：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">var</span> myData = &#123;</span><br><span class="line">	bar: 'drinks'</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> <span class="typedef"><span class="keyword">data</span>=<span class="container">&#123;<span class="title">myData</span>&#125;</span> /&gt;, container);</span></span><br><span class="line"></span><br><span class="line"><span class="title">myData</span>.bar = 'food';</span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> <span class="typedef"><span class="keyword">data</span>=<span class="container">&#123;<span class="title">myData</span>&#125;</span> /&gt;, container);</span></span><br><span class="line"></span><br><span class="line"><span class="title">myData</span>.bar = 'noise';</span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">Component</span> <span class="typedef"><span class="keyword">data</span>=<span class="container">&#123;<span class="title">myData</span>&#125;</span> /&gt;, container);</span></span><br></pre></td></tr></table></figure>
+<p>数据没有改变，但React并没有办法知道。因此，React需要调用componentWillReceiveProps方法，因为组件需要新props来通知（即使新的props和旧props完全相同）。</p>
+<p>你可能会认为，React可以使用很巧妙的检测机制来检测是否相等，但这种想法也有一些问题：</p>
+<blockquote>
+<ul>
+<li><p>旧的myData和新的myData实际上是相同的物理对象（仅对象内部的值被改变）。由于采用的是triple-equals-equal，检查是否相同的时候并不会告诉我们值是否被改变。惟一可能的解决方法就是创建数据的一个深拷贝副本，接着做深比较，但这对比较大的数据结构而言过于昂贵（特别是循环）</p>
+</li>
+<li><p>myData对象可能包括对函数的引用，该函数通过闭包获取变量。React没有办法获取闭包内部的变量值，因此也没有办法复制和验证它们是否相等</p>
+</li>
+<li><p>myData可能包括父级渲染时重新实例化了的实例对象的引用，但概念上是相等的（具有相同的key和value）。深比较可以检测到这一点，除过这点又会出现新的问题，因为没有办法比较两个函数在语义上是否相同。</p>
+</li>
+</ul>
+</blockquote>
+<p>由于语言的限制，有时我们不可能实现真正意义上相等的语义。在这种情况下，React会调用componentWillReceiveProps方法（即使props可能没有改变），使得组件有机会检测新的props，并采取相应的处理。</p>
+<p>这样一来，实现componentWillReceiveProps方法时候要确保props不能被修改。如果你想在props被改变后执行一些操作（如网络请求），你的componentWillReceiveProps代码需要检查props是否真正的被改变了。</p>
 
       
       
@@ -252,13 +266,13 @@
   
     
 <div class="copyright">
-  <p><span>本文标题:</span><a href="/2015/11/04/JavaScript基础知识点/">JavaScript基础知识点</a></p>
+  <p><span>本文标题:</span><a href="/2016/01/28/A-B-B-A/">(A =&gt; B) !=&gt; (B =&gt; A)</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
-  <p><span>发布时间:</span>2015年11月4日 - 10时11分</p>
-  <p><span>最后更新:</span>2015年11月10日 - 10时11分</p>
+  <p><span>发布时间:</span>2016年1月28日 - 17时01分</p>
+  <p><span>最后更新:</span>2016年1月28日 - 17时01分</p>
   <p>
-    <span>原始链接:</span><a href="/2015/11/04/JavaScript基础知识点/" title="JavaScript基础知识点">http://baizn.github.io/2015/11/04/JavaScript基础知识点/</a>
-    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2015/11/04/JavaScript基础知识点/　　作者: baizn" title="点击复制文章链接">
+    <span>原始链接:</span><a href="/2016/01/28/A-B-B-A/" title="(A =&gt; B) !=&gt; (B =&gt; A)">http://baizn.github.io/2016/01/28/A-B-B-A/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/01/28/A-B-B-A/　　作者: baizn" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -283,16 +297,10 @@
 
 <nav id="article-nav">
   
-    <div id="article-nav-newer" class="article-nav-title">
-      <a href="/2015/11/04/JavaScript之Ajax跨域/">
-        JavaScript之Ajax跨域
-      </a>
-    </div>
-  
   
     <div id="article-nav-older" class="article-nav-title">
-      <a href="/2015/11/03/JavaScript之Cookie/">
-        JavaScript之Cookie
+      <a href="/2016/01/28/翻译-React组件API/">
+        [翻译]React组件API
       </a>
     </div>
   
@@ -305,7 +313,7 @@
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取页面来源"><span class="toc-number">1.</span> <span class="toc-text">获取页面来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取请求的URL"><span class="toc-number">2.</span> <span class="toc-text">获取请求的URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取URL中的查询参数"><span class="toc-number">3.</span> <span class="toc-text">获取URL中的查询参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#动态创建script标签"><span class="toc-number">3.1.</span> <span class="toc-text">动态创建script标签</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#[翻译](A_=>_B)_!=>_(B_=>_A)"><span class="toc-number">1.</span> <span class="toc-text">[翻译](A => B) !=> (B => A)</span></a></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
@@ -359,7 +367,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="JavaScript基础知识点" data-title="JavaScript基础知识点" data-url="http://baizn.github.io/2015/11/04/JavaScript基础知识点/"></div>
+	<div class="ds-thread" data-thread-key="A-B-B-A" data-title="(A =&gt; B) !=&gt; (B =&gt; A)" data-url="http://baizn.github.io/2016/01/28/A-B-B-A/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -396,16 +404,14 @@
 
   
   
-    
     <div  class="post-nav-button">
-    <a href="/2015/11/04/JavaScript之Ajax跨域/" title="上一篇: JavaScript之Ajax跨域">
-    <i class="fa fa-angle-left"></i>
-    </a>
-    <a href="/2015/11/03/JavaScript之Cookie/" title="下一篇: JavaScript之Cookie">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2016/01/28/翻译-React组件API/" title="下一篇: [翻译]React组件API">
     <i class="fa fa-angle-right"></i>
     </a>
     </div>
   
+    
 
 </div>
       <footer id="footer">
