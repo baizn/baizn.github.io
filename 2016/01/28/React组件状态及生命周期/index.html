@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>React组件状态及生命周期 | baizn的github博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[翻译]组件规范和生命周期组件规范当调用React.createClass()方法创建组件的时候，我们应该提供一个包含了render方法的规范的对象，并且可以包含其它生命周期方法的描述。
+
+另外，也可以使用普通的JS类来定义组件。这些类可以实现大多数相同的方法，但也有一些差异。有关这些差异的详细信息，请参考ES6类的文档。
+
+render1ReactElement render()
+render(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React组件状态及生命周期">
+<meta property="og:url" content="http://baizn.github.io/2016/01/28/React组件状态及生命周期/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="[翻译]组件规范和生命周期组件规范当调用React.createClass()方法创建组件的时候，我们应该提供一个包含了render方法的规范的对象，并且可以包含其它生命周期方法的描述。
+
+另外，也可以使用普通的JS类来定义组件。这些类可以实现大多数相同的方法，但也有一些差异。有关这些差异的详细信息，请参考ES6类的文档。
+
+render1ReactElement render()
+render(">
+<meta property="og:updated_time" content="2016-01-28T06:25:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React组件状态及生命周期">
+<meta name="twitter:description" content="[翻译]组件规范和生命周期组件规范当调用React.createClass()方法创建组件的时候，我们应该提供一个包含了render方法的规范的对象，并且可以包含其它生命周期方法的描述。
+
+另外，也可以使用普通的JS类来定义组件。这些类可以实现大多数相同的方法，但也有一些差异。有关这些差异的详细信息，请参考ES6类的文档。
+
+render1ReactElement render()
+render(">
+  
+    <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">baizn</a></h1>
+		</hgroup>
+
+		
+				
+
+
+		
+			<div id="switch-btn" class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div id="switch-area" class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives/">所有文章</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/API/" style="font-size: 12.5px;">API</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BFC/" style="font-size: 10px;">BFC</a> <a href="/tags/CORS/" style="font-size: 10px;">CORS</a> <a href="/tags/CSS/" style="font-size: 12.5px;">CSS</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/Component/" style="font-size: 12.5px;">Component</a> <a href="/tags/Cookie/" style="font-size: 10px;">Cookie</a> <a href="/tags/Document/" style="font-size: 10px;">Document</a> <a href="/tags/Drag/" style="font-size: 10px;">Drag</a> <a href="/tags/ECMAScript/" style="font-size: 15px;">ECMAScript</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6+</a> <a href="/tags/Float/" style="font-size: 10px;">Float</a> <a href="/tags/Flux/" style="font-size: 10px;">Flux</a> <a href="/tags/Function/" style="font-size: 10px;">Function</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MEAT/" style="font-size: 10px;">MEAT</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/Props/" style="font-size: 12.5px;">Props</a> <a href="/tags/React/" style="font-size: 17.5px;">React</a> <a href="/tags/React组件/" style="font-size: 10px;">React组件</a> <a href="/tags/React顶层API/" style="font-size: 10px;">React顶层API</a> <a href="/tags/Redux/" style="font-size: 12.5px;">Redux</a> <a href="/tags/SPA/" style="font-size: 10px;">SPA</a> <a href="/tags/Thunk/" style="font-size: 10px;">Thunk</a> <a href="/tags/action/" style="font-size: 10px;">action</a> <a href="/tags/after伪元素/" style="font-size: 10px;">after伪元素</a> <a href="/tags/alt/" style="font-size: 10px;">alt</a> <a href="/tags/ant-design/" style="font-size: 10px;">ant-design</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/clearfix/" style="font-size: 10px;">clearfix</a> <a href="/tags/codeSplitting/" style="font-size: 10px;">codeSplitting</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/div拖拽/" style="font-size: 10px;">div拖拽</a> <a href="/tags/instanceof/" style="font-size: 10px;">instanceof</a> <a href="/tags/meat/" style="font-size: 10px;">meat</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/reducer/" style="font-size: 10px;">reducer</a> <a href="/tags/referrer/" style="font-size: 10px;">referrer</a> <a href="/tags/state/" style="font-size: 12.5px;">state</a> <a href="/tags/store/" style="font-size: 10px;">store</a> <a href="/tags/type-file/" style="font-size: 10px;">type=file</a> <a href="/tags/typeof/" style="font-size: 10px;">typeof</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/事件处理/" style="font-size: 10px;">事件处理</a> <a href="/tags/优化/" style="font-size: 10px;">优化</a> <a href="/tags/优缺点/" style="font-size: 10px;">优缺点</a> <a href="/tags/作用域/" style="font-size: 10px;">作用域</a> <a href="/tags/单页面Web应用/" style="font-size: 10px;">单页面Web应用</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/可复用组件/" style="font-size: 10px;">可复用组件</a> <a href="/tags/坐标/" style="font-size: 10px;">坐标</a> <a href="/tags/垃圾回收/" style="font-size: 10px;">垃圾回收</a> <a href="/tags/客户端/" style="font-size: 10px;">客户端</a> <a href="/tags/对象/" style="font-size: 10px;">对象</a> <a href="/tags/异步/" style="font-size: 10px;">异步</a> <a href="/tags/引用类型/" style="font-size: 10px;">引用类型</a> <a href="/tags/执行环境/" style="font-size: 10px;">执行环境</a> <a href="/tags/术语/" style="font-size: 10px;">术语</a> <a href="/tags/样式修改/" style="font-size: 10px;">样式修改</a> <a href="/tags/检测/" style="font-size: 10px;">检测</a> <a href="/tags/清除浮动/" style="font-size: 10px;">清除浮动</a> <a href="/tags/状态/" style="font-size: 10px;">状态</a> <a href="/tags/生命周期/" style="font-size: 12.5px;">生命周期</a> <a href="/tags/类型检测/" style="font-size: 10px;">类型检测</a> <a href="/tags/纯函数/" style="font-size: 10px;">纯函数</a> <a href="/tags/继承/" style="font-size: 10px;">继承</a> <a href="/tags/翻译/" style="font-size: 15px;">翻译</a> <a href="/tags/自动分号插入/" style="font-size: 10px;">自动分号插入</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨浏览器/" style="font-size: 10px;">跨浏览器</a> <a href="/tags/连续赋值/" style="font-size: 10px;">连续赋值</a> <a href="/tags/遇到的问题/" style="font-size: 10px;">遇到的问题</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">人活着如果没有梦想，那和咸鱼还有什么区别－－－专注于前端, 专注于JavaScript</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">baizn</a></h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<a href="/" class="profilepic">
+				<img lazy-src="/img/avatar.png" class="js-avatar">
+			</a>
+			<hgroup>
+			  <h1 class="header-author"><a href="/" title="回到主页">baizn</a></h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+						<ul class="social">
+							
+								<li id="Email"><a class="Email" target="_blank" href="/baizhanning@zhubajie.com" title="Email"></a></li>
+					        
+								<li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/baizn/baizn.github.io" title="GitHub"></a></li>
+					        
+								<li id="RSS"><a class="RSS" target="_blank" href="/atom.xml" title="RSS"></a></li>
+					        
+						</ul>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-React组件状态及生命周期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/28/React组件状态及生命周期/" class="article-date">
+  	<time datetime="2016-01-28T06:24:34.000Z" itemprop="datePublished">2016-01-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React组件状态及生命周期
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Props/">Props</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/state/">state</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/状态/">状态</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生命周期/">生命周期</a></li></ul>
+	</div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="[翻译]组件规范和生命周期">[翻译]组件规范和生命周期</h1><h2 id="组件规范">组件规范</h2><p>当调用React.createClass()方法创建组件的时候，我们应该提供一个包含了render方法的规范的对象，并且可以包含其它生命周期方法的描述。</p>
+<blockquote>
+<p>另外，也可以使用普通的JS类来定义组件。这些类可以实现大多数相同的方法，但也有一些差异。有关这些差异的详细信息，请参考<a href="http://baizn.github.io/2016/01/14/%E4%BD%BF%E7%94%A8ES6%E5%BC%80%E5%8F%91React/">ES6类的文档</a>。</p>
+</blockquote>
+<h3 id="render">render</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactElement <span class="function"><span class="title">render</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>render()方法是必须的。</p>
+<p>当调用的时候，会检测this.props和this.state，返回一个单子级组件。改子级组件可以是虚拟的本地DOM组件（如\<div>或React.DOM.div()），也可以是自定义的复合组件。</div></p>
+<p>也可以返回null或false来表明不需要渲染任何东西。实际上，React通过渲染一个\<noscript>标签来处理当前的差异检测逻辑。当返回null或false的时候，React.findDOMNode(this)将返回null。</noscript></p>
+<p>render()函数应该是纯函数，即该函数不修改组件的state，每次调用都返回相同的结果，不读写DOM信息，也不和浏览器交互（如通过使用setTimeout）。如果需要和浏览器交互，在componentDidMount()方法中或其它生命周期方法中来做。保持render()函数为纯函数，可以使得服务端渲染更加切实可行，也使得组件更容易被理解。</p>
+<h3 id="getInitialState">getInitialState</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> <span class="function"><span class="title">getInitialState</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在组件挂载之前调用一次。返回值将会作为this.state的初始值。</p>
+<h3 id="getDefaultProps">getDefaultProps</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> <span class="function"><span class="title">getDefaultProps</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在组件类创建的时候调用一次，然后返回值被缓存下来。如果父组件没有指定props中的某个健，则此处返回的对象中的相应属性会合并到this.props（使用in检测属性）。</p>
+<p>该方法在任何实例创建之前调用，因此不能依赖于this.props。另外，getDefaultProps()返回的任何复杂对象将会在实例间共享，而不是每个实例拥有一份拷贝。</p>
+<h3 id="propTypes">propTypes</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> propTypes</span><br></pre></td></tr></table></figure>
+<p>propTypes对象允许验证传入到组件的props。更多关于propTypes的信息，参考<a href="http://baizn.github.io/2016/01/27/React%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6/">React可复用组件</a> 。</p>
+<h3 id="mixins">mixins</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span> mixins</span><br></pre></td></tr></table></figure>
+<p>mixin数组允许使用混合来在多个组件之间共享行为。更多关于mixin的信息，参考<a href="http://baizn.github.io/2016/01/27/React%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6/">React可复用组件</a> 。</p>
+<h3 id="statics">statics</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> statics</span><br></pre></td></tr></table></figure>
+<p>statics对象允许定义静态方法，这些静态方法可以在组件类上调用。如：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HelloReact = React.createClass(&#123;</span><br><span class="line">	statics: &#123;</span><br><span class="line">		customMethod: <span class="function"><span class="keyword">function</span><span class="params">(foo)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> foo === <span class="string">'bar'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">HelloReact.customMethod(<span class="string">'bar'</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>在这个块里面定义的方法都试静态的，意味着你可以在任何组件实例创建之前调用它们，这些方法不能获取组件的props和state。如果想在静态方法中检测props的值，在调用处把props作为参数传入到静态方法。</p>
+<h3 id="displayName">displayName</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">string</span> displayName</span><br></pre></td></tr></table></figure>
+<p>displayName字符串用于输出调试信息，JSX自动设置该值。</p>
+<h2 id="生命周期方法">生命周期方法</h2><p>许多方法在组件生命周期中某个确定的时间点执行。</p>
+<h3 id="挂载(Mounting)：componentWillMount">挂载(Mounting)：componentWillMount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentWillMount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>服务端和客户端都只调用一次，在初始化渲染执行之前立即调用。如果在这个方法内调用setState，render()将会感知到更新后的state，将会执行一次，尽管state改变了。</p>
+<h3 id="挂载(Mounting)：componentDidMount">挂载(Mounting)：componentDidMount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentDidMount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在初始化渲染执行之后立即调用一次，仅客户端有效（服务端不会调用）。在生命周期的这个时间点上，可以访问子组件的任何refs（如访问底层DOM）。子组件的componentDidMount()方法在父组件之前调用。</p>
+<p>如果想和其它JS框架集成，使用setTimeout或setInterval来设置定时器，或发送AJAX请求，可以在该方法中执行这些操作。</p>
+<h3 id="更新(Updating)：componentWillReceiveProps">更新(Updating)：componentWillReceiveProps</h3><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> componentWillReceiveProps(</span><br><span class="line">	<span class="keyword">object</span> nextProps</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在组件接收到新的props时候调用。在初始化渲染时候，该方法不会被调用。</p>
+<p>用此函数可以作为React在prop传入之后，render()方法被调用之前更新state的机会。老得props可以通过this.props获取到。在该函数中调用this.setState()将不会引起第二次渲染。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">componentWillReceiveProps</span>: <span class="tag">function</span>(nextProps) &#123;</span><br><span class="line">	<span class="tag">this</span><span class="class">.setState</span>(&#123;</span><br><span class="line">		<span class="attribute">likesIncreasing</span>: nextProps.likeCount &gt; this.props.likeCount</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>一个常见的错误是生命周期方法在执行过程中假设props被改变了。要理解这样为什么是无效的，请参考<a href="">A implies B does not imply B implies A</a>。</p>
+<p>没有类似的componentWillReceiveState方法。传入的prop可能会导致state改变，反之则不然。如果需要在state改变的时候执行一些操作，请使用componentWillUpdate。</p>
+</blockquote>
+<h3 id="更新(Updating)：shouleComponentUpdate">更新(Updating)：shouleComponentUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">boolean shouldComponentUpdate(</span><br><span class="line">	<span class="tag">object</span> nextProps, <span class="tag">object</span> nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在接收到新的props或state，将要渲染之前调用。该方法在初始化渲染的时候不会调用，在使用forceUpdate方法时候也不会被调用。</p>
+<p>如果确定新的props或state不会导致组件更新，则此处应该返回false。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> nextProps.id !== <span class="keyword">this</span>.props.id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果shouldComponentUpdate返回false，则render()将不会执行，直到下一次state改变。另外，componentWillUpdate和componentDidUpdate也不会被调用。</p>
+<p>默认情况下，shouldComponentUpdate总会返回true，在state改变的时候可以避免一些细微的BUG，但如果总是小心地把state当做不可变的，在render()中只从props和state读取值，此时可以覆盖shouldComponentUpdate方法，实现新旧props和state的比对逻辑。</p>
+<p>如果性能是个瓶颈，尤其是有几十个甚至上百个组件的时候，使用shouldComponentUpdate可以提升应用的性能。</p>
+<h3 id="更新(Updating)：componentWillUpdate">更新(Updating)：componentWillUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentWillUpdate(</span><br><span class="line">	<span class="tag">object</span> nextProps, <span class="tag">object</span> nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在接收到新的props或state之前立即调用，在初始化渲染的时候该方法不会被调用。</p>
+<p>使用该方法做一些更新之前的准备工作。</p>
+<blockquote>
+<p>在该方法中不能使用this.setState()。如果需要更新state来响应某个prop的改变，请使用componentWillReceiveProps方法。</p>
+</blockquote>
+<h3 id="更新(Updating)：componentDidUpdate">更新(Updating)：componentDidUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void componentDidUpdate(</span><br><span class="line">	<span class="tag">object</span> prevProps, <span class="tag">object</span> prevState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在组件的更新已经同步到DOM中之后立即被调用，该方法不会在初始化渲染的时候调用。</p>
+<p>使用该方法可以在组件更新后操作DOM元素。</p>
+<h3 id="卸载(Unmounting)：componentWillUnmount">卸载(Unmounting)：componentWillUnmount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentWillUnmount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>组件从DOM中卸载之前立即被调用。</p>
+<p>可以在该方法中执行任何必须的清理工作，如清除定时器或清除在componentDidMount中创建的任何DOM元素。</p>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2016/01/28/React组件状态及生命周期/">React组件状态及生命周期</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2016年1月28日 - 14时01分</p>
+  <p><span>最后更新:</span>2016年1月28日 - 14时01分</p>
+  <p>
+    <span>原始链接:</span><a href="/2016/01/28/React组件状态及生命周期/" title="React组件状态及生命周期">http://baizn.github.io/2016/01/28/React组件状态及生命周期/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/01/28/React组件状态及生命周期/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2016/01/27/React可复用组件/">
+        React可复用组件
+      </a>
+    </div>
+  
+</nav>
+
+  
+</article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#[翻译]组件规范和生命周期"><span class="toc-number">1.</span> <span class="toc-text">[翻译]组件规范和生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#组件规范"><span class="toc-number">1.1.</span> <span class="toc-text">组件规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#render"><span class="toc-number">1.1.1.</span> <span class="toc-text">render</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getInitialState"><span class="toc-number">1.1.2.</span> <span class="toc-text">getInitialState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getDefaultProps"><span class="toc-number">1.1.3.</span> <span class="toc-text">getDefaultProps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#propTypes"><span class="toc-number">1.1.4.</span> <span class="toc-text">propTypes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mixins"><span class="toc-number">1.1.5.</span> <span class="toc-text">mixins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#statics"><span class="toc-number">1.1.6.</span> <span class="toc-text">statics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#displayName"><span class="toc-number">1.1.7.</span> <span class="toc-text">displayName</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期方法"><span class="toc-number">1.2.</span> <span class="toc-text">生命周期方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#挂载(Mounting)：componentWillMount"><span class="toc-number">1.2.1.</span> <span class="toc-text">挂载(Mounting)：componentWillMount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#挂载(Mounting)：componentDidMount"><span class="toc-number">1.2.2.</span> <span class="toc-text">挂载(Mounting)：componentDidMount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新(Updating)：componentWillReceiveProps"><span class="toc-number">1.2.3.</span> <span class="toc-text">更新(Updating)：componentWillReceiveProps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新(Updating)：shouleComponentUpdate"><span class="toc-number">1.2.4.</span> <span class="toc-text">更新(Updating)：shouleComponentUpdate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新(Updating)：componentWillUpdate"><span class="toc-number">1.2.5.</span> <span class="toc-text">更新(Updating)：componentWillUpdate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新(Updating)：componentDidUpdate"><span class="toc-number">1.2.6.</span> <span class="toc-text">更新(Updating)：componentDidUpdate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载(Unmounting)：componentWillUnmount"><span class="toc-number">1.2.7.</span> <span class="toc-text">卸载(Unmounting)：componentWillUnmount</span></a></li></ol></li></ol></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="React组件状态及生命周期" data-title="React组件状态及生命周期" data-url="http://baizn.github.io/2016/01/28/React组件状态及生命周期/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+  
+
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    <div  class="post-nav-button">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2016/01/27/React可复用组件/" title="下一篇: React可复用组件">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
+    
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2016 baizn
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+        </div>
+    </div>
+    <div class="visit">
+      <span id="busuanzi_container_site_pv" style='display:none'>
+        <span id="site-visit" >本站到访数: 
+        <span id="busuanzi_value_site_uv"></span>
+        </span>
+      </span>
+      <span id="busuanzi_container_page_pv" style='display:none'>
+        <span id="page-visit">, 本页阅读量: 
+        <span id="busuanzi_value_page_pv"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+  <style type="text/css">
+    body {
+      background: lightgray;
+    }
+    #container .left-col {
+      background: white;
+    }
+    .article-inner {
+      background: white;
+    }
+    .post-nav-button {
+      background: #ececec;
+    }
+    #header .header-nav .social #GitHub {
+      background-color: #bfd3ec;
+    }
+  </style>
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+<a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+<a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
