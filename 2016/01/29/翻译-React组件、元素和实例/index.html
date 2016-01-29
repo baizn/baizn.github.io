@@ -15,7 +15,7 @@
 <meta property="og:description" content="组件、组件实例和元素之间的区别会让很多初学者感到困惑。为什么会有三种不同的术语来指代渲染到屏幕上的东西呢？
 管理实例如果你是React初学者，你可能只会用到组件类和它的实例。例如，你可以通过创建一个类来声明一个Button组件。当应用程序运行的时候，可能会有这个组件的多个实例，每一个都有自己的属性和本地状态。这就是传统的面向对象的GUI编程，为什么要引入元素？
 在这个传统的UI模型中，你需要关心子">
-<meta property="og:updated_time" content="2016-01-29T07:18:20.000Z">
+<meta property="og:updated_time" content="2016-01-29T07:22:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[翻译]React组件、元素和实例">
 <meta name="twitter:description" content="组件、组件实例和元素之间的区别会让很多初学者感到困惑。为什么会有三种不同的术语来指代渲染到屏幕上的东西呢？
@@ -253,7 +253,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> Button,</span><br><span class="line">	props: &#123;</span><br><span class="line">		color: <span class="string">'blue'</span>,</span><br><span class="line">		children: <span class="string">'OK!'</span></span><br><span class="line">	</span></span></span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这就是React的核心理念。</p>
 <p><strong>描述组件的元素也是一个元素，就像描述DOM节点的元素。它们可以彼此嵌套和混合。</strong></p>
-<p>这个特性可以让你使用具有特定的颜色属性值的Button定义一个DangerButton组件，而完全不用担心Button组件渲染到DOM中以后是\<button>、\<div>或别的其它什么东西。</div></button></p>
+<p>这个特性可以让你使用具有特定的颜色属性值的Button定义一个DangerButton组件，而完全不用担心Button组件渲染到DOM中以后是button、div或别的其它什么东西。</p>
 <figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const DangerButton = <span class="function"><span class="params">(&#123; children &#125;)</span> =&gt;</span> (&#123;</span><br><span class="line">	<span class="attribute">type</span>: Button,</span><br><span class="line">	<span class="attribute">props</span>: &#123;</span><br><span class="line">		<span class="attribute">color</span>: <span class="string">'red'</span>,</span><br><span class="line">		<span class="attribute">children</span>: children</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>一个元素树形结构中可以混合和匹配DOM元素和组件元素。</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const DeleteAccount = () =&gt; (&#123;</span><br><span class="line">	type: <span class="string">'div'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		children: [&#123;</span><br><span class="line">			type: <span class="string">'p'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Are you sure?'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: DangerButton,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Yep'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: Button,</span><br><span class="line">			props: &#123;</span><br><span class="line">				color: <span class="string">'blue'</span>,</span><br><span class="line">				children: <span class="string">'Cancel'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
@@ -262,9 +262,9 @@
 <p>这种混合和匹配有助于降低组件之间的耦合度，因此它们完全可以通过一下的结构同时表达is-a和has-a的关系：</p>
 <blockquote>
 <ul>
-<li>Button组件是一个具有特定属性的DOM元素\<button>；</button></li>
+<li>Button组件是一个具有特定属性的DOM元素button；</li>
 <li>DangerButton组件是一个具有特定属性的Button组件；</li>
-<li>DeleteAccount在一个\<div>元素中包含一个Button组件和一个DangerButton组件。</div></li>
+<li>DeleteAccount在一个div元素中包含一个Button组件和一个DangerButton组件。</li>
 </ul>
 </blockquote>
 <h3 id="组件封装元素树">组件封装元素树</h3><p>当React看到一个有function或class类型的元素时，它就会询问这个组件会渲染出什么元素，并提供了哪些对应的props。</p>
