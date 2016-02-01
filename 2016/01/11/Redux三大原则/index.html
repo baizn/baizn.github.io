@@ -5,22 +5,19 @@
   
   <title>Redux三大原则 | baizn的github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##redux三大原则
-###单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
-###State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通">
+  <meta name="description" content="单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
+State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通对象，因此它们可以被日志打印、序列化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redux三大原则">
 <meta property="og:url" content="http://baizn.github.io/2016/01/11/Redux三大原则/index.html">
 <meta property="og:site_name" content="baizn的github博客">
-<meta property="og:description" content="##redux三大原则
-###单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
-###State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通">
-<meta property="og:updated_time" content="2016-01-11T09:30:22.000Z">
+<meta property="og:description" content="单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
+State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通对象，因此它们可以被日志打印、序列化">
+<meta property="og:updated_time" content="2016-02-01T06:41:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redux三大原则">
-<meta name="twitter:description" content="##redux三大原则
-###单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
-###State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通">
+<meta name="twitter:description" content="单一数据源整个应用的state被储存在一颗对象树中，它只有一个单一的store。
+State是只读的唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通对象，因此它们可以被日志打印、序列化">
   
     <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
   
@@ -232,10 +229,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##redux三大原则</p>
-<p>###单一数据源<br><strong>整个应用的state被储存在一颗对象树中，它只有一个单一的store。</strong></p>
-<p>###State是只读的<br><strong>唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。</strong><br>让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通对象，因此它们可以被日志打印、序列化、储存／后期调试或测试时回放出来。</p>
-<p>###纯函数的形式来执行<br><strong>为了描述action如何改变state树，需要编写reducers。</strong><br>Reducer只是一些纯函数，它接收之前的state和action，并返回新的state。reducer只是普通函数，可以控制它们被调用的顺序，并传入附加数据，甚至可以编写可复用的reducer来做一些通用任务，如分页器等。</p>
+        <h3 id="单一数据源">单一数据源</h3><p><strong>整个应用的state被储存在一颗对象树中，它只有一个单一的store。</strong></p>
+<h3 id="State是只读的">State是只读的</h3><p><strong>唯一改变state的办法就是触发action，action是一个描述要发生什么的对象。</strong><br>让视图和网络请求不能直接修改state，相反只能表达出需要修改的意图。因为所有的修改都被集中化处理，且严格按照顺序一个接一个执行，因此没有模棱两可的情况。action就是一个普通对象，因此它们可以被日志打印、序列化、储存／后期调试或测试时回放出来。</p>
+<h3 id="纯函数的形式来执行">纯函数的形式来执行</h3><p><strong>为了描述action如何改变state树，需要编写reducers。</strong><br>Reducer只是一些纯函数，它接收之前的state和action，并返回新的state。reducer只是普通函数，可以控制它们被调用的顺序，并传入附加数据，甚至可以编写可复用的reducer来做一些通用任务，如分页器等。</p>
 
       
       
@@ -251,7 +247,7 @@
   <p><span>本文标题:</span><a href="/2016/01/11/Redux三大原则/">Redux三大原则</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
   <p><span>发布时间:</span>2016年1月11日 - 17时01分</p>
-  <p><span>最后更新:</span>2016年1月11日 - 17时01分</p>
+  <p><span>最后更新:</span>2016年2月1日 - 14时02分</p>
   <p>
     <span>原始链接:</span><a href="/2016/01/11/Redux三大原则/" title="Redux三大原则">http://baizn.github.io/2016/01/11/Redux三大原则/</a>
     <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/01/11/Redux三大原则/　　作者: baizn" title="点击复制文章链接">
@@ -301,7 +297,7 @@
 <!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
 <div id="toc" class="toc-article">
 <strong class="toc-title">文章目录</strong>
-
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#单一数据源"><span class="toc-number">1.</span> <span class="toc-text">单一数据源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#State是只读的"><span class="toc-number">2.</span> <span class="toc-text">State是只读的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#纯函数的形式来执行"><span class="toc-number">3.</span> <span class="toc-text">纯函数的形式来执行</span></a></li></ol>
 </div>
 <style type="text/css">
   .left-col .switch-btn {
