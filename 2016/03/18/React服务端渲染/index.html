@@ -39,7 +39,7 @@ server根据state把组件转换为HTML字符串
 server把HTML和state发到客户端
 
 React提供了renderToString和renderToStaticMarkup两个方法，它们支持将React Comp">
-<meta property="og:updated_time" content="2016-03-18T07:30:29.000Z">
+<meta property="og:updated_time" content="2016-03-22T02:50:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React服务端渲染">
 <meta name="twitter:description" content="服务端渲染作用
@@ -379,7 +379,7 @@ React提供了renderToString和renderToStaticMarkup两个方法，它们支持�
 <li>如何传递state呢？</li>
 </ul>
 <blockquote>
-<p>添加一个\<script>标签，把initialState赋给window._INITIAL<em>STATE</em>，客户端通过window._INITIAL<em>STATE</em>获取initialState。</p>
+<p>添加一个<script>标签，把initialState赋给window._INITIAL<em>STATE</em>，客户端通过window._INITIAL<em>STATE</em>获取initialState。</p>
 </blockquote>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function renderFullPage(html, initialState) &#123;</span><br><span class="line">	return `</span><br><span class="line">		<span class="doctype">&lt;!doctype html&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">title</span>&gt;</span>react server render<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">'container'</span>&gt;</span>$&#123;html&#125;<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">					<span class="built_in">window</span>._INITIAL_STATE_ = $&#123;<span class="built_in">JSON</span>.stringify(initialState)&#125;</span><br><span class="line">				</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'/build/bundle.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br><span class="line">	`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="6_客户端开发">6 客户端开发</h3><p>客户端只需要从window._INITIAL<em>STATE</em>得到初始state，并传给createStore()函数即可。</p>
@@ -429,7 +429,7 @@ React提供了renderToString和renderToStaticMarkup两个方法，它们支持�
   <p><span>本文标题:</span><a href="/2016/03/18/React服务端渲染/">React服务端渲染</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
   <p><span>发布时间:</span>2016年3月18日 - 14时03分</p>
-  <p><span>最后更新:</span>2016年3月18日 - 15时03分</p>
+  <p><span>最后更新:</span>2016年3月22日 - 10时03分</p>
   <p>
     <span>原始链接:</span><a href="/2016/03/18/React服务端渲染/" title="React服务端渲染">http://baizn.github.io/2016/03/18/React服务端渲染/</a>
     <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/03/18/React服务端渲染/　　作者: baizn" title="点击复制文章链接">
