@@ -3,17 +3,42 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: 单页面Web应用 | baizn的github博客</title>
+  <title>ES6中改良的JS缺陷 | baizn的github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="baizn的github博客">
-<meta property="og:url" content="http://baizn.github.io/tags/单页面Web应用/index.html">
+  <meta name="description" content="块级作用域ES5只有函数作用域，ES6提供了let和const来代替var声明变量，新的声明方式支持用大括号表示的块级作用域。
+
+防止变量在作用域外被访问
+防止重复声明变量：ES6不允许在同一个作用域内用let或const重复声明同名变量
+不再需要立即执行的函数表达式
+Babel
+循环体中的闭包不再有问题
+
+词法作用域的this（通过箭头函数）在ES5中，this会随着函数调用位置和调用方式改变，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6中改良的JS缺陷">
+<meta property="og:url" content="http://baizn.github.io/2016/06/06/ES6中改良的JS缺陷/index.html">
 <meta property="og:site_name" content="baizn的github博客">
-<meta property="og:description">
+<meta property="og:description" content="块级作用域ES5只有函数作用域，ES6提供了let和const来代替var声明变量，新的声明方式支持用大括号表示的块级作用域。
+
+防止变量在作用域外被访问
+防止重复声明变量：ES6不允许在同一个作用域内用let或const重复声明同名变量
+不再需要立即执行的函数表达式
+Babel
+循环体中的闭包不再有问题
+
+词法作用域的this（通过箭头函数）在ES5中，this会随着函数调用位置和调用方式改变，">
+<meta property="og:updated_time" content="2016-06-06T08:48:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="baizn的github博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="ES6中改良的JS缺陷">
+<meta name="twitter:description" content="块级作用域ES5只有函数作用域，ES6提供了let和const来代替var声明变量，新的声明方式支持用大括号表示的块级作用域。
+
+防止变量在作用域外被访问
+防止重复声明变量：ES6不允许在同一个作用域内用let或const重复声明同名变量
+不再需要立即执行的函数表达式
+Babel
+循环体中的闭包不再有问题
+
+词法作用域的this（通过箭头函数）在ES5中，this会随着函数调用位置和调用方式改变，">
   
     <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
   
@@ -188,52 +213,217 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-ES6中改良的JS缺陷" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/11/10/单页Web应用/" class="archive-article-date">
-  	<time datetime="2015-11-10T06:31:10.000Z" itemprop="datePublished">Nov 10</time>
+    <div class="article-meta">
+      <a href="/2016/06/06/ES6中改良的JS缺陷/" class="article-date">
+  	<time datetime="2016-06-06T08:33:35.000Z" itemprop="datePublished">2016-06-06</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/10/单页Web应用/">单页Web应用</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES6中改良的JS缺陷
     </h1>
   
 
-        <div class="article-info info-on-archive">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 
-          
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SPA/">SPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/优缺点/">优缺点</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单页面Web应用/">单页面Web应用</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/改进/">改进</a></li></ul>
 	</div>
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="块级作用域">块级作用域</h3><p>ES5只有函数作用域，ES6提供了let和const来代替var声明变量，新的声明方式支持用大括号表示的块级作用域。</p>
+<ul>
+<li>防止变量在作用域外被访问</li>
+<li>防止重复声明变量：ES6不允许在同一个作用域内用let或const重复声明同名变量</li>
+<li>不再需要立即执行的函数表达式</li>
+<li>Babel</li>
+<li>循环体中的闭包不再有问题</li>
+</ul>
+<h3 id="词法作用域的this（通过箭头函数）">词法作用域的this（通过箭头函数）</h3><p>在ES5中，this会随着函数调用位置和调用方式改变，ES6通过箭头函数带来的词法作用域的this消除了这个问题。</p>
+<p>词法作用域的this特性让变量的this总是指向词法声明时的那个对象。</p>
+<h3 id="处理arguments">处理arguments</h3><p>ES5中，arguments表现的像一个数组，但不是真的数组，所以，一切数组方法如sort、slice等都用不了。</p>
+<p>ES6中，可以使用一个新的特性叫做rest参数，它的形式为：<strong>…参数名（如…args）</strong>。rest参数是一个真正的数组。</p>
+<h3 id="类">类</h3><p>ES6之前，JS中没有类的概念，只能把使用new关键字通过函数构造对象当作类来使用。</p>
+<p>ES6带来了新的语法，与其他各种编程语言类似的语法，使得面向对象变的非常简单。</p>
+<h3 id="严格模式">严格模式</h3><p>ES5中，严格模式是可选的，ES6中，许多特性都要求必须使用严格模式。</p>
+<hr>
+<p>参考资料：<a href="http://www.zcfy.cc/article/315?f=tt" target="_blank" rel="external">在ES6中改良的5个JavaScript缺陷</a></p>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
   </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2016/06/06/ES6中改良的JS缺陷/">ES6中改良的JS缺陷</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2016年6月6日 - 16时06分</p>
+  <p><span>最后更新:</span>2016年6月6日 - 16时06分</p>
+  <p>
+    <span>原始链接:</span><a href="/2016/06/06/ES6中改良的JS缺陷/" title="ES6中改良的JS缺陷">http://baizn.github.io/2016/06/06/ES6中改良的JS缺陷/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/06/06/ES6中改良的JS缺陷/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2016/06/02/call-apply-bind详解/">
+        call &amp; apply &amp; bind详解
+      </a>
+    </div>
+  
+</nav>
+
+  
 </article>
+
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#块级作用域"><span class="toc-number">1.</span> <span class="toc-text">块级作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#词法作用域的this（通过箭头函数）"><span class="toc-number">2.</span> <span class="toc-text">词法作用域的this（通过箭头函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理arguments"><span class="toc-number">3.</span> <span class="toc-text">处理arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类"><span class="toc-number">4.</span> <span class="toc-text">类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#严格模式"><span class="toc-number">5.</span> <span class="toc-text">严格模式</span></a></li></ol>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
+
+
+
   
-  
-    </div></section>
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ES6中改良的JS缺陷" data-title="ES6中改良的JS缺陷" data-url="http://baizn.github.io/2016/06/06/ES6中改良的JS缺陷/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    <div  class="post-nav-button">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2016/06/02/call-apply-bind详解/" title="下一篇: call &amp; apply &amp; bind详解">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
     
 
 </div>
@@ -272,9 +462,9 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false
 	}
@@ -328,17 +518,6 @@ MathJax.Hub.Queue(function() {
 <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
 <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
-
-<button class="hide-labels">TAG 开关</button>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
-</script>
-<script>
-$(document).ready(function(){
-  $("button").click(function(){
-    $(".article-info").toggle(200);
-  });
-});
-</script>
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
