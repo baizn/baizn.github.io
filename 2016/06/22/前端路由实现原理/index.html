@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/6 | baizn的github博客</title>
+  <title>前端路由实现原理 | baizn的github博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="baizn的github博客">
-<meta property="og:url" content="http://baizn.github.io/archives/2016/06/index.html">
+  <meta name="description" content="以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。
+123456789101112131415161718192021function Router() &amp;#123;	this.routes = &amp;#123;&amp;#125;;	this.currentUrl = &apos;&apos;;&amp;#125;Router.prototype = &amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端路由实现原理">
+<meta property="og:url" content="http://baizn.github.io/2016/06/22/前端路由实现原理/index.html">
 <meta property="og:site_name" content="baizn的github博客">
-<meta property="og:description">
+<meta property="og:description" content="以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。
+123456789101112131415161718192021function Router() &amp;#123;	this.routes = &amp;#123;&amp;#125;;	this.currentUrl = &apos;&apos;;&amp;#125;Router.prototype = &amp;#1">
+<meta property="og:updated_time" content="2016-06-22T10:04:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="baizn的github博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="前端路由实现原理">
+<meta name="twitter:description" content="以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。
+123456789101112131415161718192021function Router() &amp;#123;	this.routes = &amp;#123;&amp;#125;;	this.currentUrl = &apos;&apos;;&amp;#125;Router.prototype = &amp;#1">
   
     <link rel="alternative" href="/atom.xml" title="baizn的github博客" type="application/atom+xml">
   
@@ -188,114 +192,213 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-前端路由实现原理" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/06/22/前端路由实现原理/" class="archive-article-date">
-  	<time datetime="2016-06-22T10:03:30.000Z" itemprop="datePublished">Jun 22</time>
+    <div class="article-meta">
+      <a href="/2016/06/22/前端路由实现原理/" class="article-date">
+  	<time datetime="2016-06-22T10:03:30.000Z" itemprop="datePublished">2016-06-22</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/22/前端路由实现原理/">前端路由实现原理</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前端路由实现原理
     </h1>
   
 
-        <div class="article-info info-on-archive">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 
-          
+        
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端路由/">前端路由</a></li></ul>
 	</div>
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Router</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.routes = &#123;&#125;;</span><br><span class="line">	<span class="keyword">this</span>.currentUrl = <span class="string">''</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Router.prototype = &#123;</span><br><span class="line">	route: <span class="function"><span class="keyword">function</span>(<span class="params">path, callback</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.routes[path] = callback || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	refresh: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.currentUrl = location.hash.slice(<span class="number">1</span>) || <span class="string">'/'</span>;</span><br><span class="line">		<span class="keyword">this</span>.routes[<span class="keyword">this</span>.currentUrl]();</span><br><span class="line">	&#125;,</span><br><span class="line">	init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="keyword">this</span>.refresh.bind(<span class="keyword">this</span>), <span class="literal">false</span>);</span><br><span class="line">		<span class="built_in">window</span>.addEventListener(<span class="string">'hashchange'</span>, <span class="keyword">this</span>.refresh.bind(<span class="keyword">this</span>), <span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.Router = <span class="keyword">new</span> Router();</span><br><span class="line"><span class="built_in">window</span>.Router.init();</span><br></pre></td></tr></table></figure>
+<p>上面的Router主要提供了三个方法。</p>
+<ul>
+<li>init：监听浏览器URL hash事件</li>
+<li>route：存储路由更新时的URL及回调函数到routes数组中，回调函数负责完成对页面的更新</li>
+<li>refresh：执行当前URL对应的回调函数，更新页面</li>
+</ul>
+<p>使用Router的基本示例如下。</p>
+<p><strong>HTML</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">'#/'</span>&gt;</span>home<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">'#/about'</span>&gt;</span> about <span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>JS</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Router.route(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'home'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Router.route(<span class="string">'/about'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'about'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+      
+
+      <!-- page.path 表示不含根路径的页面网址。还有数种方式可以匹配页面，在此不赘述。 -->
+        
+    </div>
+    
   </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2016/06/22/前端路由实现原理/">前端路由实现原理</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 baizn 的个人博客">baizn</a></p>
+  <p><span>发布时间:</span>2016年6月22日 - 18时06分</p>
+  <p><span>最后更新:</span>2016年6月22日 - 18时06分</p>
+  <p>
+    <span>原始链接:</span><a href="/2016/06/22/前端路由实现原理/" title="前端路由实现原理">http://baizn.github.io/2016/06/22/前端路由实现原理/</a>
+    <span class="btn" data-clipboard-text="原文: http://baizn.github.io/2016/06/22/前端路由实现原理/　　作者: baizn" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.btn'); </script>
+</div>
+<style type="text/css">
+  .copyright p .btn {
+    margin-left: 1em;
+  }
+  .copyright:hover p .btn::after {
+    content: "复制"
+  }
+  .copyright p .btn:hover {
+      color: gray;
+      cursor: pointer;
+    };
+</style>
+
+
+
+<nav id="article-nav">
+  
+  
+    <div id="article-nav-older" class="article-nav-title">
+      <a href="/2016/06/06/ES6中改良的JS缺陷/">
+        ES6中改良的JS缺陷
+      </a>
+    </div>
+  
+</nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/06/06/ES6中改良的JS缺陷/" class="archive-article-date">
-  	<time datetime="2016-06-06T08:33:35.000Z" itemprop="datePublished">Jun 6</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/06/ES6中改良的JS缺陷/">ES6中改良的JS缺陷</a>
-    </h1>
-  
 
-        <div class="article-info info-on-archive">
-          
+<!-- 默认显示文章目录，在文章---前输入toc: false关闭目录 -->
+<!-- Show TOC and tocButton in default, Hide TOC via putting "toc: false" before "---" at [post].md -->
+<div id="toc" class="toc-article">
+<strong class="toc-title">文章目录</strong>
 
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/改进/">改进</a></li></ul>
+</div>
+<style type="text/css">
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script type="text/javascript">
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  /* Show or hide toc when click on tocButton.
+  通过点击设置的按钮显示或者隐藏文章目录.*/
+  toc_button.onclick=function(){
+  if(toc_div.style.display=="none"){
+  toc_div.style.display="block";
+  toc_button.value="隐藏目录";
+  document.getElementById("switch-btn").style.display="none";
+  document.getElementById("switch-area").style.display="none";
+  }
+  else{
+  toc_div.style.display="none";
+  toc_button.value="显示目录";
+  document.getElementById("switch-btn").style.display="block";
+  document.getElementById("switch-area").style.display="block";
+  }
+  }
+</script>
+
+
+<div class="share">
+	<div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+	<a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+	<a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
 	</div>
+	<script>
+	window._bd_share_config={
+		"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
+</div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/06/02/call-apply-bind详解/" class="archive-article-date">
-  	<time datetime="2016-06-02T01:25:03.000Z" itemprop="datePublished">Jun 2</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/06/02/call-apply-bind详解/">call &amp; apply &amp; bind详解</a>
-    </h1>
-  
 
-        <div class="article-info info-on-archive">
-          
 
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apply/">apply</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bind/">bind</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/call/">call</a></li></ul>
-	</div>
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="前端路由实现原理" data-title="前端路由实现原理" data-url="http://baizn.github.io/2016/06/22/前端路由实现原理/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"baizn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
+
+
+
+
+    <style type="text/css">
+    #scroll {
+      display: none;
+    }
+    </style>
+    <div class="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#ds-thread" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    </div>
+
+
+  
+  
+    <div  class="post-nav-button">
+    <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+    <a href="/2016/06/06/ES6中改良的JS缺陷/" title="下一篇: ES6中改良的JS缺陷">
+    <i class="fa fa-angle-right"></i>
+    </a>
+    </div>
+  
     
 
 </div>
@@ -334,8 +437,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false
@@ -390,17 +493,6 @@ MathJax.Hub.Queue(function() {
 <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
 <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
-
-<button class="hide-labels">TAG 开关</button>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
-</script>
-<script>
-$(document).ready(function(){
-  $("button").click(function(){
-    $(".article-info").toggle(200);
-  });
-});
-</script>
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
