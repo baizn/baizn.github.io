@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="baizn的github博客">
 <meta property="og:description" content="以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。
 123456789101112131415161718192021function Router() &amp;#123;	this.routes = &amp;#123;&amp;#125;;	this.currentUrl = &apos;&apos;;&amp;#125;Router.prototype = &amp;#1">
-<meta property="og:updated_time" content="2016-06-22T10:04:24.000Z">
+<meta property="og:updated_time" content="2016-06-22T10:07:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端路由实现原理">
 <meta name="twitter:description" content="以hash形式为例，当URL的hash发生变化时，就会触发hashchange事件，此时可以在该事件的回调方法中进行不同的操作。
@@ -242,6 +242,8 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">'#/'</span>&gt;</span>home<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">'#/about'</span>&gt;</span> about <span class="tag">&lt;/<span class="title">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>JS</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Router.route(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'home'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Router.route(<span class="string">'/about'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'about'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>参考资料</strong></p>
+<p><a href="https://github.com/joeyguo/blog/issues/2" target="_blank" rel="external">前端路由实现与 react-router 源码分析</a></p>
 
       
       
