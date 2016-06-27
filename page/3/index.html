@@ -199,6 +199,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -216,6 +226,180 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/11/Redux详解/" itemprop="url">
+                  Redux详解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-11T17:33:49+08:00" content="2016-01-11">
+              2016-01-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。</p>
+<h3 id="action">action</h3><p>数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。</p>
+<p>这种对数据来源做萃取工作的函数，就叫action。action不是［数据预处理］的功能，而是在web应用中所有的数据与状态的变化，几乎都来自［事件］。</p>
+<p>javascript中的事件：DOM事件、ajax、路由change、setTimeout定时器、自定义事件等。</p>
+<h4 id="action与event(事件)的区别">action与event(事件)的区别</h4><p>在表单keyup事件中，只在e.keyCode等于回车键或取消键时，才出发一类action。DOM事件提供的数据是event对象，里面主要包括跟DOM相关的数据，我们无法直接合并到全局数据对象里，只是将需要的部分数据传入action函数而已。所以，<strong>是event响应函数里主动调用了action函数，并且传入它需要的数据。</strong></p>
+<h3 id="reducer">reducer</h3><p>action仅仅是预处理，将脏数据筛选掉，但没有产生可以直接合并到全局对象的数据和结构，甚至可能只是提供了线索，表示［需要获取那些数据，但数据不在我这里］。action函数的设计，也为它［只提供线索］的做法提供了支持，action函数必须返回一个带有<strong>type</strong>属性的plain object。</p>
+<h4 id="action函数的设计理念">action函数的设计理念</h4><blockquote>
+<ul>
+<li><p>action的参数用来筛选掉脏数据，调用action函数的人，有义务传入他需要的数据</p>
+</li>
+<li><p>action返回的plain object中包含属性为type常量值</p>
+<blockquote>
+<p><em>表明这个对象携带的其他数据应该被［如何］再处理
+</em>或者不带其他数据，仅仅启示已有数据需要如何调整，或需要主要获取那些数据</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<p><strong>reducer就是处理action函数返回的线索的［数据再处理函数］，action是［预处理函数］。</strong></p>
+<p>由于action返回的数据有个固定的结构，所以reducer函数也有固定的结构。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//reducer函数接收两个参数:  全局数据对象<span class="keyword">state</span>以及action函数返回的action对象</span><br><span class="line">//返回新的全局数据对象new <span class="keyword">state</span></span><br><span class="line">export <span class="keyword">default</span>(<span class="keyword">state</span>, action) =&gt; &#123;</span><br><span class="line">	switch(action.type) &#123;</span><br><span class="line">		case A:</span><br><span class="line">			return handleA(<span class="keyword">state</span>);</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			return <span class="keyword">state</span>; //没有匹配上就直接返回原<span class="keyword">state</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>reducer只是一个**匹配模式的东西，真正处理数据的函数，是写到别的地方，只在reducer中调用而已。</p>
+<h4 id="为什么叫reducer函数">为什么叫reducer函数</h4><p>因为action对象各种各样，每种对应某个case，但最后都汇总到state对象，从多到一，是一个减少（reduce）的过程，所以完成这个过程的函数就叫<strong>reducer</strong>。</p>
+<h3 id="combineReducers">combineReducers</h3><p>reducer的第一个参数是全局对象，因此state对象的树形结构必定会随着web应用的复杂性而变得越来越深，当action.type所对应的case只是修改state.a.b.c这个属性时，handleCase函数就会嵌套的特别深，必须在这个函数的头部验证state对象有没有那个属性。<br>需要如下模式：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//这个reducer的<span class="keyword">state</span>属性不是全局<span class="keyword">state</span>本身</span><br><span class="line">//而是他的一个子代属性，如<span class="keyword">state</span>.todos这个对象</span><br><span class="line">//返回的new <span class="keyword">state</span>也会合并到<span class="keyword">state</span>.todos对象中</span><br><span class="line">export <span class="keyword">default</span> (<span class="keyword">state</span>, action) =&gt; &#123;</span><br><span class="line">	switch(action.type) &#123;</span><br><span class="line">		case B:</span><br><span class="line">			return newstate;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上所示，写起来是普通的reducer，但获取的不是全局的state。</p>
+<p><strong>实现方法：</strong>遍历一个［全是方法］的［函数储存对象］，返回新对象，这个新对象的key跟［函数储存对象］一样，它的value则是［函数储存对象］的同名方法接收(state[key], action)参数的返回值。</p>
+<p>目前redux不提供映射到一级以上深度的state的方法，解决思路：</p>
+<blockquote>
+<ul>
+<li>superGetter／superSetter</li>
+<li>嵌套combineReducers</li>
+<li>修改源码，使用模式走transformer</li>
+</ul>
+</blockquote>
+<p>详情参考<a href="http://div.io/topic/1309" target="_blank" rel="external">这里</a>。</p>
+<p>总的来说，combineReduers不是一个必需品，它只是用来分发对象的属性到各个reducer中去，如果觉得太绕，可以直接选择在每个handleCase函数中查询state属性，合成newState并返回即可，这时候，只需要一个reducers函数，它的switch语句处理所有可能的action.type。</p>
+<h3 id="createStore">createStore</h3><p>action函数只返回一个普通对象，是谁把它传递到reducers(state, action)调用呢？reducers | state | action这三个由谁来协调？</p>
+<p>此时，createStore(reducer,initialState)呼之欲出，它接收一个reducer函数跟initialState初始化的全局状态对象，返回几个［公共方法］：dispatch | getState | subscribe。</p>
+<p>createStore的返回值是一个对象，通常保存在store这个变量名里。其实store只是一个方法，没有数据属性的对象，用JSON.stringify去序列化，得到的是空对象。真正的state包含在必包中，通过公用方法getState获取。</p>
+<p>而dispatch方法，是store对象提供的更改currentState这个必包变量的唯一建议途径。</p>
+<p>subscribe方法是一个简单的事件侦听方法，在dispatch里更新完currentState后调用，不管是什么action触发的更新，都会被调用，并且没有任何参数，只是告诉你state更新了。</p>
+<h3 id="bindActionCreators">bindActionCreators</h3><p>通过createStore拿到了store，通过store.dispatch(action)我们可以免去手动调用reducer的负担，只处理action就可以了。这里有两种意义上的action，一种是action创建函数，一种是action对象，action创建函数接收参数并返回一个action对象。</p>
+<p>action创建函数是工厂模式，专门生产action对象。所以通过重命名，更清晰的区分两者，action创建函数就叫actionCreator，它的返回值叫action。</p>
+<p>store.dispatch(action)这里的action是对象，而不是函数，它是actionCreator返回的，所以实际上要这样调用store.dispatch(actionCreator(…args))。</p>
+<p>原本的reducer(state, action)模式，用createStore(reducer, initalState)转换成store.dispatch(action)，发现还不够，再封装一层，这就是函数式思想的体现，通过反复组合，将多参数模式，转化成单参数模式。</p>
+<h4 id="怎样组合">怎样组合</h4><blockquote>
+<p>单个actionCreator，通过bindActionCreator。</p>
+</blockquote>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将actionCreator和dispatch绑定</span></span><br><span class="line"><span class="keyword">let</span> bindActionCreat<span class="subst">or</span> =&gt; (actionCreat<span class="subst">or</span>, dispatch) &#123;</span><br><span class="line">	<span class="keyword">return</span> (<span class="attribute">...</span>args) =&gt; dispatch(actionCreat<span class="subst">or</span>(<span class="attribute">...</span>args));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//普通工厂函数，返回一个对象</span></span><br><span class="line"><span class="keyword">let</span> addItem = text =&gt; (&#123;</span><br><span class="line">	<span class="keyword">type</span>: <span class="string">'ADD_ITEM'</span>,</span><br><span class="line">	text</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//跟store.dispatch绑定，成为真正可以改变currentState的action函数</span></span><br><span class="line"><span class="keyword">let</span> addItem = bindActionCreat<span class="subst">or</span>(addItem, store<span class="built_in">.</span>dispatch);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于多个actionCreator，可以像reducers一样，组成一个key/action组合。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">bindActionCreators</span>(<span class="params">actionCreators, dispatch</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">typeof</span> actionCreators === <span class="string">'function'</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> bindActionCreator(actionCreators, dispatch);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//返回一个改造过的[函数组合]</span></span><br><span class="line">	<span class="keyword">return</span> mapValues(actionCreators, actionCreator =&gt; bindActionCreator(actionCreator, dispatch))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，我们用bindActionCreator得到了真正具有改变全局state能力的许多函数，接下来就是将这些函数分发到各个地方，由各个event自主调用即可。</p>
+<h3 id="redux工作流程">redux工作流程</h3><blockquote>
+<p>首先，需要设计一些［常量］，因为action.type通常是字符串常量。为了便于集中管理，以及利于压缩代码，所以最好将常量单独放在单独的文件夹里，根据类型的不同放置在不同的文件夹中。</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ActionTypes.js 真正改动了数据的 actionType 在这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ADD_ITEM = <span class="string">'ADD_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> DELETE_ITEM = <span class="string">'DELETE_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> DELETE_ITEMS = <span class="string">'DELETE_ITEMS'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> UPDATE_ITEM = <span class="string">'UPDATE_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> UPDATE_ITEMS = <span class="string">'UPDATE_ITEMS'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//API.js 服务端接口统一放这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> API_TODOS = <span class="string">'/todos'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//SocketTypes.js websocket 也触发了某个 action 改变了 state，单独放这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SERVER_UPDATE = <span class="string">'SERVER_UPDATE'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//KeyCode.js 键盘的回车键与取消键对应的编码</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ENTER_KEY = <span class="number">13</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ESCAPE_KEY = <span class="number">27</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//FilterTypes.js 只是筛选数据，没有改变 state 的过滤 action 的常量</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> FILTER_ITEMS = <span class="string">'FILTER_ITEMS'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_ALL = <span class="string">'SHOW_ALL'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_ACTIVE = <span class="string">'SHOW_ACTIVE'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_COMPLETED = <span class="string">'SHOW_COMPLETED'</span></span><br></pre></td></tr></table></figure>
+<p>通过常量设计，可以清晰地反应出我们整个web应用的业务架构设计，这方面如果没设计好，随着应用复杂性的增加，会越来越难以维护。</p>
+<blockquote>
+<p>比设计常量更靠前的，是设计整个应用的state树的结构</p>
+<p>有了常量，就可以写actionCreator了，它们被放置在actions文件里</p>
+</blockquote>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> * as types from <span class="string">'../constants/ActionTypes'</span></span><br><span class="line"></span><br><span class="line">export <span class="function"><span class="keyword">function</span> <span class="title">addItem</span><span class="params">(text)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; type: types.ADD_ITEM, text &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>action是预处理，下一个环节是再处理函数reducer，它们被放置再reducers文件夹里</p>
+</blockquote>
+<h4 id="redux的流程">redux的流程</h4><blockquote>
+<ul>
+<li>设计全局state的数据结构</li>
+<li>设计更改state数据的actionTypes常量以及其他跟视图展现相关的actionTypes常量</li>
+<li>根据actionTypes常量，写actionCreator</li>
+<li>根据各个actionCreator的返回值，涉及reducer做数据的最后处理</li>
+<li>在有了reducer函数之后，creatorStore(reducer, initState)得到store对象</li>
+<li>用bindActionCreators函数将actionCreators和store.dispatch绑定起来，得到一组能够修改全局状态的函数</li>
+<li>分发各个状态修改函数到各个DOM事件中</li>
+</ul>
+</blockquote>
+<h4 id="action_creator函数">action creator函数</h4><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeActionCreator</span><span class="params">(type, <span class="rest_arg">...argNames</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">		let action = &#123;type&#125;;</span><br><span class="line">		argNames.forEach((arg, index) =&gt; &#123;</span><br><span class="line">			action[argNames[index]] = args[i];</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> action;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export <span class="keyword">const</span> addTodo = makeActionCreator(<span class="string">'ADD_TODO'</span>, <span class="string">'todo'</span>);</span><br></pre></td></tr></table></figure>
+<p>参考资料：<a href="http://div.io/topic/1309" target="_blank" rel="external">深入到源码：解读 redux 的设计思路与用法 </a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1413,164 +1597,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/18/React开发躺过的坑/" itemprop="url">
-                  React开发躺过的坑
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-18T16:06:39+08:00" content="2015-11-18">
-              2015-11-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="React开发过程中躺过的坑">React开发过程中躺过的坑</h2><h3 id="Flux异步请求">Flux异步请求</h3><h4 id="使用官方的Flux架构">使用官方的Flux架构</h4><p>解决方案：监听事件方法添加回调函数，在回调函数中传递异步的结果数据，注册Dispatcher时候，等到异步方法执行完成后再触发事件。</p>
-<p>Store中定义的部分关键代码如下：</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="type">CHANGE</span> = 'change';</span><br><span class="line"><span class="keyword">let</span> dataObj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="type">Store</span> = <span class="type">Object</span>.assign(&#123;&#125;, <span class="type">EventMitter</span>.prototype, &#123;</span><br><span class="line">	emitChange() &#123;</span><br><span class="line">		this.emit(<span class="type">CHANGE</span>);</span><br><span class="line">	&#125;,</span><br><span class="line">	addChangeListener(callback) &#123;</span><br><span class="line">		this.on(<span class="type">CHANGE</span>, () =&gt; &#123;</span><br><span class="line">			callback(dataObj);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> getResult = (params) =&gt; &#123;</span><br><span class="line">	$.ajax(&#123;</span><br><span class="line">		url: 'url',</span><br><span class="line">		dataType: 'jsonp'</span><br><span class="line">	&#125;).then(data =&gt; data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">Dispatcher</span>.register(action =&gt; &#123;</span><br><span class="line">	<span class="keyword">var</span> <span class="literal">result</span> = null;</span><br><span class="line">	switch(action.<span class="keyword">type</span>) &#123;</span><br><span class="line">		<span class="keyword">case</span>: <span class="type">Constant</span>.<span class="type">GET_RESULT</span>:</span><br><span class="line">			<span class="literal">result</span> = getResult(action.params);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		default:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="literal">result</span>.then( () =&gt; &#123;</span><br><span class="line">		<span class="type">Store</span>.emitChange();</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>在Component中调用Store的addChangeListener方法时候，在回调中设置state的值。</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Store.addChangeListener(<span class="function"><span class="params">(data)</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">this</span>.setState(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>通过上面的方式可以实现使用官方的Flux时候的异步请求，但这种方式实在太过于麻烦，编写的代码也一定都不直观，可读性较差，为了解决以上问题，我们经过反复的实践及查阅相关资料，最终选用了Flux的另一个实现框架：<strong>alt.js</strong>。</p>
-<h4 id="使用alt-js">使用alt.js</h4><p>使用alt实现异步请求逻辑很清晰，代码结构层级及可读性都大大提升。使用alt的一般流程如下：</p>
-<blockquote>
-<ul>
-<li>定义action：action中发送请求，异步请求成功时候也仅仅只需调用action而已</li>
-<li>定义store：store中绑定请求成功的action，设置state</li>
-<li>Component中使用：通过使用store.listen()和store.unlisten()添加和移除监听事件，其他所有触发事件的事件都只需调用对应的action即可</li>
-</ul>
-</blockquote>
-<p>经过以上三部，已经完美的将alt应用到项目中了。为了方便维护，建议将action中的字符串方法定义为常量。</p>
-<p>使用alt的关键代码如下：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//action.js</span></span><br><span class="line"><span class="keyword">import</span> alt from <span class="string">'alt'</span>;</span><br><span class="line"><span class="keyword">class</span> Action &#123;</span><br><span class="line">	<span class="constructor"><span class="keyword">constructor</span>() </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.generateActions(Constant.GET_RESULT_SUCCESS);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	getResult() &#123;</span><br><span class="line">		$.ajax(&#123;</span><br><span class="line">			url: <span class="string">'url'</span>,</span><br><span class="line">			dataType: <span class="string">'jsonp'</span></span><br><span class="line">		&#125;).then((data) =&gt; &#123;</span><br><span class="line">			<span class="keyword">this</span>.actions.getResultSuccess(data);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> alt.createActions(Action);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Store.js</span></span><br><span class="line"><span class="keyword">import</span> alt from <span class="string">'alt'</span>;</span><br><span class="line"><span class="keyword">import</span> Action from <span class="string">'../actions/Action'</span>;</span><br><span class="line"><span class="keyword">class</span> Store &#123;</span><br><span class="line">	<span class="constructor"><span class="keyword">constructor</span>() </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.bindActions(Action);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	onGetResultSuccess(data) &#123;</span><br><span class="line">		<span class="built_in">Object</span>.assing(<span class="keyword">this</span>, data);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> alt.createStore(Store);</span><br></pre></td></tr></table></figure>
-<h4 id="Redux">Redux</h4><p>后续会使用最近火到没朋友的Redux，该部分未完待续。</p>
-<h3 id="React-router动态路由">React-router动态路由</h3><p>React 0.13.3和react-router 0.13.3的动态路由解决方案：</p>
-<p>使用<a href="https://github.com/luqin/react-router-loader" target="_blank" rel="external">react-router-loader</a>。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'user'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">User</span>')&#125;&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'detail'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">Detail</span>')&#125; /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'setting'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">Setting</span>')&#125; /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">Route</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>React 0.14.0以上的版本及react-router 1.0.0@rc以上的版本，将路由和组件放到同一个目录下面，按路由包含关系组织代码结构。</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const Routes = &#123;</span><br><span class="line">	<span class="attribute">path</span>: <span class="string">'register'</span>,</span><br><span class="line">	getChildRoutes(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, [</span><br><span class="line">				<span class="built_in">require</span>(<span class="string">'./routes/Register'</span>),</span><br><span class="line">				<span class="built_in">require</span>(<span class="string">'./routes/Login'</span>)</span><br><span class="line">			])</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;,</span><br><span class="line">	getIndexRoute(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, &#123;</span><br><span class="line">				<span class="attribute">component</span>: <span class="built_in">require</span>(<span class="string">'./component/Index'</span>)</span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;,</span><br><span class="line">	getComponents(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, <span class="built_in">require</span>(<span class="string">'./components/Main'</span>))</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>具体示例见<a href="https://github.com/baizn/react-router-domand-loading" target="_blank" rel="external">这里</a>。</p>
-<h3 id="webpack打包按需加载">webpack打包按需加载</h3><p>React0.13.3版本，按上面动态路由的方式处理后就可以实现按需打包，每次只加载需要的模块。在数据系统这边，我们的UI采用的是Ant-design组件库，由于React和Ant-design两个的体积已经挺大，因此分模块时候不建议分过多的模块，如果分的过多，每次加载的资源反到更多。</p>
-<p>另外Webpack也支持多入口及chunk特性，具体可参考以下资料：</p>
-<p><a href="https://webpack.github.io/docs" target="_blank" rel="external">Webpack官网</a></p>
-<p><a href="baizn.github.io/2015/11/05/Webpack-code-splitting/">Webpack code splitting</a>。</p>
-<h3 id="React项目部署">React项目部署</h3><p>项目开发时候可以直接使用webpack提供的webpack-dev-server进行测试，但部署到服务器时候需要自己的WEB服务器，需要将Webpack的服务器集成到已有服务器上面（依赖Node.js环境），来使用webpack提供的模块打包和加载功能。</p>
-<p>实现集成只需要将以下代码添加到html中即可。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'http://127.0.0.1:3000/webpack-dev-server.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>为了进一步提升性能和安全性，可使用<a href="nginx.org/en/">Nginx</a>进行代理转发。</p>
-<h3 id="使用Ant-design过程中遇到的问题">使用Ant-design过程中遇到的问题</h3><h4 id="将Echarts封装成React组件">将Echarts封装成React组件</h4><p>当将Echarts封装成React组件使用时候，只有首次才会调用componentDidMount方法，即没有数据时候渲染一次Echarts图表，当有数据时候只调用render方法，不会在调用componentDidMount方法。如果将渲染图表的renderEcharts方法放到render中，react则会提示不要在render中进行refs操作，因此这种方式不合适。正确的做法是使用componentDidMount和componentDidUpdate，在这两个方法中分别调用renderEcharts方法。</p>
-<h4 id="Ant-design_Table_部分渲染不出this-state-xxx_数据">Ant-design Table 部分渲染不出this.state.xxx 数据</h4><p>dataSource={this.state.resultList}，已经正确加载了数据，但页面上没有显示数据，只显示空白row，而将this.state.resultList定义到外面使用就没这个问题。之前的页面直接使用this.state.resultList也没有问题。</p>
-<h4 id="Ant-design_Table不支持复杂的表格">Ant-design Table不支持复杂的表格</h4><p>对于一些很复杂的表格（各种colspan和rowspan，并且合并的单元格不规则），Ant-design的Table组件不支持，需要自己重新封装Table组件。</p>
-<h3 id="Ant-design_0-9-x_中日期选择年月">Ant-design 0.9.x 中日期选择年月</h3><p>Ant-design 0.9.x的文档中没有说明如何设置只选择年月的部分，通过查看源码，发现只选择年月的是单独的一个组件，需要使用Datepicker.MonthPicker引用实现月的选择器。</p>
-<h3 id="React中定义默认props后启动报语法错误">React中定义默认props后启动报语法错误</h3><p>定义如下的默认props属性：</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">	<span class="built_in">text</span>: <span class="string">'baizn'</span>,</span><br><span class="line">	compamy: <span class="string">'bbc'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启动服务器时候报语法错误。</p>
-<p>问题原因：babel默认将ES6代码编译为ES5代码，而static属于ES7中定义的语法，不能识别，因此报语法错误。</p>
-<p>解决方法：webpack配置文件中的babel和babel-loader两个loaders添加stage=0参数，表示将所有属性都编译为ES5代码。</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">loaders: [</span><br><span class="line">	&#123;</span><br><span class="line">		test: <span class="string">'/\.jsx?$/'</span>,</span><br><span class="line">		loaders: [<span class="string">'babel?stage=0'</span>, <span class="string">'babel-loader?stage=0'</span>],</span><br><span class="line">		<span class="keyword">exclude</span>: <span class="regexp">/node_moudles/</span></span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h4 id="Uncaught_TypeError:__storeStore2-default-getData_is_not_a_function">Uncaught TypeError: _storeStore2.default.getData is not a function</h4><blockquote>
-<p>解决方法：检查定义getData方法的文件中是否添加了export default 或 module.exports。</p>
-</blockquote>
-<h4 id="Module_build_failed:_ReferenceError:_[BABEL]…react-js-Child">Module build failed: ReferenceError: [BABEL]…react.js.Child</h4><blockquote>
-<p>npm install –save-dev babel-preset-react babel-preset-es2015</p>
-</blockquote>
-<h4 id="cannot_resolve_module_‘babel-runtime/core-js/object…’">cannot resolve module ‘babel-runtime/core-js/object…’</h4><blockquote>
-<p>npm install babel-polyfill –save</p>
-<p>npm install babel-runtime –save</p>
-<p>npm install babel-plugin-transform-runtime –save</p>
-</blockquote>
-<p>详细资料参考<a href="jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/">这里</a>。</p>
-<h4 id="uncexpected_token_illegal_you_may_need_an_appropriate_loader_to_handle_the_files">uncexpected token illegal you may need an appropriate loader to handle the files</h4><p>css中使用了背景图片，并且都配置了css和png的loader。</p>
-<blockquote>
-<p>将png的loader配置到css前面。</p>
-</blockquote>
-<h4 id="使用require引入模块时候需要使用module-exports=xx方式导出">使用require引入模块时候需要使用module.exports=xx方式导出</h4><h4 id="Warning:_React-createElement:_type_should_not_be_null,_undefined,_boolean,_or_number-_It_should_be_a_string_(for_DOM_elements)_or_a_ReactClass_(for_composite_components)-_Check_the_render_method_of_Home-">Warning: React.createElement: type should not be null, undefined, boolean, or number. It should be a string (for DOM elements) or a ReactClass (for composite components). Check the render method of <code>Home</code>.</h4><blockquote>
-<p>检查import的组件是否export default</p>
-</blockquote>
-<h4 id="Warning:_Failed_propType:_Invalid_prop_data_of_type_object_supplied_to_Home,_expected_array-_Check_the_render_method_of_Connect(Home)-">Warning: Failed propType: Invalid prop <code>data</code> of type <code>object</code> supplied to <code>Home</code>, expected <code>array</code>. Check the render method of <code>Connect(Home)</code>.</h4><blockquote>
-<p>通过this.props传入的值类型和Home.propTypes定义的类型不相同</p>
-</blockquote>
-<h4 id="Warning:_flattenChildren(…):_Encountered_two_children_with_the_same_key,_-$zx-_Child_keys_must_be_unique;_when_two_children_share_a_key,_only_the_first_child_will_be_used-">Warning: flattenChildren(…): Encountered two children with the same key, <code>.$zx</code>. Child keys must be unique; when two children share a key, only the first child will be used.</h4><p>多个元素有相同的key值。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1616,7 +1642,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1625,10 +1651,10 @@
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">93</span>
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

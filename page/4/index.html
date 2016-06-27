@@ -199,6 +199,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -216,6 +226,164 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/18/React开发躺过的坑/" itemprop="url">
+                  React开发躺过的坑
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-18T16:06:39+08:00" content="2015-11-18">
+              2015-11-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="React开发过程中躺过的坑">React开发过程中躺过的坑</h2><h3 id="Flux异步请求">Flux异步请求</h3><h4 id="使用官方的Flux架构">使用官方的Flux架构</h4><p>解决方案：监听事件方法添加回调函数，在回调函数中传递异步的结果数据，注册Dispatcher时候，等到异步方法执行完成后再触发事件。</p>
+<p>Store中定义的部分关键代码如下：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="type">CHANGE</span> = 'change';</span><br><span class="line"><span class="keyword">let</span> dataObj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="type">Store</span> = <span class="type">Object</span>.assign(&#123;&#125;, <span class="type">EventMitter</span>.prototype, &#123;</span><br><span class="line">	emitChange() &#123;</span><br><span class="line">		this.emit(<span class="type">CHANGE</span>);</span><br><span class="line">	&#125;,</span><br><span class="line">	addChangeListener(callback) &#123;</span><br><span class="line">		this.on(<span class="type">CHANGE</span>, () =&gt; &#123;</span><br><span class="line">			callback(dataObj);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> getResult = (params) =&gt; &#123;</span><br><span class="line">	$.ajax(&#123;</span><br><span class="line">		url: 'url',</span><br><span class="line">		dataType: 'jsonp'</span><br><span class="line">	&#125;).then(data =&gt; data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">Dispatcher</span>.register(action =&gt; &#123;</span><br><span class="line">	<span class="keyword">var</span> <span class="literal">result</span> = null;</span><br><span class="line">	switch(action.<span class="keyword">type</span>) &#123;</span><br><span class="line">		<span class="keyword">case</span>: <span class="type">Constant</span>.<span class="type">GET_RESULT</span>:</span><br><span class="line">			<span class="literal">result</span> = getResult(action.params);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		default:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="literal">result</span>.then( () =&gt; &#123;</span><br><span class="line">		<span class="type">Store</span>.emitChange();</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>在Component中调用Store的addChangeListener方法时候，在回调中设置state的值。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Store.addChangeListener(<span class="function"><span class="params">(data)</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">this</span>.setState(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>通过上面的方式可以实现使用官方的Flux时候的异步请求，但这种方式实在太过于麻烦，编写的代码也一定都不直观，可读性较差，为了解决以上问题，我们经过反复的实践及查阅相关资料，最终选用了Flux的另一个实现框架：<strong>alt.js</strong>。</p>
+<h4 id="使用alt-js">使用alt.js</h4><p>使用alt实现异步请求逻辑很清晰，代码结构层级及可读性都大大提升。使用alt的一般流程如下：</p>
+<blockquote>
+<ul>
+<li>定义action：action中发送请求，异步请求成功时候也仅仅只需调用action而已</li>
+<li>定义store：store中绑定请求成功的action，设置state</li>
+<li>Component中使用：通过使用store.listen()和store.unlisten()添加和移除监听事件，其他所有触发事件的事件都只需调用对应的action即可</li>
+</ul>
+</blockquote>
+<p>经过以上三部，已经完美的将alt应用到项目中了。为了方便维护，建议将action中的字符串方法定义为常量。</p>
+<p>使用alt的关键代码如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//action.js</span></span><br><span class="line"><span class="keyword">import</span> alt from <span class="string">'alt'</span>;</span><br><span class="line"><span class="keyword">class</span> Action &#123;</span><br><span class="line">	<span class="constructor"><span class="keyword">constructor</span>() </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.generateActions(Constant.GET_RESULT_SUCCESS);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	getResult() &#123;</span><br><span class="line">		$.ajax(&#123;</span><br><span class="line">			url: <span class="string">'url'</span>,</span><br><span class="line">			dataType: <span class="string">'jsonp'</span></span><br><span class="line">		&#125;).then((data) =&gt; &#123;</span><br><span class="line">			<span class="keyword">this</span>.actions.getResultSuccess(data);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> alt.createActions(Action);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Store.js</span></span><br><span class="line"><span class="keyword">import</span> alt from <span class="string">'alt'</span>;</span><br><span class="line"><span class="keyword">import</span> Action from <span class="string">'../actions/Action'</span>;</span><br><span class="line"><span class="keyword">class</span> Store &#123;</span><br><span class="line">	<span class="constructor"><span class="keyword">constructor</span>() </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.bindActions(Action);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	onGetResultSuccess(data) &#123;</span><br><span class="line">		<span class="built_in">Object</span>.assing(<span class="keyword">this</span>, data);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> alt.createStore(Store);</span><br></pre></td></tr></table></figure>
+<h4 id="Redux">Redux</h4><p>后续会使用最近火到没朋友的Redux，该部分未完待续。</p>
+<h3 id="React-router动态路由">React-router动态路由</h3><p>React 0.13.3和react-router 0.13.3的动态路由解决方案：</p>
+<p>使用<a href="https://github.com/luqin/react-router-loader" target="_blank" rel="external">react-router-loader</a>。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'user'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">User</span>')&#125;&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'detail'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">Detail</span>')&#125; /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">Route</span> <span class="attribute">name</span>=<span class="value">'setting'</span> <span class="attribute">component</span>=<span class="value">&#123;require('react-router?name=user!.</span>/<span class="attribute">Setting</span>')&#125; /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">Route</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>React 0.14.0以上的版本及react-router 1.0.0@rc以上的版本，将路由和组件放到同一个目录下面，按路由包含关系组织代码结构。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const Routes = &#123;</span><br><span class="line">	<span class="attribute">path</span>: <span class="string">'register'</span>,</span><br><span class="line">	getChildRoutes(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, [</span><br><span class="line">				<span class="built_in">require</span>(<span class="string">'./routes/Register'</span>),</span><br><span class="line">				<span class="built_in">require</span>(<span class="string">'./routes/Login'</span>)</span><br><span class="line">			])</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;,</span><br><span class="line">	getIndexRoute(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, &#123;</span><br><span class="line">				<span class="attribute">component</span>: <span class="built_in">require</span>(<span class="string">'./component/Index'</span>)</span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;,</span><br><span class="line">	getComponents(location, callback) &#123;</span><br><span class="line">		<span class="built_in">require</span>.ensure([], <span class="function"><span class="params">(<span class="built_in">require</span>)</span> =&gt;</span> &#123;</span><br><span class="line">			callback(<span class="literal">null</span>, <span class="built_in">require</span>(<span class="string">'./components/Main'</span>))</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体示例见<a href="https://github.com/baizn/react-router-domand-loading" target="_blank" rel="external">这里</a>。</p>
+<h3 id="webpack打包按需加载">webpack打包按需加载</h3><p>React0.13.3版本，按上面动态路由的方式处理后就可以实现按需打包，每次只加载需要的模块。在数据系统这边，我们的UI采用的是Ant-design组件库，由于React和Ant-design两个的体积已经挺大，因此分模块时候不建议分过多的模块，如果分的过多，每次加载的资源反到更多。</p>
+<p>另外Webpack也支持多入口及chunk特性，具体可参考以下资料：</p>
+<p><a href="https://webpack.github.io/docs" target="_blank" rel="external">Webpack官网</a></p>
+<p><a href="baizn.github.io/2015/11/05/Webpack-code-splitting/">Webpack code splitting</a>。</p>
+<h3 id="React项目部署">React项目部署</h3><p>项目开发时候可以直接使用webpack提供的webpack-dev-server进行测试，但部署到服务器时候需要自己的WEB服务器，需要将Webpack的服务器集成到已有服务器上面（依赖Node.js环境），来使用webpack提供的模块打包和加载功能。</p>
+<p>实现集成只需要将以下代码添加到html中即可。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'http://127.0.0.1:3000/webpack-dev-server.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为了进一步提升性能和安全性，可使用<a href="nginx.org/en/">Nginx</a>进行代理转发。</p>
+<h3 id="使用Ant-design过程中遇到的问题">使用Ant-design过程中遇到的问题</h3><h4 id="将Echarts封装成React组件">将Echarts封装成React组件</h4><p>当将Echarts封装成React组件使用时候，只有首次才会调用componentDidMount方法，即没有数据时候渲染一次Echarts图表，当有数据时候只调用render方法，不会在调用componentDidMount方法。如果将渲染图表的renderEcharts方法放到render中，react则会提示不要在render中进行refs操作，因此这种方式不合适。正确的做法是使用componentDidMount和componentDidUpdate，在这两个方法中分别调用renderEcharts方法。</p>
+<h4 id="Ant-design_Table_部分渲染不出this-state-xxx_数据">Ant-design Table 部分渲染不出this.state.xxx 数据</h4><p>dataSource={this.state.resultList}，已经正确加载了数据，但页面上没有显示数据，只显示空白row，而将this.state.resultList定义到外面使用就没这个问题。之前的页面直接使用this.state.resultList也没有问题。</p>
+<h4 id="Ant-design_Table不支持复杂的表格">Ant-design Table不支持复杂的表格</h4><p>对于一些很复杂的表格（各种colspan和rowspan，并且合并的单元格不规则），Ant-design的Table组件不支持，需要自己重新封装Table组件。</p>
+<h3 id="Ant-design_0-9-x_中日期选择年月">Ant-design 0.9.x 中日期选择年月</h3><p>Ant-design 0.9.x的文档中没有说明如何设置只选择年月的部分，通过查看源码，发现只选择年月的是单独的一个组件，需要使用Datepicker.MonthPicker引用实现月的选择器。</p>
+<h3 id="React中定义默认props后启动报语法错误">React中定义默认props后启动报语法错误</h3><p>定义如下的默认props属性：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">	<span class="built_in">text</span>: <span class="string">'baizn'</span>,</span><br><span class="line">	compamy: <span class="string">'bbc'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动服务器时候报语法错误。</p>
+<p>问题原因：babel默认将ES6代码编译为ES5代码，而static属于ES7中定义的语法，不能识别，因此报语法错误。</p>
+<p>解决方法：webpack配置文件中的babel和babel-loader两个loaders添加stage=0参数，表示将所有属性都编译为ES5代码。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">loaders: [</span><br><span class="line">	&#123;</span><br><span class="line">		test: <span class="string">'/\.jsx?$/'</span>,</span><br><span class="line">		loaders: [<span class="string">'babel?stage=0'</span>, <span class="string">'babel-loader?stage=0'</span>],</span><br><span class="line">		<span class="keyword">exclude</span>: <span class="regexp">/node_moudles/</span></span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4 id="Uncaught_TypeError:__storeStore2-default-getData_is_not_a_function">Uncaught TypeError: _storeStore2.default.getData is not a function</h4><blockquote>
+<p>解决方法：检查定义getData方法的文件中是否添加了export default 或 module.exports。</p>
+</blockquote>
+<h4 id="Module_build_failed:_ReferenceError:_[BABEL]…react-js-Child">Module build failed: ReferenceError: [BABEL]…react.js.Child</h4><blockquote>
+<p>npm install –save-dev babel-preset-react babel-preset-es2015</p>
+</blockquote>
+<h4 id="cannot_resolve_module_‘babel-runtime/core-js/object…’">cannot resolve module ‘babel-runtime/core-js/object…’</h4><blockquote>
+<p>npm install babel-polyfill –save</p>
+<p>npm install babel-runtime –save</p>
+<p>npm install babel-plugin-transform-runtime –save</p>
+</blockquote>
+<p>详细资料参考<a href="jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/">这里</a>。</p>
+<h4 id="uncexpected_token_illegal_you_may_need_an_appropriate_loader_to_handle_the_files">uncexpected token illegal you may need an appropriate loader to handle the files</h4><p>css中使用了背景图片，并且都配置了css和png的loader。</p>
+<blockquote>
+<p>将png的loader配置到css前面。</p>
+</blockquote>
+<h4 id="使用require引入模块时候需要使用module-exports=xx方式导出">使用require引入模块时候需要使用module.exports=xx方式导出</h4><h4 id="Warning:_React-createElement:_type_should_not_be_null,_undefined,_boolean,_or_number-_It_should_be_a_string_(for_DOM_elements)_or_a_ReactClass_(for_composite_components)-_Check_the_render_method_of_Home-">Warning: React.createElement: type should not be null, undefined, boolean, or number. It should be a string (for DOM elements) or a ReactClass (for composite components). Check the render method of <code>Home</code>.</h4><blockquote>
+<p>检查import的组件是否export default</p>
+</blockquote>
+<h4 id="Warning:_Failed_propType:_Invalid_prop_data_of_type_object_supplied_to_Home,_expected_array-_Check_the_render_method_of_Connect(Home)-">Warning: Failed propType: Invalid prop <code>data</code> of type <code>object</code> supplied to <code>Home</code>, expected <code>array</code>. Check the render method of <code>Connect(Home)</code>.</h4><blockquote>
+<p>通过this.props传入的值类型和Home.propTypes定义的类型不相同</p>
+</blockquote>
+<h4 id="Warning:_flattenChildren(…):_Encountered_two_children_with_the_same_key,_-$zx-_Child_keys_must_be_unique;_when_two_children_share_a_key,_only_the_first_child_will_be_used-">Warning: flattenChildren(…): Encountered two children with the same key, <code>.$zx</code>. Child keys must be unique; when two children share a key, only the first child will be used.</h4><p>多个元素有相同的key值。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1732,117 +1900,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/05/Webpack-缓存策略/" itemprop="url">
-                  Webpack 缓存策略
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-05T16:43:58+08:00" content="2015-11-05">
-              2015-11-05
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Long_Term_Caching">Long Term Caching</h2><p>为了有效缓存文件，在URL中应该有一个hash或版本。我们就可以在output文件夹中emit或move一个版本为V1.3的文件夹。但这是几个缺点：开发的额外的文件和未更改的文件不能从缓存中获取。</p>
-<p>Webpack可以为文件的文件名添加hash值。Loaders已经做到了这些。对于chunks，我们必须让它可用。这里有两种级别：</p>
-<blockquote>
-<ul>
-<li>Compute a hash of all chunks and add it：计算所有chunks的hash值然后添加</li>
-<li>Compute a hash per chunk and add it</li>
-</ul>
-</blockquote>
-<h3 id="One_hash_for_the_bundle">One hash for the bundle</h3><p>通过在配置选项中给文件名添加[hash]来激活。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="tag">output</span>: &#123;</span><br><span class="line">		<span class="attribute">path</span>: path.<span class="function">join</span>(__dirname, <span class="string">'assets'</span>, <span class="string">'[hash]'</span>),</span><br><span class="line">		<span class="attribute">publicPath</span>: <span class="string">'assets/[hash]'</span>,</span><br><span class="line">		<span class="attribute">filename</span>: <span class="string">'output.[hash].bundle.js'</span>,</span><br><span class="line">		<span class="attribute">chunkFilename</span>: <span class="string">'[id].[hash].bundle.js'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="One_hash_per_chunk">One hash per chunk</h3><p>通过在配置文件中给chunk filename添加[chunkhash]来激活。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">output</span>: <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">chunkFilename</span>:<span class="value"> <span class="string">'[chunkhash].bundle.js'</span></span><br><span class="line"></span></span></span>&#125;</span><br></pre></td></tr></table></figure>
-<p>需要在HTML文件中引入这个具有hash的entry chunk。</p>
-<p>为了保证Hot Code Replacement的功能，建议使用<strong>One hash for the bundle</strong>。</p>
-<h3 id="Get_filenames_from_stats">Get filenames from stats</h3><p>我们可能想获得asset中最终的文件并把它添加到HTML中。这个在webpack stats是可以实现的。如果使用CLI，可以添加–json并运行它就能获取到stats的JSON格式。</p>
-<p>我们可以在配置中添加一个插件，如assets-webpack-plugin，该插件允许读取stats对象。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.plugin(<span class="string">'done'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">stats</span>) </span>&#123;</span><br><span class="line">			<span class="built_in">require</span>(<span class="string">'fs'</span>).writeFileSync(</span><br><span class="line">				path.join(__dirname, <span class="string">'...'</span>, <span class="string">'stats.json'</span>);</span><br><span class="line">				<span class="built_in">JSON</span>.stringify(stats.toJson());</span><br><span class="line">			);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>stats JSON中有一个关键属性assetsByChunkName，它是一个对象，chunk name是key，filename(s)是value。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1888,7 +1945,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1897,10 +1954,10 @@
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">93</span>
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

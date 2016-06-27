@@ -199,6 +199,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -216,6 +226,145 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/27/翻译-React性能优化/" itemprop="url">
+                  [翻译]React性能优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-27T09:36:04+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>考虑是否使用react开发项目时，人们第一个反应就是react开发的应用程序的响应速度和非React应用程序相比哪个更快。每一个state状态的改变都会引起组件树的重新渲染，使得人们怀疑这种机制是否会对性能造成影响。React使用几个巧妙的技巧来最小化更新UI，避免昂贵的DOM操作。</p>
+<h3 id="使用生产版本">使用生产版本</h3><p>如果你发现了React应用的性能问题，请确保使用的是压缩后的生产版本。开发版包括了一些额外的警告信息，在开发应用过程中非常有用，但由于要记录额外的信息，因此相比生产版本较慢。</p>
+<h3 id="避免调和DOM">避免调和DOM</h3><p>React使用虚拟DOM，在浏览器中呈现的是DOM树的描述。同时，React中应避免创建DOM节点和访问现有的DOM元素，因为这样要比操作JS对象慢。当一个组件的Props或state改变时，React通过构建一个新的虚拟DOM和旧的进行比较，来决定是否有必要更新实际的DOM。只有在它们不等的情况下，React才会尽可能小的更新DOM。</p>
+<p>在此之上，React提供了一个组件生命周期函数，shouldComponentUpdate，该方法在组件重新渲染之前触发，开发人员可以决定是否进行渲染。该方法默认返回true，React执行更新：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请记住，React会经常调用这个方法，因此该方法中的逻辑实现要尽可能的快。</p>
+<p>假设你有一个消息应用的几个即时消息线程。假设只有一个线程改变了，如果我们在ChatThread组件上实现了shouldComponentUpdate方法，React就会跳过其他线程的渲染：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，总之，React允许用户在shouldComponentUpdate方法中取消渲染过程，避免昂贵的DOM更新操作，并且，对于哪些必须的，通过比较虚拟DOM来更新。</p>
+<h3 id="shouldComponentUpdate_in_action">shouldComponentUpdate in action</h3><p>有一个组件的子树。每一个shouldComponentUpdate的返回值都取决于虚拟DOM的比较结果。最后，圆圈的颜色就表明组件是否需要被调和。</p>
+<p>在上面的例子中，因为shouldComponentUpdate在子树C2节点上返回false，React就不会生成新的虚拟DOM，因此，也就不需要调和DOM。需要注意的是React在C4和C5上甚至都没有调用shouldComponentUpdate。</p>
+<p>C1和C3节点shouldComponentUpdate返回true，因此React需要深入到子叶去比对。C6返回true，由于虚拟DOM不相等，需要调和DOM。最有趣的节点是C8，对于该节点，React必须计算虚拟DOM，但由于和旧的不相等，因此不需要调和DOM。</p>
+<p>请注意，React只有在C6节点上需要做DOM更新，这是不可避免的。对于C8，通过比较虚拟DOM确定了它们不需要调和，对于C2的子树和C7，甚至都没有计算虚拟DOM，通过shouldComponentUpdate来进行确认。</p>
+<p>那么，我们应该如何实现shouldComponentUpdate呢？假设有一个渲染一个字符串的组件：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		<span class="keyword">value</span>: React.PropTypes.string.isRequired</span><br><span class="line">	&#125;,</span><br><span class="line">	</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;this.props.<span class="keyword">value</span>&#125;&lt;/div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以很容易的实现shouldComponentUpdate：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.props.value !== nextProps.value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理这种简单的props和state结构是比较容易的。但是，组件的props或state是可变的数据结果呢？如果props接收一个JS对象，包括一个字符串，如{foo: ‘bar’}：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		<span class="keyword">value</span>: React.PropTypes.<span class="keyword">object</span>.isRequired</span><br><span class="line">	&#125;,</span><br><span class="line">	</span><br><span class="line">	render: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;<span class="keyword">this</span>.props.<span class="keyword">value</span>.foo&#125;&lt;/div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>shouldComponentUpdate的实现并不总是符合预期的。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.props.<span class="keyword">value</span> = &#123;foo: <span class="string">'bar'</span>&#125;</span><br><span class="line">nextProps.<span class="keyword">value</span> = &#123;foo: <span class="string">'bar'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这是两个不同的引用</span></span><br><span class="line"><span class="keyword">this</span>.props.<span class="keyword">value</span> !== nextProps.<span class="keyword">value</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>问题是当props没有改变的时候shouldComponentUpdate居然返回true。为了解决这个问题，我们可以使用如下实现方式：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.props.value.foo !== nextProps.value.foo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上，我们最终做了深度的比较，以确保我们正确的跟踪变化。在性能方面，这种做法是非常昂贵的。它不能扩展，我们不得为每个模块便携不同的深度比较的方法。最重要的是，如果我们没能很好的管理对象的引用，它可能就会不起作用。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	getInitialState: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="keyword">value</span>: &#123;</span><br><span class="line">				foo: <span class="string">'bar'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;,</span><br><span class="line">	onClick: <span class="keyword">function</span>() &#123;</span><br><span class="line">		var <span class="keyword">value</span> = <span class="keyword">this</span>.state.<span class="keyword">value</span>;</span><br><span class="line">		<span class="keyword">value</span>.foo += <span class="string">'bar'</span>; </span><br><span class="line">		<span class="keyword">this</span>.setState(&#123;</span><br><span class="line">			<span class="keyword">value</span>: <span class="keyword">value</span></span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;,</span><br><span class="line">	render: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;InnerComponent <span class="keyword">value</span>=&#123;<span class="keyword">this</span>.state.<span class="keyword">value</span>&#125; /&gt;</span><br><span class="line">				&lt;a onClick=&#123;<span class="keyword">this</span>.onClick&#125;&gt;Click Me&lt;/a&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>内部组件先被渲染，{foo: ‘bar’}作为它的props。如果用户点击了a链接，则父组件的state被更新为{value: {foo: ‘barbar’}}，触发内部组件重新渲染，它将接收新的props值{foo: ‘barbar’}。</p>
+<p>这个问题是由于父组件和子组件引用同一个对象，当对象在onClick方法中变了时，子组件的props也跟着改变了。因此，当重渲染过程开始时，shouldComponentUpdate方法就会被调用，this.props.value.foo和nextProps.value.foo相等，实际上，this.props.value和nextProps.value引用的是同一个对象。</p>
+<p>因此，我们就会想到prop的改变和阻止重新渲染的过程，bar变成barbar时UI将不会被更新。</p>
+<h3 id="Immutable-js_to_the_rescue">Immutable-js to the rescue</h3><p>Immutable-js通过结构共享，提供了不可变持久化数据集合。</p>
+<ul>
+<li>Immutable（不可变）：一旦创建，集合就不能在另一个时间点被改变；</li>
+<li>Persistent（持久性）：新的集合可以由以前的集合创建。创建新的集合后对原始集合依然有效；</li>
+<li>Structural Sharing（结构共享）：创建新集合时候尽可能使用有相同结构的原始集合，将复制过程减少到最小，以实现空间效率和可接受的性能。如果新集合和原始集合相同，则返回原始集合。</li>
+</ul>
+<p>不可变使得追踪变化很容易，一个变化总是在新对象的结果中 ，因此只需检查这个对象的引用是否改变。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = &#123;foo: <span class="string">'bar'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> y = x;</span><br><span class="line">y.foo = <span class="string">'baz'</span>;</span><br><span class="line">x === y; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>虽然y被编辑了，由于它和x引用的是同一个对象，因此这种比较返回true。然而，这种代码可以使用不可变JS来写：</p>
+<pre><code><span class="keyword">var</span> SomeRecord = Immutable.Record({foo: <span class="literal">null</span>});
+<span class="keyword">var</span> x = <span class="keyword">new</span> SomeRecord({foo: <span class="string">'bar'</span>});
+<span class="keyword">var</span> y = x.<span class="keyword">set</span>(<span class="string">'foo'</span>, <span class="string">'baz'</span>);
+x === y; <span class="comment">// false</span>
+</code></pre><p>在这种情况下，当x改变时候返回一个新的引用，我们可以更安全的假定x已经改变。</p>
+<p>另一种可能就是设置一个标识，通过脏检查来跟踪变化。这种方法的一个问题是强制我们使用setters，既要写很多无关的代码，又和代码类耦合。或者，在一个对象改变前深copy，或深比较以确认是否时候。这种方法的问题是深copy和深比较都是很耗性能的。</p>
+<p>因此，不可变数据结构提供了更简洁和便利的跟踪对象变化的方式，需要实现shouldComponentUpdate方法。因此，如果我们的props和state使用immutable-js提供的抽象模型，我们将可以使用PureRenderMixin在pref中获得很好的推动作用。</p>
+<p><strong>说明</strong></p>
+<p><em>调和：state 改变导致 Virtual DOM 改变，计算真实 DOM 该如何改变的过程。</em></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1383,166 +1532,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/29/翻译-React组件、元素和实例/" itemprop="url">
-                  [翻译]React组件、元素和实例
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-29T15:14:42+08:00" content="2016-01-29">
-              2016-01-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>组件、组件实例和元素之间的区别会让很多初学者感到困惑。为什么会有三种不同的术语来指代渲染到屏幕上的东西呢？</p>
-<h3 id="管理实例">管理实例</h3><p>如果你是React初学者，你可能只会用到组件类和它的实例。例如，你可以通过创建一个类来声明一个Button组件。当应用程序运行的时候，可能会有这个组件的多个实例，每一个都有自己的属性和本地状态。这就是传统的面向对象的GUI编程，为什么要引入元素？</p>
-<p>在这个传统的UI模型中，你需要关心子组件实例的创建和销毁。如果一个Form组件要渲染一个Button组件，需要创建它的实例，并且需要手动更新它的状态。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Form</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">TraditionalObjectOrientedView</span> &#123;</span></span><br><span class="line">	render() &#123;</span><br><span class="line">		const &#123; isSubmitted, buttonText &#125; = <span class="keyword">this</span>.attrs;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(!isSubmitted &amp;&amp; !<span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//form还没有提交，创建Button实例</span></span><br><span class="line">			<span class="keyword">this</span>.button = <span class="keyword">new</span> <span class="type">Button</span>(&#123;</span><br><span class="line">				children: buttonText,</span><br><span class="line">				color: <span class="symbol">'blu</span>e'</span><br><span class="line">			&#125;);</span><br><span class="line">			<span class="keyword">this</span>.el.appendChild(<span class="keyword">this</span>.button.el);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//button是可用的，更新文本信息</span></span><br><span class="line">			<span class="keyword">this</span>.button.attrs.children = buttonText;</span><br><span class="line">			<span class="keyword">this</span>.button.render();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(isSubmitted &amp;&amp; <span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//表单已提交，销毁button组件实例</span></span><br><span class="line">			<span class="keyword">this</span>.el.removeChild(<span class="keyword">this</span>.button.el);</span><br><span class="line">			<span class="keyword">this</span>.button.destory();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(isSubmmited &amp;&amp; !<span class="keyword">this</span>.message) &#123;</span><br><span class="line">			<span class="comment">//表单提交成功，显示提示信息</span></span><br><span class="line">			<span class="keyword">this</span>.message = <span class="keyword">new</span> <span class="type">Message</span>(&#123;text: <span class="symbol">'succes</span>s'&#125;);</span><br><span class="line">			<span class="keyword">this</span>.el.appendChild(<span class="keyword">this</span>.message.el);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是伪代码，当你使用比如Backbone这种传统的面向对象的库开发复合UI代码时，最终或多或少有这种体验。</p>
-<p>每个组件实例都要保持对DOM节点和子组件实例的引用，在适合的时间创建，更新并销毁。</p>
-<p>随着代码量的增加，组件可能的状态数会按平方级增长，并且父级可以直接访问子组件的实例，将来想要解偶就会变的非常困难。</p>
-<p>那么，React有何不同呢？</p>
-<h3 id="用元素来描述树形结构">用元素来描述树形结构</h3><p>在React里面，使用元素来解决这种问题。<strong>一个元素就是一个普通的对象，用来描述组件实例或DOM节点或它所需的属性</strong>。它只包括组件类型（如Button）、组件属性及组件的所有子元素的信息。</p>
-<p>元素不是一个真实的实例。相反，它是告诉React在屏幕上展示哪些内容的一种方式。不能在元素上调用任何方法。它只是一个不可变的描述性的对象，拥有两个字段：type（string或ReactClass）和props（object）。</p>
-<h4 id="DOM元素">DOM元素</h4><p>当一个元素的类型是字符串，它表示该标签名对应的DOM节点，props对应它的属性。这就是React怎么渲染的。如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'button'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="string">'button button-blue'</span>,</span><br><span class="line">		children: &#123;</span><br><span class="line">			type: <span class="string">'b'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'OK!'</span></span><br><span class="line">			</span></span></span>&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个也只是用普通对象表示下面HTML的一种方式：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">class</span>=<span class="value">'button button-blue'</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">b</span>&gt;</span></span><br><span class="line">		OK!</span><br><span class="line">	<span class="tag">&lt;/<span class="title">b</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意元素如何嵌套。按照惯例，当我们想创建一个元素树的时候，我们指定一个或多个子元素，作为它们包含元素的子属性。</p>
-<p>重要的是都是描述子元素和父元素，而不是真实的实例。当创建它们的时候不参考屏幕上面的任何东西。你可以创建它们，也可以丢弃掉，都不会有太大的影响。</p>
-<p>React元素很容易遍历，不需要进行解析，相对于实际DOM元素它们很轻量，它们只是对象而已。</p>
-<h4 id="组件元素">组件元素</h4><p>元素的类型可以是函数或对应于React组件的类。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> Button,</span><br><span class="line">	props: &#123;</span><br><span class="line">		color: <span class="string">'blue'</span>,</span><br><span class="line">		children: <span class="string">'OK!'</span></span><br><span class="line">	</span></span></span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这就是React的核心理念。</p>
-<p><strong>描述组件的元素也是一个元素，就像描述DOM节点的元素。它们可以彼此嵌套和混合。</strong></p>
-<p>这个特性可以让你使用具有特定的颜色属性值的Button定义一个DangerButton组件，而完全不用担心Button组件渲染到DOM中以后是button、div或别的其它什么东西。</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const DangerButton = <span class="function"><span class="params">(&#123; children &#125;)</span> =&gt;</span> (&#123;</span><br><span class="line">	<span class="attribute">type</span>: Button,</span><br><span class="line">	<span class="attribute">props</span>: &#123;</span><br><span class="line">		<span class="attribute">color</span>: <span class="string">'red'</span>,</span><br><span class="line">		<span class="attribute">children</span>: children</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>一个元素树形结构中可以混合和匹配DOM元素和组件元素。</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const DeleteAccount = () =&gt; (&#123;</span><br><span class="line">	type: <span class="string">'div'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		children: [&#123;</span><br><span class="line">			type: <span class="string">'p'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Are you sure?'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: DangerButton,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Yep'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: Button,</span><br><span class="line">			props: &#123;</span><br><span class="line">				color: <span class="string">'blue'</span>,</span><br><span class="line">				children: <span class="string">'Cancel'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>使用JSX表示形式如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const DeleteAccount = () =&gt; (</span><br><span class="line">	<span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">p</span>&gt;</span>Are you sure?<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">DangerButton</span>&gt;</span>Yep<span class="tag">&lt;/<span class="title">DangerButton</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">Button</span> <span class="attribute">color</span>=<span class="value">'blue'</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">Button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p>这种混合和匹配有助于降低组件之间的耦合度，因此它们完全可以通过一下的结构同时表达is-a和has-a的关系：</p>
-<blockquote>
-<ul>
-<li>Button组件是一个具有特定属性的DOM元素button；</li>
-<li>DangerButton组件是一个具有特定属性的Button组件；</li>
-<li>DeleteAccount在一个div元素中包含一个Button组件和一个DangerButton组件。</li>
-</ul>
-</blockquote>
-<h3 id="组件封装元素树">组件封装元素树</h3><p>当React看到一个有function或class类型的元素时，它就会询问这个组件会渲染出什么元素，并提供了哪些对应的props。</p>
-<p>当React看到下面这个元素时：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> Button,</span><br><span class="line">	props: &#123;</span><br><span class="line">		color: <span class="string">'blue'</span>,</span><br><span class="line">		children: <span class="string">'OK!'</span></span><br><span class="line">	</span></span></span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>React将会问Button组件会渲染出什么，这个Button组件将会返回以下元素：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'button'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="string">'button button-blue'</span>,</span><br><span class="line">		children: &#123;</span><br><span class="line">			type: <span class="string">'b'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'OK!'</span></span><br><span class="line">			</span></span></span>&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>React将会重复这个过程，直到页面上所有的组件都被替换为底层DOM标签元素为止。</p>
-<p>React就像一个小孩，每遇到一个“X is Y”就会问“什么是Y”，你就需要给他解释，直到他弄清楚了所有的事情。</p>
-<p>还记得上面的Form栗子吗？使用React可以写成如下形式：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const <span class="type">Form</span> = (&#123; isSubmmited buttonText &#125;) =&gt; &#123;</span><br><span class="line">	<span class="keyword">if</span>(isSubmitted) &#123;</span><br><span class="line">		<span class="comment">//Form已经提交，返回一个message元素</span></span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="type">Message</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				text: <span class="symbol">'Success</span>!'</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//form仍然可用，返回一个button元素</span></span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		<span class="class"><span class="keyword">type</span>:</span> <span class="type">Button</span>,</span><br><span class="line">		props: &#123;</span><br><span class="line">			children: buttonText,</span><br><span class="line">			color: <span class="symbol">'blu</span>e'</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>经此而已！对于一个React组件，props是输入，输出是元素树。</p>
-<p><strong>返回的元素树包括描述DOM节点的元素及描述其它组件的元素。这可以让我们独立地编写UI部分，而无需依赖它们的内部DOM结构。</strong></p>
-<p>我们可以创建、更新和销毁React实例。我们使用返回的组件元素描述它们，React只关心实例的管理。</p>
-<h3 id="组件可以是Classes或Functions">组件可以是Classes或Functions</h3><p>在上面的代码中，Form、Message和Button都是React组件。它们既可以使用函数方式来写，就像上面的代码，也可以使用继承了React.Component的classes。以下三种声明组件的方式大都是等价的。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1 作为props的函数</span></span><br><span class="line">const <span class="type">Button</span> = (&#123; children, color &#125;) =&gt; (&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">		children: &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: children</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//2 使用React.createClass()工厂方法</span></span><br><span class="line">const <span class="type">Button</span> = <span class="type">React</span>.createClass(&#123;</span><br><span class="line">	render: function() &#123;</span><br><span class="line">		const &#123; children, color &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">			props: &#123;</span><br><span class="line">				className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">				children: &#123;</span><br><span class="line">					<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">					props: &#123;</span><br><span class="line">						children: children</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//3 使用继承了React.Component的ES6类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">React</span>.<span class="title">Component</span> &#123;</span></span><br><span class="line">	render() &#123;</span><br><span class="line">		const &#123; children, color &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">			props: &#123;</span><br><span class="line">				className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">				children: &#123;</span><br><span class="line">					<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">					props: &#123;</span><br><span class="line">						children: children</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当一个组件使用class来定义时，它的功能比使用function定义的组件要强大一点。当对应的DOM节点被创建或销毁时它可以存储一些局部变量并执行自定义逻辑。</p>
-<p>函数组件功能没有那么强大，但它比较简单，类似于只有一个单一的render()方法的类组件。除非在class中需要提供其它的功能，否则推荐使用函数组件。</p>
-<p><strong>然而，无论是函数组件或类组件，本质上都是React组件。它们把props作为其输入，并返回元素作为它们的输出。</strong></p>
-<h3 id="自上而下的协同">自上而下的协同</h3><p>当你调用如下代码：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">ReactDOM</span><span class="class">.render</span>(&#123;</span><br><span class="line">	<span class="tag">type</span>: <span class="tag">Form</span>,</span><br><span class="line">	<span class="tag">props</span>: &#123;</span><br><span class="line">		<span class="attribute">isSubmitted</span>: false,</span><br><span class="line">		<span class="attribute">buttonText</span>: <span class="string">'OK!'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;, document.<span class="function">getElementById</span>(<span class="string">'container'</span>));</span><br></pre></td></tr></table></figure>
-<p>React会问这个Form组件返回什么样的元素树及其提高的props。React将会根据在简单的原语层面对React组件的理解来逐步完善它。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//React: You told me this...</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="type">Form</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		isSubmitted: <span class="literal">false</span>,</span><br><span class="line">		buttonText: <span class="symbol">'OK</span>!'</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//React: Form提供的信息</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="type">Button</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		children: <span class="symbol">'OK</span>!',</span><br><span class="line">		color: <span class="symbol">'blu</span>e'</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//React: Button提供的信息</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="symbol">'button</span> button-blue',</span><br><span class="line">		children: &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="symbol">'OK</span>!'</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当调用ReactDOM.render()或setState()时，这就是被React成为协同的过程。协同的过程结束以后，React已经知道了DOM树的结果，react-dom或react-native根据需要更新的DOM节点进行一次最小的渲染。</p>
-<p>这种渐进精炼的过程也是React应用很容易优化的原因。如果组件树的一部分变的太大而不能高效的访问，如果想过的props并没有改变时，你可以告诉React跳过这个“refining”和比较组件树的某些部分的过程。如果它们是不可变的，则计算props是否改变了就会非常快，因此React和不可变的数据能够很好的工作，并且很小的工作量就可以起到极大的优化作用。</p>
-<p>你可能已经注意到了，这篇博客谈了很多有关组件和元素的内容，并没有过多的谈论实例。事实就是，在React中，实例并没有在大多数面对对象的UI框架中那么重要。</p>
-<p>仅仅使用class来声明组件，就会有实例，从来不需要直接创建它们：React已经替我们创建了实例。存在一个父组件实例访问子组件实例的机制，它们仅被用于一些不得已的操作（如设置字段焦点），通常应该避免这样的操作。</p>
-<p>React需要为每一个class组件创建实例，因此你可以使用面对对象的方式，使用方法和局部变量来开发组件，但除此之外，实例在React编程模式中不是很重要，并且都是React自身来管理实例的。</p>
-<h3 id="总结">总结</h3><p>元素就是普通的对象，用来描述呈现在屏幕上的DOM节点或其它组件。元素的props中可以包含其它元素。创建React元素是廉价的，一旦创建了React元素，就不会再发生变化。</p>
-<p>一个组件可以使用几种不同的方式来声明。它可以是一个有render()方法的类。同样地，在一些简单的情况下，它可以被定义为函数。在这两种情况下，它把props作为输入，返回的元素树作为输出。</p>
-<p>当一个组件接收到一些props作为输入，这是因为特定的父组件返回了一个具有类型和props的元素。这也就是为什么人们常说的props在React中是单向流动的：从父组件到子组件。</p>
-<p>实例就是对组件类中this的引用。</p>
-<p>函数组件根本就没有实例。类组件有实例，但永远不需要直接创建组件实例，React会完成这个实例的创建。</p>
-<p>最后，要创建元素，可以使用React.createClass()，JSX或元素工厂助手。在真实开发时候不要使用普通对象来创建元素，只需要知道在引擎底层它们是普通对象即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1588,7 +1577,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1597,10 +1586,10 @@
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">93</span>
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

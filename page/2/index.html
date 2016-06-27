@@ -199,6 +199,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -216,6 +226,166 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/29/翻译-React组件、元素和实例/" itemprop="url">
+                  [翻译]React组件、元素和实例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-29T15:14:42+08:00" content="2016-01-29">
+              2016-01-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>组件、组件实例和元素之间的区别会让很多初学者感到困惑。为什么会有三种不同的术语来指代渲染到屏幕上的东西呢？</p>
+<h3 id="管理实例">管理实例</h3><p>如果你是React初学者，你可能只会用到组件类和它的实例。例如，你可以通过创建一个类来声明一个Button组件。当应用程序运行的时候，可能会有这个组件的多个实例，每一个都有自己的属性和本地状态。这就是传统的面向对象的GUI编程，为什么要引入元素？</p>
+<p>在这个传统的UI模型中，你需要关心子组件实例的创建和销毁。如果一个Form组件要渲染一个Button组件，需要创建它的实例，并且需要手动更新它的状态。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Form</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">TraditionalObjectOrientedView</span> &#123;</span></span><br><span class="line">	render() &#123;</span><br><span class="line">		const &#123; isSubmitted, buttonText &#125; = <span class="keyword">this</span>.attrs;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(!isSubmitted &amp;&amp; !<span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//form还没有提交，创建Button实例</span></span><br><span class="line">			<span class="keyword">this</span>.button = <span class="keyword">new</span> <span class="type">Button</span>(&#123;</span><br><span class="line">				children: buttonText,</span><br><span class="line">				color: <span class="symbol">'blu</span>e'</span><br><span class="line">			&#125;);</span><br><span class="line">			<span class="keyword">this</span>.el.appendChild(<span class="keyword">this</span>.button.el);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//button是可用的，更新文本信息</span></span><br><span class="line">			<span class="keyword">this</span>.button.attrs.children = buttonText;</span><br><span class="line">			<span class="keyword">this</span>.button.render();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(isSubmitted &amp;&amp; <span class="keyword">this</span>.button) &#123;</span><br><span class="line">			<span class="comment">//表单已提交，销毁button组件实例</span></span><br><span class="line">			<span class="keyword">this</span>.el.removeChild(<span class="keyword">this</span>.button.el);</span><br><span class="line">			<span class="keyword">this</span>.button.destory();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(isSubmmited &amp;&amp; !<span class="keyword">this</span>.message) &#123;</span><br><span class="line">			<span class="comment">//表单提交成功，显示提示信息</span></span><br><span class="line">			<span class="keyword">this</span>.message = <span class="keyword">new</span> <span class="type">Message</span>(&#123;text: <span class="symbol">'succes</span>s'&#125;);</span><br><span class="line">			<span class="keyword">this</span>.el.appendChild(<span class="keyword">this</span>.message.el);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是伪代码，当你使用比如Backbone这种传统的面向对象的库开发复合UI代码时，最终或多或少有这种体验。</p>
+<p>每个组件实例都要保持对DOM节点和子组件实例的引用，在适合的时间创建，更新并销毁。</p>
+<p>随着代码量的增加，组件可能的状态数会按平方级增长，并且父级可以直接访问子组件的实例，将来想要解偶就会变的非常困难。</p>
+<p>那么，React有何不同呢？</p>
+<h3 id="用元素来描述树形结构">用元素来描述树形结构</h3><p>在React里面，使用元素来解决这种问题。<strong>一个元素就是一个普通的对象，用来描述组件实例或DOM节点或它所需的属性</strong>。它只包括组件类型（如Button）、组件属性及组件的所有子元素的信息。</p>
+<p>元素不是一个真实的实例。相反，它是告诉React在屏幕上展示哪些内容的一种方式。不能在元素上调用任何方法。它只是一个不可变的描述性的对象，拥有两个字段：type（string或ReactClass）和props（object）。</p>
+<h4 id="DOM元素">DOM元素</h4><p>当一个元素的类型是字符串，它表示该标签名对应的DOM节点，props对应它的属性。这就是React怎么渲染的。如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'button'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="string">'button button-blue'</span>,</span><br><span class="line">		children: &#123;</span><br><span class="line">			type: <span class="string">'b'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'OK!'</span></span><br><span class="line">			</span></span></span>&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个也只是用普通对象表示下面HTML的一种方式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">class</span>=<span class="value">'button button-blue'</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">b</span>&gt;</span></span><br><span class="line">		OK!</span><br><span class="line">	<span class="tag">&lt;/<span class="title">b</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意元素如何嵌套。按照惯例，当我们想创建一个元素树的时候，我们指定一个或多个子元素，作为它们包含元素的子属性。</p>
+<p>重要的是都是描述子元素和父元素，而不是真实的实例。当创建它们的时候不参考屏幕上面的任何东西。你可以创建它们，也可以丢弃掉，都不会有太大的影响。</p>
+<p>React元素很容易遍历，不需要进行解析，相对于实际DOM元素它们很轻量，它们只是对象而已。</p>
+<h4 id="组件元素">组件元素</h4><p>元素的类型可以是函数或对应于React组件的类。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> Button,</span><br><span class="line">	props: &#123;</span><br><span class="line">		color: <span class="string">'blue'</span>,</span><br><span class="line">		children: <span class="string">'OK!'</span></span><br><span class="line">	</span></span></span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是React的核心理念。</p>
+<p><strong>描述组件的元素也是一个元素，就像描述DOM节点的元素。它们可以彼此嵌套和混合。</strong></p>
+<p>这个特性可以让你使用具有特定的颜色属性值的Button定义一个DangerButton组件，而完全不用担心Button组件渲染到DOM中以后是button、div或别的其它什么东西。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const DangerButton = <span class="function"><span class="params">(&#123; children &#125;)</span> =&gt;</span> (&#123;</span><br><span class="line">	<span class="attribute">type</span>: Button,</span><br><span class="line">	<span class="attribute">props</span>: &#123;</span><br><span class="line">		<span class="attribute">color</span>: <span class="string">'red'</span>,</span><br><span class="line">		<span class="attribute">children</span>: children</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>一个元素树形结构中可以混合和匹配DOM元素和组件元素。</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const DeleteAccount = () =&gt; (&#123;</span><br><span class="line">	type: <span class="string">'div'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		children: [&#123;</span><br><span class="line">			type: <span class="string">'p'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Are you sure?'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: DangerButton,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'Yep'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			type: Button,</span><br><span class="line">			props: &#123;</span><br><span class="line">				color: <span class="string">'blue'</span>,</span><br><span class="line">				children: <span class="string">'Cancel'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用JSX表示形式如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const DeleteAccount = () =&gt; (</span><br><span class="line">	<span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">p</span>&gt;</span>Are you sure?<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">DangerButton</span>&gt;</span>Yep<span class="tag">&lt;/<span class="title">DangerButton</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">Button</span> <span class="attribute">color</span>=<span class="value">'blue'</span>&gt;</span>Cancel<span class="tag">&lt;/<span class="title">Button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>这种混合和匹配有助于降低组件之间的耦合度，因此它们完全可以通过一下的结构同时表达is-a和has-a的关系：</p>
+<blockquote>
+<ul>
+<li>Button组件是一个具有特定属性的DOM元素button；</li>
+<li>DangerButton组件是一个具有特定属性的Button组件；</li>
+<li>DeleteAccount在一个div元素中包含一个Button组件和一个DangerButton组件。</li>
+</ul>
+</blockquote>
+<h3 id="组件封装元素树">组件封装元素树</h3><p>当React看到一个有function或class类型的元素时，它就会询问这个组件会渲染出什么元素，并提供了哪些对应的props。</p>
+<p>当React看到下面这个元素时：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> Button,</span><br><span class="line">	props: &#123;</span><br><span class="line">		color: <span class="string">'blue'</span>,</span><br><span class="line">		children: <span class="string">'OK!'</span></span><br><span class="line">	</span></span></span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>React将会问Button组件会渲染出什么，这个Button组件将会返回以下元素：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'button'</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="string">'button button-blue'</span>,</span><br><span class="line">		children: &#123;</span><br><span class="line">			type: <span class="string">'b'</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="string">'OK!'</span></span><br><span class="line">			</span></span></span>&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>React将会重复这个过程，直到页面上所有的组件都被替换为底层DOM标签元素为止。</p>
+<p>React就像一个小孩，每遇到一个“X is Y”就会问“什么是Y”，你就需要给他解释，直到他弄清楚了所有的事情。</p>
+<p>还记得上面的Form栗子吗？使用React可以写成如下形式：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const <span class="type">Form</span> = (&#123; isSubmmited buttonText &#125;) =&gt; &#123;</span><br><span class="line">	<span class="keyword">if</span>(isSubmitted) &#123;</span><br><span class="line">		<span class="comment">//Form已经提交，返回一个message元素</span></span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="type">Message</span>,</span><br><span class="line">			props: &#123;</span><br><span class="line">				text: <span class="symbol">'Success</span>!'</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//form仍然可用，返回一个button元素</span></span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		<span class="class"><span class="keyword">type</span>:</span> <span class="type">Button</span>,</span><br><span class="line">		props: &#123;</span><br><span class="line">			children: buttonText,</span><br><span class="line">			color: <span class="symbol">'blu</span>e'</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>经此而已！对于一个React组件，props是输入，输出是元素树。</p>
+<p><strong>返回的元素树包括描述DOM节点的元素及描述其它组件的元素。这可以让我们独立地编写UI部分，而无需依赖它们的内部DOM结构。</strong></p>
+<p>我们可以创建、更新和销毁React实例。我们使用返回的组件元素描述它们，React只关心实例的管理。</p>
+<h3 id="组件可以是Classes或Functions">组件可以是Classes或Functions</h3><p>在上面的代码中，Form、Message和Button都是React组件。它们既可以使用函数方式来写，就像上面的代码，也可以使用继承了React.Component的classes。以下三种声明组件的方式大都是等价的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1 作为props的函数</span></span><br><span class="line">const <span class="type">Button</span> = (&#123; children, color &#125;) =&gt; (&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">		children: &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: children</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//2 使用React.createClass()工厂方法</span></span><br><span class="line">const <span class="type">Button</span> = <span class="type">React</span>.createClass(&#123;</span><br><span class="line">	render: function() &#123;</span><br><span class="line">		const &#123; children, color &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">			props: &#123;</span><br><span class="line">				className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">				children: &#123;</span><br><span class="line">					<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">					props: &#123;</span><br><span class="line">						children: children</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//3 使用继承了React.Component的ES6类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">React</span>.<span class="title">Component</span> &#123;</span></span><br><span class="line">	render() &#123;</span><br><span class="line">		const &#123; children, color &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">			props: &#123;</span><br><span class="line">				className: <span class="symbol">'button</span> button-' + color,</span><br><span class="line">				children: &#123;</span><br><span class="line">					<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">					props: &#123;</span><br><span class="line">						children: children</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当一个组件使用class来定义时，它的功能比使用function定义的组件要强大一点。当对应的DOM节点被创建或销毁时它可以存储一些局部变量并执行自定义逻辑。</p>
+<p>函数组件功能没有那么强大，但它比较简单，类似于只有一个单一的render()方法的类组件。除非在class中需要提供其它的功能，否则推荐使用函数组件。</p>
+<p><strong>然而，无论是函数组件或类组件，本质上都是React组件。它们把props作为其输入，并返回元素作为它们的输出。</strong></p>
+<h3 id="自上而下的协同">自上而下的协同</h3><p>当你调用如下代码：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">ReactDOM</span><span class="class">.render</span>(&#123;</span><br><span class="line">	<span class="tag">type</span>: <span class="tag">Form</span>,</span><br><span class="line">	<span class="tag">props</span>: &#123;</span><br><span class="line">		<span class="attribute">isSubmitted</span>: false,</span><br><span class="line">		<span class="attribute">buttonText</span>: <span class="string">'OK!'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;, document.<span class="function">getElementById</span>(<span class="string">'container'</span>));</span><br></pre></td></tr></table></figure>
+<p>React会问这个Form组件返回什么样的元素树及其提高的props。React将会根据在简单的原语层面对React组件的理解来逐步完善它。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//React: You told me this...</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="type">Form</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		isSubmitted: <span class="literal">false</span>,</span><br><span class="line">		buttonText: <span class="symbol">'OK</span>!'</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//React: Form提供的信息</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="type">Button</span>,</span><br><span class="line">	props: &#123;</span><br><span class="line">		children: <span class="symbol">'OK</span>!',</span><br><span class="line">		color: <span class="symbol">'blu</span>e'</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//React: Button提供的信息</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span>:</span> <span class="symbol">'butto</span>n',</span><br><span class="line">	props: &#123;</span><br><span class="line">		className: <span class="symbol">'button</span> button-blue',</span><br><span class="line">		children: &#123;</span><br><span class="line">			<span class="class"><span class="keyword">type</span>:</span> 'b',</span><br><span class="line">			props: &#123;</span><br><span class="line">				children: <span class="symbol">'OK</span>!'</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当调用ReactDOM.render()或setState()时，这就是被React成为协同的过程。协同的过程结束以后，React已经知道了DOM树的结果，react-dom或react-native根据需要更新的DOM节点进行一次最小的渲染。</p>
+<p>这种渐进精炼的过程也是React应用很容易优化的原因。如果组件树的一部分变的太大而不能高效的访问，如果想过的props并没有改变时，你可以告诉React跳过这个“refining”和比较组件树的某些部分的过程。如果它们是不可变的，则计算props是否改变了就会非常快，因此React和不可变的数据能够很好的工作，并且很小的工作量就可以起到极大的优化作用。</p>
+<p>你可能已经注意到了，这篇博客谈了很多有关组件和元素的内容，并没有过多的谈论实例。事实就是，在React中，实例并没有在大多数面对对象的UI框架中那么重要。</p>
+<p>仅仅使用class来声明组件，就会有实例，从来不需要直接创建它们：React已经替我们创建了实例。存在一个父组件实例访问子组件实例的机制，它们仅被用于一些不得已的操作（如设置字段焦点），通常应该避免这样的操作。</p>
+<p>React需要为每一个class组件创建实例，因此你可以使用面对对象的方式，使用方法和局部变量来开发组件，但除此之外，实例在React编程模式中不是很重要，并且都是React自身来管理实例的。</p>
+<h3 id="总结">总结</h3><p>元素就是普通的对象，用来描述呈现在屏幕上的DOM节点或其它组件。元素的props中可以包含其它元素。创建React元素是廉价的，一旦创建了React元素，就不会再发生变化。</p>
+<p>一个组件可以使用几种不同的方式来声明。它可以是一个有render()方法的类。同样地，在一些简单的情况下，它可以被定义为函数。在这两种情况下，它把props作为输入，返回的元素树作为输出。</p>
+<p>当一个组件接收到一些props作为输入，这是因为特定的父组件返回了一个具有类型和props的元素。这也就是为什么人们常说的props在React中是单向流动的：从父组件到子组件。</p>
+<p>实例就是对组件类中this的引用。</p>
+<p>函数组件根本就没有实例。类组件有实例，但永远不需要直接创建组件实例，React会完成这个实例的创建。</p>
+<p>最后，要创建元素，可以使用React.createClass()，JSX或元素工厂助手。在真实开发时候不要使用普通对象来创建元素，只需要知道在引擎底层它们是普通对象即可。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1332,180 +1502,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/11/Redux详解/" itemprop="url">
-                  Redux详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-11T17:33:49+08:00" content="2016-01-11">
-              2016-01-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>redux是Facebook提出的flux架构的一种优秀实现，而且不局限于为react提供数据状态处理。它是零依赖的，可以配合其他任何框架或者类库一起使用。要配合react，还的引入react-redux。</p>
-<h3 id="action">action</h3><p>数据来源不确定 ，我们需要专门的处理函数，在各个数据源里筛选真正需要的数据，不让那些无关紧要的、甚至是脏数据污染了全局数据对象。</p>
-<p>这种对数据来源做萃取工作的函数，就叫action。action不是［数据预处理］的功能，而是在web应用中所有的数据与状态的变化，几乎都来自［事件］。</p>
-<p>javascript中的事件：DOM事件、ajax、路由change、setTimeout定时器、自定义事件等。</p>
-<h4 id="action与event(事件)的区别">action与event(事件)的区别</h4><p>在表单keyup事件中，只在e.keyCode等于回车键或取消键时，才出发一类action。DOM事件提供的数据是event对象，里面主要包括跟DOM相关的数据，我们无法直接合并到全局数据对象里，只是将需要的部分数据传入action函数而已。所以，<strong>是event响应函数里主动调用了action函数，并且传入它需要的数据。</strong></p>
-<h3 id="reducer">reducer</h3><p>action仅仅是预处理，将脏数据筛选掉，但没有产生可以直接合并到全局对象的数据和结构，甚至可能只是提供了线索，表示［需要获取那些数据，但数据不在我这里］。action函数的设计，也为它［只提供线索］的做法提供了支持，action函数必须返回一个带有<strong>type</strong>属性的plain object。</p>
-<h4 id="action函数的设计理念">action函数的设计理念</h4><blockquote>
-<ul>
-<li><p>action的参数用来筛选掉脏数据，调用action函数的人，有义务传入他需要的数据</p>
-</li>
-<li><p>action返回的plain object中包含属性为type常量值</p>
-<blockquote>
-<p><em>表明这个对象携带的其他数据应该被［如何］再处理
-</em>或者不带其他数据，仅仅启示已有数据需要如何调整，或需要主要获取那些数据</p>
-</blockquote>
-</li>
-</ul>
-</blockquote>
-<p><strong>reducer就是处理action函数返回的线索的［数据再处理函数］，action是［预处理函数］。</strong></p>
-<p>由于action返回的数据有个固定的结构，所以reducer函数也有固定的结构。</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//reducer函数接收两个参数:  全局数据对象<span class="keyword">state</span>以及action函数返回的action对象</span><br><span class="line">//返回新的全局数据对象new <span class="keyword">state</span></span><br><span class="line">export <span class="keyword">default</span>(<span class="keyword">state</span>, action) =&gt; &#123;</span><br><span class="line">	switch(action.type) &#123;</span><br><span class="line">		case A:</span><br><span class="line">			return handleA(<span class="keyword">state</span>);</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			return <span class="keyword">state</span>; //没有匹配上就直接返回原<span class="keyword">state</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>reducer只是一个**匹配模式的东西，真正处理数据的函数，是写到别的地方，只在reducer中调用而已。</p>
-<h4 id="为什么叫reducer函数">为什么叫reducer函数</h4><p>因为action对象各种各样，每种对应某个case，但最后都汇总到state对象，从多到一，是一个减少（reduce）的过程，所以完成这个过程的函数就叫<strong>reducer</strong>。</p>
-<h3 id="combineReducers">combineReducers</h3><p>reducer的第一个参数是全局对象，因此state对象的树形结构必定会随着web应用的复杂性而变得越来越深，当action.type所对应的case只是修改state.a.b.c这个属性时，handleCase函数就会嵌套的特别深，必须在这个函数的头部验证state对象有没有那个属性。<br>需要如下模式：</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//这个reducer的<span class="keyword">state</span>属性不是全局<span class="keyword">state</span>本身</span><br><span class="line">//而是他的一个子代属性，如<span class="keyword">state</span>.todos这个对象</span><br><span class="line">//返回的new <span class="keyword">state</span>也会合并到<span class="keyword">state</span>.todos对象中</span><br><span class="line">export <span class="keyword">default</span> (<span class="keyword">state</span>, action) =&gt; &#123;</span><br><span class="line">	switch(action.type) &#123;</span><br><span class="line">		case B:</span><br><span class="line">			return newstate;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上所示，写起来是普通的reducer，但获取的不是全局的state。</p>
-<p><strong>实现方法：</strong>遍历一个［全是方法］的［函数储存对象］，返回新对象，这个新对象的key跟［函数储存对象］一样，它的value则是［函数储存对象］的同名方法接收(state[key], action)参数的返回值。</p>
-<p>目前redux不提供映射到一级以上深度的state的方法，解决思路：</p>
-<blockquote>
-<ul>
-<li>superGetter／superSetter</li>
-<li>嵌套combineReducers</li>
-<li>修改源码，使用模式走transformer</li>
-</ul>
-</blockquote>
-<p>详情参考<a href="http://div.io/topic/1309" target="_blank" rel="external">这里</a>。</p>
-<p>总的来说，combineReduers不是一个必需品，它只是用来分发对象的属性到各个reducer中去，如果觉得太绕，可以直接选择在每个handleCase函数中查询state属性，合成newState并返回即可，这时候，只需要一个reducers函数，它的switch语句处理所有可能的action.type。</p>
-<h3 id="createStore">createStore</h3><p>action函数只返回一个普通对象，是谁把它传递到reducers(state, action)调用呢？reducers | state | action这三个由谁来协调？</p>
-<p>此时，createStore(reducer,initialState)呼之欲出，它接收一个reducer函数跟initialState初始化的全局状态对象，返回几个［公共方法］：dispatch | getState | subscribe。</p>
-<p>createStore的返回值是一个对象，通常保存在store这个变量名里。其实store只是一个方法，没有数据属性的对象，用JSON.stringify去序列化，得到的是空对象。真正的state包含在必包中，通过公用方法getState获取。</p>
-<p>而dispatch方法，是store对象提供的更改currentState这个必包变量的唯一建议途径。</p>
-<p>subscribe方法是一个简单的事件侦听方法，在dispatch里更新完currentState后调用，不管是什么action触发的更新，都会被调用，并且没有任何参数，只是告诉你state更新了。</p>
-<h3 id="bindActionCreators">bindActionCreators</h3><p>通过createStore拿到了store，通过store.dispatch(action)我们可以免去手动调用reducer的负担，只处理action就可以了。这里有两种意义上的action，一种是action创建函数，一种是action对象，action创建函数接收参数并返回一个action对象。</p>
-<p>action创建函数是工厂模式，专门生产action对象。所以通过重命名，更清晰的区分两者，action创建函数就叫actionCreator，它的返回值叫action。</p>
-<p>store.dispatch(action)这里的action是对象，而不是函数，它是actionCreator返回的，所以实际上要这样调用store.dispatch(actionCreator(…args))。</p>
-<p>原本的reducer(state, action)模式，用createStore(reducer, initalState)转换成store.dispatch(action)，发现还不够，再封装一层，这就是函数式思想的体现，通过反复组合，将多参数模式，转化成单参数模式。</p>
-<h4 id="怎样组合">怎样组合</h4><blockquote>
-<p>单个actionCreator，通过bindActionCreator。</p>
-</blockquote>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将actionCreator和dispatch绑定</span></span><br><span class="line"><span class="keyword">let</span> bindActionCreat<span class="subst">or</span> =&gt; (actionCreat<span class="subst">or</span>, dispatch) &#123;</span><br><span class="line">	<span class="keyword">return</span> (<span class="attribute">...</span>args) =&gt; dispatch(actionCreat<span class="subst">or</span>(<span class="attribute">...</span>args));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//普通工厂函数，返回一个对象</span></span><br><span class="line"><span class="keyword">let</span> addItem = text =&gt; (&#123;</span><br><span class="line">	<span class="keyword">type</span>: <span class="string">'ADD_ITEM'</span>,</span><br><span class="line">	text</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//跟store.dispatch绑定，成为真正可以改变currentState的action函数</span></span><br><span class="line"><span class="keyword">let</span> addItem = bindActionCreat<span class="subst">or</span>(addItem, store<span class="built_in">.</span>dispatch);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对于多个actionCreator，可以像reducers一样，组成一个key/action组合。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">bindActionCreators</span>(<span class="params">actionCreators, dispatch</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">typeof</span> actionCreators === <span class="string">'function'</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> bindActionCreator(actionCreators, dispatch);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//返回一个改造过的[函数组合]</span></span><br><span class="line">	<span class="keyword">return</span> mapValues(actionCreators, actionCreator =&gt; bindActionCreator(actionCreator, dispatch))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上，我们用bindActionCreator得到了真正具有改变全局state能力的许多函数，接下来就是将这些函数分发到各个地方，由各个event自主调用即可。</p>
-<h3 id="redux工作流程">redux工作流程</h3><blockquote>
-<p>首先，需要设计一些［常量］，因为action.type通常是字符串常量。为了便于集中管理，以及利于压缩代码，所以最好将常量单独放在单独的文件夹里，根据类型的不同放置在不同的文件夹中。</p>
-</blockquote>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ActionTypes.js 真正改动了数据的 actionType 在这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ADD_ITEM = <span class="string">'ADD_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> DELETE_ITEM = <span class="string">'DELETE_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> DELETE_ITEMS = <span class="string">'DELETE_ITEMS'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> UPDATE_ITEM = <span class="string">'UPDATE_ITEM'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> UPDATE_ITEMS = <span class="string">'UPDATE_ITEMS'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//API.js 服务端接口统一放这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> API_TODOS = <span class="string">'/todos'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//SocketTypes.js websocket 也触发了某个 action 改变了 state，单独放这里</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SERVER_UPDATE = <span class="string">'SERVER_UPDATE'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//KeyCode.js 键盘的回车键与取消键对应的编码</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ENTER_KEY = <span class="number">13</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> ESCAPE_KEY = <span class="number">27</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//FilterTypes.js 只是筛选数据，没有改变 state 的过滤 action 的常量</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> FILTER_ITEMS = <span class="string">'FILTER_ITEMS'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_ALL = <span class="string">'SHOW_ALL'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_ACTIVE = <span class="string">'SHOW_ACTIVE'</span></span><br><span class="line"><span class="literal">export</span> <span class="keyword">const</span> SHOW_COMPLETED = <span class="string">'SHOW_COMPLETED'</span></span><br></pre></td></tr></table></figure>
-<p>通过常量设计，可以清晰地反应出我们整个web应用的业务架构设计，这方面如果没设计好，随着应用复杂性的增加，会越来越难以维护。</p>
-<blockquote>
-<p>比设计常量更靠前的，是设计整个应用的state树的结构</p>
-<p>有了常量，就可以写actionCreator了，它们被放置在actions文件里</p>
-</blockquote>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> * as types from <span class="string">'../constants/ActionTypes'</span></span><br><span class="line"></span><br><span class="line">export <span class="function"><span class="keyword">function</span> <span class="title">addItem</span><span class="params">(text)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; type: types.ADD_ITEM, text &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>action是预处理，下一个环节是再处理函数reducer，它们被放置再reducers文件夹里</p>
-</blockquote>
-<h4 id="redux的流程">redux的流程</h4><blockquote>
-<ul>
-<li>设计全局state的数据结构</li>
-<li>设计更改state数据的actionTypes常量以及其他跟视图展现相关的actionTypes常量</li>
-<li>根据actionTypes常量，写actionCreator</li>
-<li>根据各个actionCreator的返回值，涉及reducer做数据的最后处理</li>
-<li>在有了reducer函数之后，creatorStore(reducer, initState)得到store对象</li>
-<li>用bindActionCreators函数将actionCreators和store.dispatch绑定起来，得到一组能够修改全局状态的函数</li>
-<li>分发各个状态修改函数到各个DOM事件中</li>
-</ul>
-</blockquote>
-<h4 id="action_creator函数">action creator函数</h4><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeActionCreator</span><span class="params">(type, <span class="rest_arg">...argNames</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">		let action = &#123;type&#125;;</span><br><span class="line">		argNames.forEach((arg, index) =&gt; &#123;</span><br><span class="line">			action[argNames[index]] = args[i];</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> action;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export <span class="keyword">const</span> addTodo = makeActionCreator(<span class="string">'ADD_TODO'</span>, <span class="string">'todo'</span>);</span><br></pre></td></tr></table></figure>
-<p>参考资料：<a href="http://div.io/topic/1309" target="_blank" rel="external">深入到源码：解读 redux 的设计思路与用法 </a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1551,7 +1547,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1560,10 +1556,10 @@
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">93</span>
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

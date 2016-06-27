@@ -199,6 +199,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -216,6 +226,117 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/05/Webpack-缓存策略/" itemprop="url">
+                  Webpack 缓存策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-05T16:43:58+08:00" content="2015-11-05">
+              2015-11-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Long_Term_Caching">Long Term Caching</h2><p>为了有效缓存文件，在URL中应该有一个hash或版本。我们就可以在output文件夹中emit或move一个版本为V1.3的文件夹。但这是几个缺点：开发的额外的文件和未更改的文件不能从缓存中获取。</p>
+<p>Webpack可以为文件的文件名添加hash值。Loaders已经做到了这些。对于chunks，我们必须让它可用。这里有两种级别：</p>
+<blockquote>
+<ul>
+<li>Compute a hash of all chunks and add it：计算所有chunks的hash值然后添加</li>
+<li>Compute a hash per chunk and add it</li>
+</ul>
+</blockquote>
+<h3 id="One_hash_for_the_bundle">One hash for the bundle</h3><p>通过在配置选项中给文件名添加[hash]来激活。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="tag">output</span>: &#123;</span><br><span class="line">		<span class="attribute">path</span>: path.<span class="function">join</span>(__dirname, <span class="string">'assets'</span>, <span class="string">'[hash]'</span>),</span><br><span class="line">		<span class="attribute">publicPath</span>: <span class="string">'assets/[hash]'</span>,</span><br><span class="line">		<span class="attribute">filename</span>: <span class="string">'output.[hash].bundle.js'</span>,</span><br><span class="line">		<span class="attribute">chunkFilename</span>: <span class="string">'[id].[hash].bundle.js'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="One_hash_per_chunk">One hash per chunk</h3><p>通过在配置文件中给chunk filename添加[chunkhash]来激活。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">output</span>: <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">chunkFilename</span>:<span class="value"> <span class="string">'[chunkhash].bundle.js'</span></span><br><span class="line"></span></span></span>&#125;</span><br></pre></td></tr></table></figure>
+<p>需要在HTML文件中引入这个具有hash的entry chunk。</p>
+<p>为了保证Hot Code Replacement的功能，建议使用<strong>One hash for the bundle</strong>。</p>
+<h3 id="Get_filenames_from_stats">Get filenames from stats</h3><p>我们可能想获得asset中最终的文件并把它添加到HTML中。这个在webpack stats是可以实现的。如果使用CLI，可以添加–json并运行它就能获取到stats的JSON格式。</p>
+<p>我们可以在配置中添加一个插件，如assets-webpack-plugin，该插件允许读取stats对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.plugin(<span class="string">'done'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">stats</span>) </span>&#123;</span><br><span class="line">			<span class="built_in">require</span>(<span class="string">'fs'</span>).writeFileSync(</span><br><span class="line">				path.join(__dirname, <span class="string">'...'</span>, <span class="string">'stats.json'</span>);</span><br><span class="line">				<span class="built_in">JSON</span>.stringify(stats.toJson());</span><br><span class="line">			);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>stats JSON中有一个关键属性assetsByChunkName，它是一个对象，chunk name是key，filename(s)是value。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -918,7 +1039,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -927,10 +1048,10 @@
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">93</span>
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
                 <span class="site-state-item-name">标签</span>
-              
+              </a>
             </div>
           
 

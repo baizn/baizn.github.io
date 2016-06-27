@@ -1,0 +1,622 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Immutable,React,性能优化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="考虑是否使用react开发项目时，人们第一个反应就是react开发的应用程序的响应速度和非React应用程序相比哪个更快。每一个state状态的改变都会引起组件树的重新渲染，使得人们怀疑这种机制是否会对性能造成影响。React使用几个巧妙的技巧来最小化更新UI，避免昂贵的DOM操作。
+使用生产版本如果你发现了React应用的性能问题，请确保使用的是压缩后的生产版本。开发版包括了一些额外的警告信息，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[翻译]React性能优化">
+<meta property="og:url" content="http://baizn.github.io/2016/06/27/翻译-React性能优化/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="考虑是否使用react开发项目时，人们第一个反应就是react开发的应用程序的响应速度和非React应用程序相比哪个更快。每一个state状态的改变都会引起组件树的重新渲染，使得人们怀疑这种机制是否会对性能造成影响。React使用几个巧妙的技巧来最小化更新UI，避免昂贵的DOM操作。
+使用生产版本如果你发现了React应用的性能问题，请确保使用的是压缩后的生产版本。开发版包括了一些额外的警告信息，">
+<meta property="og:updated_time" content="2016-06-27T01:36:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[翻译]React性能优化">
+<meta name="twitter:description" content="考虑是否使用react开发项目时，人们第一个反应就是react开发的应用程序的响应速度和非React应用程序相比哪个更快。每一个state状态的改变都会引起组件树的重新渲染，使得人们怀疑这种机制是否会对性能造成影响。React使用几个巧妙的技巧来最小化更新UI，避免昂贵的DOM操作。
+使用生产版本如果你发现了React应用的性能问题，请确保使用的是压缩后的生产版本。开发版包括了一些额外的警告信息，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://baizn.github.io/2016/06/27/翻译-React性能优化/"/>
+
+  <title> [翻译]React性能优化 | baizn的github博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">baizn的github博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [翻译]React性能优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-27T09:36:04+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>考虑是否使用react开发项目时，人们第一个反应就是react开发的应用程序的响应速度和非React应用程序相比哪个更快。每一个state状态的改变都会引起组件树的重新渲染，使得人们怀疑这种机制是否会对性能造成影响。React使用几个巧妙的技巧来最小化更新UI，避免昂贵的DOM操作。</p>
+<h3 id="使用生产版本">使用生产版本</h3><p>如果你发现了React应用的性能问题，请确保使用的是压缩后的生产版本。开发版包括了一些额外的警告信息，在开发应用过程中非常有用，但由于要记录额外的信息，因此相比生产版本较慢。</p>
+<h3 id="避免调和DOM">避免调和DOM</h3><p>React使用虚拟DOM，在浏览器中呈现的是DOM树的描述。同时，React中应避免创建DOM节点和访问现有的DOM元素，因为这样要比操作JS对象慢。当一个组件的Props或state改变时，React通过构建一个新的虚拟DOM和旧的进行比较，来决定是否有必要更新实际的DOM。只有在它们不等的情况下，React才会尽可能小的更新DOM。</p>
+<p>在此之上，React提供了一个组件生命周期函数，shouldComponentUpdate，该方法在组件重新渲染之前触发，开发人员可以决定是否进行渲染。该方法默认返回true，React执行更新：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请记住，React会经常调用这个方法，因此该方法中的逻辑实现要尽可能的快。</p>
+<p>假设你有一个消息应用的几个即时消息线程。假设只有一个线程改变了，如果我们在ChatThread组件上实现了shouldComponentUpdate方法，React就会跳过其他线程的渲染：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，总之，React允许用户在shouldComponentUpdate方法中取消渲染过程，避免昂贵的DOM更新操作，并且，对于哪些必须的，通过比较虚拟DOM来更新。</p>
+<h3 id="shouldComponentUpdate_in_action">shouldComponentUpdate in action</h3><p>有一个组件的子树。每一个shouldComponentUpdate的返回值都取决于虚拟DOM的比较结果。最后，圆圈的颜色就表明组件是否需要被调和。</p>
+<p>在上面的例子中，因为shouldComponentUpdate在子树C2节点上返回false，React就不会生成新的虚拟DOM，因此，也就不需要调和DOM。需要注意的是React在C4和C5上甚至都没有调用shouldComponentUpdate。</p>
+<p>C1和C3节点shouldComponentUpdate返回true，因此React需要深入到子叶去比对。C6返回true，由于虚拟DOM不相等，需要调和DOM。最有趣的节点是C8，对于该节点，React必须计算虚拟DOM，但由于和旧的不相等，因此不需要调和DOM。</p>
+<p>请注意，React只有在C6节点上需要做DOM更新，这是不可避免的。对于C8，通过比较虚拟DOM确定了它们不需要调和，对于C2的子树和C7，甚至都没有计算虚拟DOM，通过shouldComponentUpdate来进行确认。</p>
+<p>那么，我们应该如何实现shouldComponentUpdate呢？假设有一个渲染一个字符串的组件：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		<span class="keyword">value</span>: React.PropTypes.string.isRequired</span><br><span class="line">	&#125;,</span><br><span class="line">	</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;this.props.<span class="keyword">value</span>&#125;&lt;/div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以很容易的实现shouldComponentUpdate：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.props.value !== nextProps.value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理这种简单的props和state结构是比较容易的。但是，组件的props或state是可变的数据结果呢？如果props接收一个JS对象，包括一个字符串，如{foo: ‘bar’}：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		<span class="keyword">value</span>: React.PropTypes.<span class="keyword">object</span>.isRequired</span><br><span class="line">	&#125;,</span><br><span class="line">	</span><br><span class="line">	render: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;<span class="keyword">this</span>.props.<span class="keyword">value</span>.foo&#125;&lt;/div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>shouldComponentUpdate的实现并不总是符合预期的。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.props.<span class="keyword">value</span> = &#123;foo: <span class="string">'bar'</span>&#125;</span><br><span class="line">nextProps.<span class="keyword">value</span> = &#123;foo: <span class="string">'bar'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这是两个不同的引用</span></span><br><span class="line"><span class="keyword">this</span>.props.<span class="keyword">value</span> !== nextProps.<span class="keyword">value</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>问题是当props没有改变的时候shouldComponentUpdate居然返回true。为了解决这个问题，我们可以使用如下实现方式：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.props.value.foo !== nextProps.value.foo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上，我们最终做了深度的比较，以确保我们正确的跟踪变化。在性能方面，这种做法是非常昂贵的。它不能扩展，我们不得为每个模块便携不同的深度比较的方法。最重要的是，如果我们没能很好的管理对象的引用，它可能就会不起作用。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	getInitialState: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			<span class="keyword">value</span>: &#123;</span><br><span class="line">				foo: <span class="string">'bar'</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;,</span><br><span class="line">	onClick: <span class="keyword">function</span>() &#123;</span><br><span class="line">		var <span class="keyword">value</span> = <span class="keyword">this</span>.state.<span class="keyword">value</span>;</span><br><span class="line">		<span class="keyword">value</span>.foo += <span class="string">'bar'</span>; </span><br><span class="line">		<span class="keyword">this</span>.setState(&#123;</span><br><span class="line">			<span class="keyword">value</span>: <span class="keyword">value</span></span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;,</span><br><span class="line">	render: <span class="keyword">function</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;InnerComponent <span class="keyword">value</span>=&#123;<span class="keyword">this</span>.state.<span class="keyword">value</span>&#125; /&gt;</span><br><span class="line">				&lt;a onClick=&#123;<span class="keyword">this</span>.onClick&#125;&gt;Click Me&lt;/a&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>内部组件先被渲染，{foo: ‘bar’}作为它的props。如果用户点击了a链接，则父组件的state被更新为{value: {foo: ‘barbar’}}，触发内部组件重新渲染，它将接收新的props值{foo: ‘barbar’}。</p>
+<p>这个问题是由于父组件和子组件引用同一个对象，当对象在onClick方法中变了时，子组件的props也跟着改变了。因此，当重渲染过程开始时，shouldComponentUpdate方法就会被调用，this.props.value.foo和nextProps.value.foo相等，实际上，this.props.value和nextProps.value引用的是同一个对象。</p>
+<p>因此，我们就会想到prop的改变和阻止重新渲染的过程，bar变成barbar时UI将不会被更新。</p>
+<h3 id="Immutable-js_to_the_rescue">Immutable-js to the rescue</h3><p>Immutable-js通过结构共享，提供了不可变持久化数据集合。</p>
+<ul>
+<li>Immutable（不可变）：一旦创建，集合就不能在另一个时间点被改变；</li>
+<li>Persistent（持久性）：新的集合可以由以前的集合创建。创建新的集合后对原始集合依然有效；</li>
+<li>Structural Sharing（结构共享）：创建新集合时候尽可能使用有相同结构的原始集合，将复制过程减少到最小，以实现空间效率和可接受的性能。如果新集合和原始集合相同，则返回原始集合。</li>
+</ul>
+<p>不可变使得追踪变化很容易，一个变化总是在新对象的结果中 ，因此只需检查这个对象的引用是否改变。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = &#123;foo: <span class="string">'bar'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> y = x;</span><br><span class="line">y.foo = <span class="string">'baz'</span>;</span><br><span class="line">x === y; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>虽然y被编辑了，由于它和x引用的是同一个对象，因此这种比较返回true。然而，这种代码可以使用不可变JS来写：</p>
+<pre><code><span class="keyword">var</span> SomeRecord = Immutable.Record({foo: <span class="literal">null</span>});
+<span class="keyword">var</span> x = <span class="keyword">new</span> SomeRecord({foo: <span class="string">'bar'</span>});
+<span class="keyword">var</span> y = x.<span class="keyword">set</span>(<span class="string">'foo'</span>, <span class="string">'baz'</span>);
+x === y; <span class="comment">// false</span>
+</code></pre><p>在这种情况下，当x改变时候返回一个新的引用，我们可以更安全的假定x已经改变。</p>
+<p>另一种可能就是设置一个标识，通过脏检查来跟踪变化。这种方法的一个问题是强制我们使用setters，既要写很多无关的代码，又和代码类耦合。或者，在一个对象改变前深copy，或深比较以确认是否时候。这种方法的问题是深copy和深比较都是很耗性能的。</p>
+<p>因此，不可变数据结构提供了更简洁和便利的跟踪对象变化的方式，需要实现shouldComponentUpdate方法。因此，如果我们的props和state使用immutable-js提供的抽象模型，我们将可以使用PureRenderMixin在pref中获得很好的推动作用。</p>
+<p><strong>说明</strong></p>
+<p><em>调和：state 改变导致 Virtual DOM 改变，计算真实 DOM 该如何改变的过程。</em></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Immutable/" rel="tag">#Immutable</a>
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+            <a href="/tags/性能优化/" rel="tag">#性能优化</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/22/前端路由实现原理/" rel="next" title="前端路由实现原理">
+                <i class="fa fa-chevron-left"></i> 前端路由实现原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="baizn" />
+          <p class="site-author-name" itemprop="name">baizn</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用生产版本"><span class="nav-number">1.</span> <span class="nav-text">使用生产版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免调和DOM"><span class="nav-number">2.</span> <span class="nav-text">避免调和DOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shouldComponentUpdate_in_action"><span class="nav-number">3.</span> <span class="nav-text">shouldComponentUpdate in action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Immutable-js_to_the_rescue"><span class="nav-number">4.</span> <span class="nav-text">Immutable-js to the rescue</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">baizn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
