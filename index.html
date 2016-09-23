@@ -248,6 +248,175 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/23/Immutable-js中文API文档-持续更新/" itemprop="url">
+                  Immutable.js中文API文档(持续更新)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T22:35:39+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>不可变数据鼓励使用纯函数（相同的输入，输出永远相同），并适用于更简单的应用程序开发和使用函数式编程实现的技术，如延迟计算。</p>
+<p>这样的设计给JS提供了一些强大的函数概念，它提供了JS工程师都很熟悉的面向对象API及与原生JS很类似的Array、Map和Set，可以很方便高效地和普通JS对象进行转换。</p>
+<p>友情提示：所有的示例都使用ES6编写，如果要在浏览器中运行，则需要转为ES3，如下所示：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES6</span></span><br><span class="line">foo.mao( x =&gt; x*x)</span><br><span class="line"><span class="comment">//ES3</span></span><br><span class="line">foo.map(<span class="function"><span class="keyword">function</span><span class="params">(x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x*x</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="API">API</h2><h3 id="fromJS()">fromJS()</h3><p>将普通JS对象和数组转换为不可变的Map和List集合。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fromJS(json: <span class="built_in">any</span>, reviver?: (k: <span class="built_in">any</span>, v: Iterable&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;) =&gt; <span class="built_in">any</span>) : <span class="built_in">any</span></span><br></pre></td></tr></table></figure>
+<p>如果提供了可选的reviver参数，它将作为一个Seq被每个集合调用（从嵌套最深的集合开始直到最顶层的集合本身），Seq包含一个指向每个集合的key以及父级JS对象作为this使用。在最顶层的Object，key为””，reviver预计返回一个新的Immutable Iterable，允许从深嵌套的JS对象自定义转换。</p>
+<p>将JSON对象转为List和OrderedMap：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Immutable.fromJS(&#123;</span><br><span class="line">  a: &#123;</span><br><span class="line">    b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  c: <span class="number">40</span></span><br><span class="line">&#125;, <span class="keyword">function</span>(key, <span class="keyword">value</span>) &#123;</span><br><span class="line">  var isIndexed = Immutable.Iterable.isIndexed(value)</span><br><span class="line">  return isIndexed ? value.toList() : value.toOrderMap()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//true:, <span class="string">'b'</span>, &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;</span><br><span class="line">//<span class="literal">false</span>, <span class="string">'a'</span>, &#123;a: &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;, c: <span class="number">40</span>&#125;</span><br><span class="line">//<span class="literal">false</span>, <span class="string">''</span>, &#123; <span class="string">''</span>: &#123;a: &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;, c: <span class="number">40</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有提供reviver参数，则默认将Arrays转为List集合，将Objects转为Map集合。</p>
+<p>当和JSON.parse有同样的参数时候reviver也会起作用。</p>
+<p>Immutable.fromJS()是保守的转换。它的转换规则是：仅仅使用Array.isArray将数组转为List集合，将原始对象（不定制原型）转为Map集合。</p>
+<p>请记住：即便是一些引用的简写及不可变Map集合接受任意类型的key，当将JS对象转为不可变的Map集合时，JS对象的属性始终是字符串。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="number">1</span>: <span class="string">'one'</span>&#125;</span><br><span class="line"><span class="built_in">Object</span>.keys(obj) <span class="comment">//['1']</span></span><br><span class="line">obj[<span class="string">'1'</span>] <span class="comment">//one</span></span><br><span class="line">obj[<span class="number">1</span>] <span class="comment">//one</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> map = <span class="built_in">Map</span>(obj)</span><br><span class="line">map.<span class="literal">get</span>(<span class="string">'1'</span>) <span class="comment">//one</span></span><br><span class="line">map.<span class="literal">get</span>(<span class="number">1</span>) <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<p>因为不可变Map集合的key可以是任意类型，所以访问JS对象属性时候首次会将key转为字符串，以防get()方法被修改。</p>
+<h3 id="is()">is()</h3><p>值相对检测相当于Object.js，但是is()方法将Immutable Iterable作为value，检测是否与第二个Iterable包含的值相对。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">is</span>(<span class="keyword">first</span>: any, <span class="keyword">second</span>: any): <span class="type">boolean</span></span><br></pre></td></tr></table></figure>
+<p>当检查是否相等时，它被用于整个不可变集合，包含Map集合key的比较急Set集合的成员比较。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> map1 = Immutable.<span class="built_in">Map</span>(&#123;a: <span class="number">1</span>, b: <span class="number">1</span>, c: <span class="number">1</span>&#125;)</span><br><span class="line"><span class="keyword">var</span> map2 = Immutable.<span class="built_in">Map</span>(&#123;a: <span class="number">1</span>, b: <span class="number">1</span>, c: <span class="number">1</span>&#125;)</span><br><span class="line">map1 !== map2 <span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span>.<span class="keyword">is</span>(map1, map2); <span class="comment">//false</span></span><br><span class="line">Immutable.<span class="keyword">is</span>(map1, map2) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>Tips：不像Object.is，Immutable.js假定0和-0相等，匹配ES6 Map中的key是否相等。</p>
+<h3 id="List">List</h3><p>List是按索引排序的密集型集合，和类似JS的Array。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">List&lt;T&gt;</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Collection</span>.<span class="title">Indexed&lt;T&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>List集合是不可变的，充分可持久化的，get和set的时间复杂度为O(log32 N)，push和pop的时间复杂度为O(1)。</p>
+<p>List实现了Deque，具有同时从尾部（push，pop）和头部（unshift，shift）高效地添加和移除元素。</p>
+<p>与JS Array不同，未设置索引和设置了索引，然后将值设置为undefined是相同的行为，List的forEach方法从0到size访问所有的索引，而不管它们是否被明确定义。</p>
+<p><strong>构造方法</strong></p>
+<h3 id="List()">List()</h3><p>使用类似Iterable提供的值，创建一个新的不可变List，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;T&gt;(): <span class="built_in">List</span>&lt;t&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iter: <span class="built_in">Iterable</span>.Indexed&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iter: <span class="built_in">Iterable</span>.<span class="built_in">Set</span>&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;K, V&gt;(iter: <span class="built_in">Iterable</span>.Keyed&lt;K, V&gt;): <span class="built_in">List</span>&lt;any&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(array: Array&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iterator: <span class="built_in">Iterator</span>&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iterable: <span class="built_in">Object</span>): <span class="built_in">List</span>&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>静态方法</strong></p>
+<h3 id="List-isList()">List.isList()</h3><p>如果提供的值是一个List，则返回true。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List.<span class="function"><span class="title">isList</span><span class="params">(maybeList: any)</span></span>: boolean</span><br></pre></td></tr></table></figure>
+<h3 id="List-of()">List.of()</h3><p>使用包含的值创建一个新的List。</p>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>.<span class="keyword">of</span>&lt;T&gt;(...values: T[]): <span class="built_in">List</span>&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>成员变量</strong></p>
+<h3 id="size">size</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">size</span>: <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p><strong>持久性更改</strong></p>
+<h3 id="set()">set()</h3><p>返回一个包括索引值的新的List，如果该索引已经存在在List中，则替换它。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">set</span>(<span class="keyword">index</span>: <span class="built_in">number</span>, <span class="keyword">value</span>: <span class="keyword">T</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>索引可能会是负数，就会从List尾部开始索引。v.set(-1, ‘value’)设置的是List集合中最后一个元素。</p>
+<p>如果索引大于List的size，则尽可能大的返回包含该索引的size。</p>
+<h3 id="delete()">delete()</h3><p>返回一个新的List，该List包含该索引值和比原List的size少1的List，该index所在位置上面的元素都会向下移动一位来填补空缺。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">delete</span>(<span class="keyword">index</span>: <span class="built_in">number</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>与list.splice(index, 1)作用相同。</p>
+<p>index可以是负数，如果索引是负数则从List尾部操作。v.delete(-1)会删除List中最后一个元素。</p>
+<p>友情提示：delete方法在IE8下慎用。</p>
+<h3 id="insert()">insert()</h3><p>返回一个索引值比原List的size大1的List，该索引位置及后面的元素依次向后移动1位。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">insert</span>(<span class="keyword">index</span>: <span class="built_in">number</span>, <span class="keyword">value</span>: <span class="keyword">T</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>与list.splice(index, 0, value)作用相同。</p>
+<h3 id="clear()">clear()</h3><p>返回一个size为0，并且没有值的新List。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">clear</span><span class="params">()</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="push()">push()</h3><p>返回一个新的List集合，参数values添加List中，从原List的size开始。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">push</span><span class="params">(...values: T[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="pop()">pop()</h3><p>返回一个新的List集合，比原List的size小1，删除List中的最后一个元素。</p>
+<p>友情提示：和Array#pop方法不同，因为它返回的是一个新的List集合而不是被删除的值。使用last()方法获取List集合中的最后一个值。</p>
+<h3 id="unshift()">unshift()</h3><p>根据提供的参数，返回一个新的List集合，参数会添加到List头部。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">unshift</span><span class="params">(...values: T[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="shift()">shift()</h3><p>返回一个新的List集合，比原List的size小1，删除了原List的第一个元素，新List集合中元素的索引比原List中都小1。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">shift</span><span class="params">()</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p>友情提示：和Array#shift()方法不同，因此该方法返回的是一个新的List集合，而不是被删除的元素。使用first()方法可以获取到List集合中的第一个元素。</p>
+<h3 id="update()">update()</h3><p>update可接收三种不同类型的参数，都会返回一个新的List集合。</p>
+<ul>
+<li>只接收一个updater参数，该参数为function</li>
+<li>接收两个参数：一个索引，类型为number；一个updater function</li>
+<li>接收三个参数：一个索引；不设定值；一个updater function</li>
+</ul>
+<p>index可能为负数，如果为负数，则从List集合尾部操作。v.update(-1)更新List集合的最后一个元素。</p>
+<h3 id="merge()">merge()</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">merge</span>(...iterables: Iterable.Indexed&lt;<span class="keyword">T</span>&gt;[]): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span><br><span class="line"><span class="keyword">merge</span>(...iterables: <span class="built_in">Array</span>&lt;<span class="keyword">T</span>&gt;[]): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="mergeWith()">mergeWith()</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mergeWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Iterable.Indexed&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br><span class="line">mergeWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Array&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="mergeDeep">mergeDeep</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">mergeDeep</span><span class="params">(...iterables: Iterable.Indexed&lt;T&gt;[])</span></span>: List&lt;T&gt;</span><br><span class="line"><span class="function"><span class="title">mergeDeep</span><span class="params">(...iterables: Array&lt;T&gt;[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="mergeDeepWith()">mergeDeepWith()</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mergeDeepWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Iterable.Indexed&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br><span class="line">mergeDeepWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Array&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="setSize()">setSize()</h3><p>根据参数size返回一个新的List集合。</p>
+<ul>
+<li>size小于原List集合的size，则返回size长度的一个List；</li>
+<li>size大于原List集合的size，则不足的部分填充undefined</li>
+</ul>
+<p><strong>深度持久化</strong></p>
+<h3 id="setIn()">setIn()</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/23/React设计原则/" itemprop="url">
                   React设计原则
                 </a>
@@ -1301,245 +1470,6 @@ x === y; <span class="comment">// false</span>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/18/React服务端渲染/" itemprop="url">
-                  React服务端渲染
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-18T14:43:39+08:00" content="2016-03-18">
-              2016-03-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>服务端渲染作用</p>
-</blockquote>
-<ul>
-<li>便于SEO，可降低首屏加载时间</li>
-</ul>
-<blockquote>
-<p>服务端渲染原理</p>
-</blockquote>
-<ul>
-<li>service与client共享一部分代码</li>
-<li>server拿到首次渲染需要的初始化数据state</li>
-<li>server根据state把组件转换为HTML字符串</li>
-<li>server把HTML和state发到客户端</li>
-</ul>
-<p>React提供了renderToString和renderToStaticMarkup两个方法，它们支持将React Component直接输出成HTML字符串。因此，可以在服务端执行React，然后将渲染结果返回。</p>
-<h3 id="1_renderToString_&amp;_renderToStaticMarkup">1 renderToString &amp; renderToStaticMarkup</h3><ul>
-<li>renderToString</li>
-</ul>
-<blockquote>
-<p>用在服务端，把React Component渲染成HTML，然后通过response发送到浏览器端，达到SEO的目的</p>
-</blockquote>
-<ul>
-<li>renderToStaticMarkup</li>
-</ul>
-<blockquote>
-<p>和renderToString类似，但它生成的HTML中不包含类似data-react-id这样的属性，可用于生成简单的静态页面。</p>
-</blockquote>
-<p>还需要考虑以下问题：</p>
-<ul>
-<li><p>初始数据异步请求：所有需要在服务端渲染的数据请求，都需要在返回HTML之前处理完</p>
-</li>
-<li><p>Action和Store该如何管理？Action事件发送是在数据之前还是之后？</p>
-</li>
-<li><p>服务端数据需要初始化，浏览器端数据也需要初始化。所以浏览器端需要保存一个副本，该副本如何保存，浏览器端Store如何初始化？</p>
-</li>
-<li><p>前后端代码共享</p>
-</li>
-<li><p>前后端路由统一处理</p>
-</li>
-</ul>
-<h3 id="2_服务端渲染与状态共享">2 服务端渲染与状态共享</h3><p>在设计服务端渲染组件时，应考虑如何将state传递到客户端，以便充分利用服务端渲染的优势，同时也要保证同一个props传递到组件中，总会输出相同的渲染结果。</p>
-<h4 id="2-1_checksum的失效">2.1 checksum的失效</h4><p>如下组件，在服务端渲染，每次都会输出一个随机数。</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HelloComponent = React.createClass(&#123;</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;Math.random()&#125;&lt;div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> html = ReactDOMServer.renderToString(&lt;HelloComponent /&gt;);</span><br></pre></td></tr></table></figure>
-<p>这个组件会导致data-react-checksum值检测失败，React会抛弃服务端的渲染结果，而在客户端重新进行渲染，这样就失去了服务端渲染的优势。</p>
-<h4 id="2-2_解决方案">2.2 解决方案</h4><p>对该组件进行重构，将随机数封装到props中，将props传递到客户端共享状态。</p>
-<ul>
-<li>重构组件</li>
-</ul>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HelloComponent = React.createClass(&#123;</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;&#123;<span class="keyword">this</span>.props.number&#125;&lt;div&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>服务端渲染</li>
-</ul>
-<p>服务端渲染组件后，除了渲染的HTML传递到页面外，还要将客户端使用的props传递到页面。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">num</span> = Math.random();</span><br><span class="line"><span class="comment">//server render</span></span><br><span class="line"><span class="keyword">var</span> html = ReactDOMServer.renderToString(&lt;HelloComponent number=&#123;<span class="built_in">num</span>&#125; /&gt;);</span><br><span class="line"><span class="comment">//向页面传递渲染后HTML字符串和num(props)</span></span><br><span class="line">res.render(<span class="string">'random-props'</span>, &#123;html: html, <span class="built_in">num</span>: <span class="built_in">num</span>&#125;);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>客户端渲染</li>
-</ul>
-<p>客户端会在页面加载完成，使用服务端传递的props重新渲染组件，由于前后端的props值相同，React的checksum检测就会通过。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> HelloComponent <span class="keyword">from</span> <span class="string">'./HelloComponent'</span>;</span><br><span class="line"><span class="keyword">var</span> mountNode = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</span><br><span class="line"><span class="comment">//使用服务端传递初始值重新渲染组件</span></span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="title">HelloComponent</span> <span class="attribute">number</span>=<span class="value">&#123;props.num&#125;</span> /&gt;</span>, mountNode);</span></span><br></pre></td></tr></table></figure>
-<h3 id="3_服务端使用Redux">3 服务端使用Redux</h3><ul>
-<li>Store</li>
-</ul>
-<blockquote>
-<p>整个应用只有一个唯一的Store</p>
-<p>Store对应的状态树（state），由reducer函数生成</p>
-<p>state树的每个字段都可以进一步由不同的reducer函数生成</p>
-<p>Store包含dispatch、getState等方法来处理数据流</p>
-<p>Store的state树只能由dispatch(action)来触发更改</p>
-</blockquote>
-<ul>
-<li>redux的数据流</li>
-</ul>
-<blockquote>
-<p>action是一个包含{ type, payload }的对象</p>
-<p>reducer函数通过store.dispatch(action)触发</p>
-<p>reducer函数接收（state，action）两个参数，返回一个新的state</p>
-<p>reducer函数判断action.type，然后处理对应的action.payload数据来更新state树</p>
-</blockquote>
-<ul>
-<li>从服务端把数据发送到客户端，需要以下步骤</li>
-</ul>
-<blockquote>
-<p>为每次请求创建全新的Redux store实例</p>
-<p>按需dispatch(action)</p>
-<p>从store中获取state</p>
-<p>把state一同返回给客户端</p>
-</blockquote>
-<p>在客户端，使用服务端返回的state创建并初始化一个全新的Redux store。</p>
-<p>Redux在服务端唯一要做的事情就是：提供应用所需的初始state。</p>
-<h4 id="3-1_服务端">3.1 服务端</h4><p>Redux服务端渲染流程：</p>
-<ul>
-<li>获取store</li>
-<li>获取初始化state</li>
-<li>用renderToString注入到模板中，初始化state存到window对象中，在客户端使用window._initial_state获取</li>
-<li>发送注入模板后的字符串到客户端</li>
-</ul>
-<h3 id="4_服务端开发">4 服务端开发</h3><blockquote>
-<p>server.js</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;</span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'./reducers'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./containers/App'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//每次请求都会触发</span></span><br><span class="line">app.use(handleRender);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleRender</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderFullPage</span>(<span class="params">html, initialState</span>) </span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.listen(port);</span><br></pre></td></tr></table></figure>
-<h4 id="4-1_处理请求">4.1 处理请求</h4><p>每次请求都创建一个新的Redux store实例，该store的唯一作用是提供应用初始的state。</p>
-<p>渲染时，使用<provider>包住根组件<app>，让组件树中所有组件都能访问到store。</app></provider></p>
-<p>服务端渲染最关键的一步是在发送响应前渲染初始的HTML，使用renderToString()方法。</p>
-<p>然后使用store.getState()从store得到初始state。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; renderToString &#125; <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleRender</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//创建新的Redux store实例</span></span><br><span class="line">	<span class="keyword">const</span> store = createStore(rootReducer);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//把组件渲染成字符串</span></span><br><span class="line">	<span class="keyword">const</span> html = renderToString(</span><br><span class="line">		<span class="xml"><span class="tag">&lt;<span class="title">Provider</span> <span class="attribute">store</span>=<span class="value">&#123;store&#125;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">App</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">Provider</span>&gt;</span></span><br><span class="line">	)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//从store中获得初始state</span></span><br><span class="line">	<span class="keyword">const</span> initialState = store.getState();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//把渲染后的页面内容发送到客户端</span></span><br><span class="line">	res.send(renderFullPage(html, initialState));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2_注入初始组件的HTML和State">4.2 注入初始组件的HTML和State</h4><p>服务端渲染最后一步是把初始组件的HTML和初始state注入到客户端能够渲染的模板中。</p>
-<ul>
-<li>如何传递state呢？</li>
-</ul>
-<blockquote>
-<p>添加一个<script>标签，把initialState赋给window._INITIAL<em>STATE</em>，客户端通过window._INITIAL<em>STATE</em>获取initialState。</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function renderFullPage(html, initialState) &#123;</span><br><span class="line">	return `</span><br><span class="line">		<span class="doctype">&lt;!doctype html&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">title</span>&gt;</span>react server render<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">'container'</span>&gt;</span>$&#123;html&#125;<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">					<span class="built_in">window</span>._INITIAL_STATE_ = $&#123;<span class="built_in">JSON</span>.stringify(initialState)&#125;</span><br><span class="line">				</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">'/build/bundle.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br><span class="line">	`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="6_客户端开发">6 客户端开发</h3><p>客户端只需要从window._INITIAL<em>STATE</em>得到初始state，并传给createStore()函数即可。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./container/App'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'./reducers'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//通过服务端注入的初始state</span></span><br><span class="line"><span class="keyword">const</span> initialState = <span class="built_in">window</span>._INITIAL_STATE_;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用初始state创建Redux store</span></span><br><span class="line"><span class="keyword">const</span> store = createStore(rootReducer, initialState);</span><br><span class="line"></span><br><span class="line">render(</span><br><span class="line">	<span class="xml"><span class="tag">&lt;<span class="title">Provider</span> <span class="attribute">store</span>=<span class="value">&#123;store&#125;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">App</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">Provider</span>&gt;</span>,</span><br><span class="line">	document.querySelector('#container')</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
-<p>以上就是实现服务端渲染的所有步骤，但也只会用动态代码渲染一个静态view。</p>
-<h3 id="7_如何动态创建state渲染动态view？">7 如何动态创建state渲染动态view？</h3><p>客户端只执行收到的代码，刚开始的初始state可能是空的，然后根据需要获取state。在服务端，渲染是同步执行的而且我们只有一次渲染view的机会。在收到请求时，可能需要根据请求参数或者外部state（如API请求或访问数据库），计算后得到初始state。</p>
-<h4 id="7-1_处理Request参数">7.1 处理Request参数</h4><p>服务端收到的唯一输入是浏览器的请求。</p>
-<blockquote>
-<p>server.js</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> qs <span class="keyword">from</span> <span class="string">'qs'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; renderToString &#125; <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleRender</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//如果存在的话，从request读取参数</span></span><br><span class="line">	<span class="keyword">const</span> params = qs.parse(req.query);</span><br><span class="line">	<span class="keyword">const</span> counter = <span class="built_in">parseInt</span>(params.counter) || <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//得到初始state</span></span><br><span class="line">	<span class="keyword">let</span> initialState = &#123; counter &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建新的Redux store实例</span></span><br><span class="line">	<span class="keyword">const</span> store = createStore(rootReducer, initialState);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//把组件渲染成字符串</span></span><br><span class="line">	<span class="keyword">const</span> html = renderToString(</span><br><span class="line">		<span class="xml"><span class="tag">&lt;<span class="title">Provider</span> <span class="attribute">store</span>=<span class="value">&#123;store&#125;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="title">App</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="title">Provider</span>&gt;</span></span><br><span class="line">	)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//从Redux store得到初始state</span></span><br><span class="line">	<span class="keyword">const</span> finalState = store.getState();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//把渲染后的页面发给客户端</span></span><br><span class="line">	res.send(renderFullPage(html, finalState));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="7-2_获取异步state">7.2 获取异步state</h4><p>服务端渲染常用的场景是处理异步state。因为服务端渲染是同步的，如何将异步的数据获取操作对应到同步操作呢？</p>
-<p>最简单的做法就向同步代码里面传递一些回调函数。在这个回调函数里引用响应对象，把渲染后的HTML发给客户端。</p>
-<h3 id="8_React-router服务端渲染">8 React-router服务端渲染</h3><p>react-router在服务端渲染与客户端有所不同，需要：</p>
-<blockquote>
-<ul>
-<li><p>发送错误时发送一个500响应</p>
-</li>
-<li><p>需要重定向时发送一个30x响应</p>
-</li>
-<li><p>在渲染之前获得数据</p>
-</li>
-</ul>
-</blockquote>
-<p>为了满足这些需求，需要在<Router> API下一层使用：</p>
-<blockquote>
-<ul>
-<li><p>使用match在渲染之前根据location匹配route</p>
-</li>
-<li><p>使用RoutingContext同步渲染route组件</p>
-</li>
-</ul>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; renderToString &#125; <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; match, RoutingContext &#125; <span class="keyword">from</span> <span class="string">'react-router'</span>;</span><br><span class="line"><span class="keyword">import</span> routers <span class="keyword">from</span> <span class="string">'./routes'</span>;</span><br><span class="line"></span><br><span class="line">app.use( (req, res) =&gt; &#123;</span><br><span class="line">	match(&#123; routes, location: req.url &#125;, (error, redirectLocation, renderProps) =&gt; &#123;</span><br><span class="line">		<span class="keyword">if</span>(error) &#123;</span><br><span class="line">			res.send(<span class="number">500</span>, error.message);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(redirectLocation) &#123;</span><br><span class="line">			res.redirect(<span class="number">302</span>, redirectLocation.pathname + redirectLocation.search);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span>(renderProps) &#123;</span><br><span class="line">			res.send(<span class="number">200</span>, renderToString(</span><br><span class="line">				<span class="xml"><span class="tag">&lt;<span class="title">RoutingContext</span> &#123;<span class="attribute">...renderProps</span>&#125; /&gt;</span></span><br><span class="line">			)</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			res.send(<span class="number">404</span>, <span class="string">'Not Found'</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</script></p></blockquote>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1585,7 +1515,7 @@ x === y; <span class="comment">// false</span>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">49</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1595,7 +1525,7 @@ x === y; <span class="comment">// false</span>
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

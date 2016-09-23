@@ -248,6 +248,139 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/10/ECMAScript自动分号插入机制/" itemprop="url">
+                  ECMAScript自动分号插入机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-10T10:06:37+08:00" content="2015-11-10">
+              2015-11-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ECMAScript自动分号插入">ECMAScript自动分号插入</h2><p>必须使用分号终止某些ECMAScript语句（空语句，变量声明语句，表达式语句，do-while语句，continue语句，break语句，return语句，throw语句）。这些分号总是明确的显示在源文本中，但是有时为了方便，某些情况下可以在源文本中将这些分号省略。描述这种情况的时候会说给源代码的token流自动插入分号。</p>
+<h3 id="自动分号插入规则">自动分号插入规则</h3><p>分号插入有三个基本规则。</p>
+<blockquote>
+<ul>
+<li><p>左到右解析程序，当遇到一个不符合任何文法产生式的token，那么只满足下面条件之一就在违规token前面自动插入分号</p>
+<p> 至少一个LineTerminator分割了违规token和前一个token<br> 违规token式｝</p>
+</li>
+<li>左到右解析程序，token输入流已经结束，当解析器无法将输入token流解析成单个完整ECMAScript程序，那么就在输入流的结束位置自动插入分号</li>
+<li>左到右解析程序，遇到一个某些文法产生式允许的token，但是此产生式是受限产生式，受限产生式后紧跟在no LineTerminator here后的第一个终结符或非终结符的token叫做受限token，当至少一个LineTerminator分割了受限的token和前一个token，那么就在受限token前面自动插入分号</li>
+</ul>
+</blockquote>
+<p>上述规则有一个前提条件：<strong>如果插入分号后解析结果是空语句，或如果插入分号后它成为for语句头部的两个分号之一，那么不会自动插入分号。</strong></p>
+<p>文法的受限产生式只限以下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">PostfixExpression</span> :</span><br><span class="line">LeftHandSideExpression [<span class="built_in">no</span> LineTerminator here] ++</span><br><span class="line">LeftHandSideExpression [<span class="built_in">no</span> LineTerminator here] --</span><br></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ContinueStatement :</span><br><span class="line"><span class="keyword">continue</span> [<span class="literal">no</span> LineTerminator here] Identifier;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">BreakStatement</span> :</span><br><span class="line"><span class="built_in">break</span> [<span class="built_in">no</span> LineTerminator here] Identifier;</span><br></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ReturnStatement :</span><br><span class="line"><span class="keyword">return</span> [<span class="literal">no</span> LineTerminator here] Expression;</span><br></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThrowStatement :</span><br><span class="line"><span class="keyword">throw</span> [<span class="literal">no</span> LineTerminator here] Expression;</span><br></pre></td></tr></table></figure>
+<p>这些受限式产生的实际效果如下：</p>
+<blockquote>
+<ul>
+<li>当遇到的++ 或 – token将要被解析器当作一个后缀运算符，并且至少有一个LineTerminator出现在++ 或 – token和它之前的token之间，那么在++ 或 – token前面自动插入一个分号</li>
+<li>当遇到continue，break，return，throw token，并且在下一个token前面遇到LineTerminator，那么在continue，break，return，throw token后面自动插入一个分号</li>
+</ul>
+</blockquote>
+<p>这些规则对实际编程中的影响如下：</p>
+<blockquote>
+<ul>
+<li>后缀运算符++ 或 – 和它的操作数应该在同一行</li>
+<li>return或throw语句的表达式开始位置应该和return或throw token在同一行</li>
+<li>break或continue语句的标示符应该和break和continue token在同一行</li>
+</ul>
+</blockquote>
+<h3 id="自动分号插入的例子">自动分号插入的例子</h3><p>源代码：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">for</span><span class="params">(a; b)</span></span></span><br></pre></td></tr></table></figure>
+<p>不符合ECMAScript文法，并且不会被自动分号插入所更改，因为for语句头部需要分号。自动分号插入从来不会插入成for语句头部的两个分号之一。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">a</span> = <span class="tag">b</span> + c (d + e).<span class="function"><span class="title">print</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>它不会被自动分号插入改变，因为第二行开始位置的括号表达式可以解释成函数调用的参数列表。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">a</span> = <span class="tag">b</span> + <span class="function"><span class="title">c</span><span class="params">(d + e)</span></span>.<span class="function"><span class="title">print</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在赋值语句必须用左括号开头的情况下，在前面语句的结束位置明确提供一个分号，而不是依赖于自动分号插入机制。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/06/ECMAScript-2015新增的函数特性/" itemprop="url">
                   ECMAScript 2015新增的函数特性
                 </a>
@@ -1424,7 +1557,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">49</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1434,7 +1567,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

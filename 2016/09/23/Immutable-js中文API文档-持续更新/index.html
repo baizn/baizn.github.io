@@ -1,0 +1,658 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="API,Immutable,中文API文档," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="不可变数据鼓励使用纯函数（相同的输入，输出永远相同），并适用于更简单的应用程序开发和使用函数式编程实现的技术，如延迟计算。
+这样的设计给JS提供了一些强大的函数概念，它提供了JS工程师都很熟悉的面向对象API及与原生JS很类似的Array、Map和Set，可以很方便高效地和普通JS对象进行转换。
+友情提示：所有的示例都使用ES6编写，如果要在浏览器中运行，则需要转为ES3，如下所示：
+123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Immutable.js中文API文档(持续更新)">
+<meta property="og:url" content="http://baizn.github.io/2016/09/23/Immutable-js中文API文档-持续更新/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="不可变数据鼓励使用纯函数（相同的输入，输出永远相同），并适用于更简单的应用程序开发和使用函数式编程实现的技术，如延迟计算。
+这样的设计给JS提供了一些强大的函数概念，它提供了JS工程师都很熟悉的面向对象API及与原生JS很类似的Array、Map和Set，可以很方便高效地和普通JS对象进行转换。
+友情提示：所有的示例都使用ES6编写，如果要在浏览器中运行，则需要转为ES3，如下所示：
+123456">
+<meta property="og:updated_time" content="2016-09-23T14:36:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Immutable.js中文API文档(持续更新)">
+<meta name="twitter:description" content="不可变数据鼓励使用纯函数（相同的输入，输出永远相同），并适用于更简单的应用程序开发和使用函数式编程实现的技术，如延迟计算。
+这样的设计给JS提供了一些强大的函数概念，它提供了JS工程师都很熟悉的面向对象API及与原生JS很类似的Array、Map和Set，可以很方便高效地和普通JS对象进行转换。
+友情提示：所有的示例都使用ES6编写，如果要在浏览器中运行，则需要转为ES3，如下所示：
+123456">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://baizn.github.io/2016/09/23/Immutable-js中文API文档-持续更新/"/>
+
+  <title> Immutable.js中文API文档(持续更新) | baizn的github博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">baizn的github博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Immutable.js中文API文档(持续更新)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T22:35:39+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>不可变数据鼓励使用纯函数（相同的输入，输出永远相同），并适用于更简单的应用程序开发和使用函数式编程实现的技术，如延迟计算。</p>
+<p>这样的设计给JS提供了一些强大的函数概念，它提供了JS工程师都很熟悉的面向对象API及与原生JS很类似的Array、Map和Set，可以很方便高效地和普通JS对象进行转换。</p>
+<p>友情提示：所有的示例都使用ES6编写，如果要在浏览器中运行，则需要转为ES3，如下所示：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES6</span></span><br><span class="line">foo.mao( x =&gt; x*x)</span><br><span class="line"><span class="comment">//ES3</span></span><br><span class="line">foo.map(<span class="function"><span class="keyword">function</span><span class="params">(x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x*x</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="API">API</h2><h3 id="fromJS()">fromJS()</h3><p>将普通JS对象和数组转换为不可变的Map和List集合。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fromJS(json: <span class="built_in">any</span>, reviver?: (k: <span class="built_in">any</span>, v: Iterable&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;) =&gt; <span class="built_in">any</span>) : <span class="built_in">any</span></span><br></pre></td></tr></table></figure>
+<p>如果提供了可选的reviver参数，它将作为一个Seq被每个集合调用（从嵌套最深的集合开始直到最顶层的集合本身），Seq包含一个指向每个集合的key以及父级JS对象作为this使用。在最顶层的Object，key为””，reviver预计返回一个新的Immutable Iterable，允许从深嵌套的JS对象自定义转换。</p>
+<p>将JSON对象转为List和OrderedMap：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Immutable.fromJS(&#123;</span><br><span class="line">  a: &#123;</span><br><span class="line">    b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  c: <span class="number">40</span></span><br><span class="line">&#125;, <span class="keyword">function</span>(key, <span class="keyword">value</span>) &#123;</span><br><span class="line">  var isIndexed = Immutable.Iterable.isIndexed(value)</span><br><span class="line">  return isIndexed ? value.toList() : value.toOrderMap()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//true:, <span class="string">'b'</span>, &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;</span><br><span class="line">//<span class="literal">false</span>, <span class="string">'a'</span>, &#123;a: &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;, c: <span class="number">40</span>&#125;</span><br><span class="line">//<span class="literal">false</span>, <span class="string">''</span>, &#123; <span class="string">''</span>: &#123;a: &#123;b: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]&#125;, c: <span class="number">40</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有提供reviver参数，则默认将Arrays转为List集合，将Objects转为Map集合。</p>
+<p>当和JSON.parse有同样的参数时候reviver也会起作用。</p>
+<p>Immutable.fromJS()是保守的转换。它的转换规则是：仅仅使用Array.isArray将数组转为List集合，将原始对象（不定制原型）转为Map集合。</p>
+<p>请记住：即便是一些引用的简写及不可变Map集合接受任意类型的key，当将JS对象转为不可变的Map集合时，JS对象的属性始终是字符串。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;<span class="number">1</span>: <span class="string">'one'</span>&#125;</span><br><span class="line"><span class="built_in">Object</span>.keys(obj) <span class="comment">//['1']</span></span><br><span class="line">obj[<span class="string">'1'</span>] <span class="comment">//one</span></span><br><span class="line">obj[<span class="number">1</span>] <span class="comment">//one</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> map = <span class="built_in">Map</span>(obj)</span><br><span class="line">map.<span class="literal">get</span>(<span class="string">'1'</span>) <span class="comment">//one</span></span><br><span class="line">map.<span class="literal">get</span>(<span class="number">1</span>) <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<p>因为不可变Map集合的key可以是任意类型，所以访问JS对象属性时候首次会将key转为字符串，以防get()方法被修改。</p>
+<h3 id="is()">is()</h3><p>值相对检测相当于Object.js，但是is()方法将Immutable Iterable作为value，检测是否与第二个Iterable包含的值相对。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">is</span>(<span class="keyword">first</span>: any, <span class="keyword">second</span>: any): <span class="type">boolean</span></span><br></pre></td></tr></table></figure>
+<p>当检查是否相等时，它被用于整个不可变集合，包含Map集合key的比较急Set集合的成员比较。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> map1 = Immutable.<span class="built_in">Map</span>(&#123;a: <span class="number">1</span>, b: <span class="number">1</span>, c: <span class="number">1</span>&#125;)</span><br><span class="line"><span class="keyword">var</span> map2 = Immutable.<span class="built_in">Map</span>(&#123;a: <span class="number">1</span>, b: <span class="number">1</span>, c: <span class="number">1</span>&#125;)</span><br><span class="line">map1 !== map2 <span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span>.<span class="keyword">is</span>(map1, map2); <span class="comment">//false</span></span><br><span class="line">Immutable.<span class="keyword">is</span>(map1, map2) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>Tips：不像Object.is，Immutable.js假定0和-0相等，匹配ES6 Map中的key是否相等。</p>
+<h3 id="List">List</h3><p>List是按索引排序的密集型集合，和类似JS的Array。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">List&lt;T&gt;</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Collection</span>.<span class="title">Indexed&lt;T&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>List集合是不可变的，充分可持久化的，get和set的时间复杂度为O(log32 N)，push和pop的时间复杂度为O(1)。</p>
+<p>List实现了Deque，具有同时从尾部（push，pop）和头部（unshift，shift）高效地添加和移除元素。</p>
+<p>与JS Array不同，未设置索引和设置了索引，然后将值设置为undefined是相同的行为，List的forEach方法从0到size访问所有的索引，而不管它们是否被明确定义。</p>
+<p><strong>构造方法</strong></p>
+<h3 id="List()">List()</h3><p>使用类似Iterable提供的值，创建一个新的不可变List，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;T&gt;(): <span class="built_in">List</span>&lt;t&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iter: <span class="built_in">Iterable</span>.Indexed&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iter: <span class="built_in">Iterable</span>.<span class="built_in">Set</span>&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;K, V&gt;(iter: <span class="built_in">Iterable</span>.Keyed&lt;K, V&gt;): <span class="built_in">List</span>&lt;any&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(array: Array&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iterator: <span class="built_in">Iterator</span>&lt;T&gt;): <span class="built_in">List</span>&lt;T&gt;</span><br><span class="line"><span class="built_in">List</span>&lt;T&gt;(iterable: <span class="built_in">Object</span>): <span class="built_in">List</span>&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>静态方法</strong></p>
+<h3 id="List-isList()">List.isList()</h3><p>如果提供的值是一个List，则返回true。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List.<span class="function"><span class="title">isList</span><span class="params">(maybeList: any)</span></span>: boolean</span><br></pre></td></tr></table></figure>
+<h3 id="List-of()">List.of()</h3><p>使用包含的值创建一个新的List。</p>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>.<span class="keyword">of</span>&lt;T&gt;(...values: T[]): <span class="built_in">List</span>&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>成员变量</strong></p>
+<h3 id="size">size</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">size</span>: <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p><strong>持久性更改</strong></p>
+<h3 id="set()">set()</h3><p>返回一个包括索引值的新的List，如果该索引已经存在在List中，则替换它。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">set</span>(<span class="keyword">index</span>: <span class="built_in">number</span>, <span class="keyword">value</span>: <span class="keyword">T</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>索引可能会是负数，就会从List尾部开始索引。v.set(-1, ‘value’)设置的是List集合中最后一个元素。</p>
+<p>如果索引大于List的size，则尽可能大的返回包含该索引的size。</p>
+<h3 id="delete()">delete()</h3><p>返回一个新的List，该List包含该索引值和比原List的size少1的List，该index所在位置上面的元素都会向下移动一位来填补空缺。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">delete</span>(<span class="keyword">index</span>: <span class="built_in">number</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>与list.splice(index, 1)作用相同。</p>
+<p>index可以是负数，如果索引是负数则从List尾部操作。v.delete(-1)会删除List中最后一个元素。</p>
+<p>友情提示：delete方法在IE8下慎用。</p>
+<h3 id="insert()">insert()</h3><p>返回一个索引值比原List的size大1的List，该索引位置及后面的元素依次向后移动1位。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">insert</span>(<span class="keyword">index</span>: <span class="built_in">number</span>, <span class="keyword">value</span>: <span class="keyword">T</span>): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>与list.splice(index, 0, value)作用相同。</p>
+<h3 id="clear()">clear()</h3><p>返回一个size为0，并且没有值的新List。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">clear</span><span class="params">()</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="push()">push()</h3><p>返回一个新的List集合，参数values添加List中，从原List的size开始。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">push</span><span class="params">(...values: T[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="pop()">pop()</h3><p>返回一个新的List集合，比原List的size小1，删除List中的最后一个元素。</p>
+<p>友情提示：和Array#pop方法不同，因为它返回的是一个新的List集合而不是被删除的值。使用last()方法获取List集合中的最后一个值。</p>
+<h3 id="unshift()">unshift()</h3><p>根据提供的参数，返回一个新的List集合，参数会添加到List头部。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">unshift</span><span class="params">(...values: T[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="shift()">shift()</h3><p>返回一个新的List集合，比原List的size小1，删除了原List的第一个元素，新List集合中元素的索引比原List中都小1。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">shift</span><span class="params">()</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<p>友情提示：和Array#shift()方法不同，因此该方法返回的是一个新的List集合，而不是被删除的元素。使用first()方法可以获取到List集合中的第一个元素。</p>
+<h3 id="update()">update()</h3><p>update可接收三种不同类型的参数，都会返回一个新的List集合。</p>
+<ul>
+<li>只接收一个updater参数，该参数为function</li>
+<li>接收两个参数：一个索引，类型为number；一个updater function</li>
+<li>接收三个参数：一个索引；不设定值；一个updater function</li>
+</ul>
+<p>index可能为负数，如果为负数，则从List集合尾部操作。v.update(-1)更新List集合的最后一个元素。</p>
+<h3 id="merge()">merge()</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">merge</span>(...iterables: Iterable.Indexed&lt;<span class="keyword">T</span>&gt;[]): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span><br><span class="line"><span class="keyword">merge</span>(...iterables: <span class="built_in">Array</span>&lt;<span class="keyword">T</span>&gt;[]): <span class="keyword">List</span>&lt;<span class="keyword">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="mergeWith()">mergeWith()</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mergeWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Iterable.Indexed&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br><span class="line">mergeWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Array&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="mergeDeep">mergeDeep</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">mergeDeep</span><span class="params">(...iterables: Iterable.Indexed&lt;T&gt;[])</span></span>: List&lt;T&gt;</span><br><span class="line"><span class="function"><span class="title">mergeDeep</span><span class="params">(...iterables: Array&lt;T&gt;[])</span></span>: List&lt;T&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="mergeDeepWith()">mergeDeepWith()</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mergeDeepWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Iterable.Indexed&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br><span class="line">mergeDeepWith(</span><br><span class="line">	merger: (previous?: <span class="literal">T</span>, <span class="keyword">next</span>?: <span class="literal">T</span>, key?: number) =&gt; <span class="literal">T</span>,</span><br><span class="line">	...iterables: Array&lt;<span class="literal">T</span>&gt;[]</span><br><span class="line">): List&lt;<span class="literal">T</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="setSize()">setSize()</h3><p>根据参数size返回一个新的List集合。</p>
+<ul>
+<li>size小于原List集合的size，则返回size长度的一个List；</li>
+<li>size大于原List集合的size，则不足的部分填充undefined</li>
+</ul>
+<p><strong>深度持久化</strong></p>
+<h3 id="setIn()">setIn()</h3>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/API/" rel="tag">#API</a>
+          
+            <a href="/tags/Immutable/" rel="tag">#Immutable</a>
+          
+            <a href="/tags/中文API文档/" rel="tag">#中文API文档</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/23/React设计原则/" rel="next" title="React设计原则">
+                <i class="fa fa-chevron-left"></i> React设计原则
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="baizn" />
+          <p class="site-author-name" itemprop="name">baizn</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">1.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fromJS()"><span class="nav-number">1.1.</span> <span class="nav-text">fromJS()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is()"><span class="nav-number">1.2.</span> <span class="nav-text">is()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">1.3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List()"><span class="nav-number">1.4.</span> <span class="nav-text">List()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-isList()"><span class="nav-number">1.5.</span> <span class="nav-text">List.isList()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-of()"><span class="nav-number">1.6.</span> <span class="nav-text">List.of()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#size"><span class="nav-number">1.7.</span> <span class="nav-text">size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set()"><span class="nav-number">1.8.</span> <span class="nav-text">set()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete()"><span class="nav-number">1.9.</span> <span class="nav-text">delete()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#insert()"><span class="nav-number">1.10.</span> <span class="nav-text">insert()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clear()"><span class="nav-number">1.11.</span> <span class="nav-text">clear()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#push()"><span class="nav-number">1.12.</span> <span class="nav-text">push()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pop()"><span class="nav-number">1.13.</span> <span class="nav-text">pop()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unshift()"><span class="nav-number">1.14.</span> <span class="nav-text">unshift()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shift()"><span class="nav-number">1.15.</span> <span class="nav-text">shift()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#update()"><span class="nav-number">1.16.</span> <span class="nav-text">update()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merge()"><span class="nav-number">1.17.</span> <span class="nav-text">merge()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mergeWith()"><span class="nav-number">1.18.</span> <span class="nav-text">mergeWith()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mergeDeep"><span class="nav-number">1.19.</span> <span class="nav-text">mergeDeep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mergeDeepWith()"><span class="nav-number">1.20.</span> <span class="nav-text">mergeDeepWith()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setSize()"><span class="nav-number">1.21.</span> <span class="nav-text">setSize()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setIn()"><span class="nav-number">1.22.</span> <span class="nav-text">setIn()</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">baizn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

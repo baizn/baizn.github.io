@@ -248,6 +248,100 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/11/跨浏览器的事件处理/" itemprop="url">
+                  跨浏览器的事件处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-11T17:42:26+08:00" content="2016-01-11">
+              2016-01-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="跨浏览器的事件对象">跨浏览器的事件对象</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> EventUtil = &#123;</span><br><span class="line">	addHandler: function(element, type, handler) &#123;</span><br><span class="line">		<span class="keyword">if</span>(element.addEventListener) &#123;</span><br><span class="line">			element.addEventListener(type, handler, <span class="keyword">false</span>);</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span>(<span class="params">element.attachEvent</span>) </span>&#123;</span><br><span class="line">			element.attachEvent(<span class="string">'on'</span> + type, handler);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			element[<span class="string">'on'</span> + type] = handler;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	getEvent: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">event</span> ? <span class="keyword">event</span> : window.<span class="keyword">event</span>;</span><br><span class="line">	&#125;,</span><br><span class="line">	getTarget: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">event</span>.target || <span class="keyword">event</span>.srcElement;</span><br><span class="line">	&#125;,</span><br><span class="line">	preventDefault: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">event</span>.preventDefault) &#123;</span><br><span class="line">			<span class="keyword">event</span>.preventDefault();</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">event</span>.returnValue = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	removeHandler: function(element, type, handler) &#123;</span><br><span class="line">		<span class="keyword">if</span>(element.removeEventListener) &#123;</span><br><span class="line">			element.removeEventListener(type, handler, <span class="keyword">false</span>);</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span>(<span class="params">element.detachEvent</span>) </span>&#123;</span><br><span class="line">			element.detachEvent(<span class="string">'on'</span> + type, handler);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			element[<span class="string">'on'</span> + type] = <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	stopPropagation: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">event</span>.stopPropagation) &#123;</span><br><span class="line">			<span class="keyword">event</span>.stopPropagation();</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">event</span>.cancelBubble = <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//获取相关元素属性，只对mouseover和mouseout起作用</span></span><br><span class="line">	getRelatedTarget: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">event</span>.relatedTarget) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.relatedTarget;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params"><span class="keyword">event</span>.toElement</span>) </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.toElement;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params"><span class="keyword">event</span>.fromElement</span>) </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.fromElement;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//获取按的鼠标的那个键</span></span><br><span class="line">	getButton: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(document.implementation.hasFeature(<span class="string">'mouseEvents'</span>, <span class="string">'2.0'</span>)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.button;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">switch</span>(<span class="keyword">event</span>.button) &#123;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">				<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">					<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">					<span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">					<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//获取鼠标滚轮滚动的wheelDelta属性值</span></span><br><span class="line">	getWheelDelta: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">event</span>.wheelDelta) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.wheelDelta;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> -<span class="keyword">event</span>.detail*<span class="number">40</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//获取键盘按键的charCode属性，该属性存储的是按键字符的ASCII码</span></span><br><span class="line">	getCharCode: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">event</span>.charCode === <span class="string">'number'</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.charCode;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">event</span>.keyCode;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//获取剪切板里面的内容</span></span><br><span class="line">    getClipboardText: function(<span class="keyword">event</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> clipboardData = (<span class="keyword">event</span>.clipboardData || window.clipboardData);</span><br><span class="line">        <span class="keyword">return</span> clipboardData.getData(<span class="string">'text'</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//设置剪切板里面的内容</span></span><br><span class="line">    setClipboardText: function(<span class="keyword">event</span>, <span class="keyword">value</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">event</span>.clipboardData) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">event</span>.clipboardData.setData(<span class="string">'text/plain'</span>, <span class="keyword">value</span>);</span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span>  <span class="title">if</span>(<span class="params">window.clipboardData</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> window.clipboardData.setData(<span class="string">'text'</span>, <span class="keyword">value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/11/MEAT的十大作用/" itemprop="url">
                   MEAT的十大作用
                 </a>
@@ -1345,137 +1439,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/27/JavaScript检测客户端/" itemprop="url">
-                  JavaScript检测客户端
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-27T12:22:43+08:00" content="2015-11-27">
-              2015-11-27
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="使用JavaScript检测客户端">使用JavaScript检测客户端</h2><h3 id="能力检测">能力检测</h3><p>能力检测又称特性检测。能力检测的目的不是识别具体的浏览器，而是识别浏览器的能力。</p>
-<p>能力检测的基本模式如下：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="class"><span class="keyword">object</span>.<span class="title">property</span>) &#123;</span></span><br><span class="line">	<span class="comment">//存在该属性或方法，使用object.property</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用能力检测要注意一下两点：</p>
-<blockquote>
-<ul>
-<li>先检测达成目的的最常用的特性</li>
-<li>必须测试实际要用到的特性</li>
-</ul>
-</blockquote>
-<p>在可能的情况下，尽量使用typeof进行能力检测。但各个浏览器队typeof的返回值又不尽相同，可以采用下面的代码进行检测。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function isHostMethod(<span class="class"><span class="keyword">object</span>, <span class="title">property</span>) &#123;</span></span><br><span class="line">	<span class="keyword">var</span> tp = typeof <span class="class"><span class="keyword">object</span>[</span>property];</span><br><span class="line">	<span class="keyword">return</span> tp === <span class="symbol">'functio</span>n' ||</span><br><span class="line">		(!!(tp === <span class="symbol">'objec</span>t' &amp;&amp; <span class="class"><span class="keyword">object</span>[</span>property])) ||</span><br><span class="line">		t === <span class="symbol">'unknow</span>n';</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果知道应用程序需要使用某些特定的浏览器特性，那么最好是一次性检测所有相关的特性，而不要分别检测。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//确定浏览器是否支持Netscape风格的插件</span></span><br><span class="line"><span class="keyword">var</span> hasNSPlugins = !!(navigator.plugins &amp;&amp; navigator.plugins.length);</span><br><span class="line"></span><br><span class="line"><span class="comment">//确认浏览器是否具有DOM1级规定的能力</span></span><br><span class="line"><span class="keyword">var</span> hasDOM1 = !!(<span class="built_in">document</span>.getElementById &amp;&amp; <span class="built_in">document</span>.createElement &amp;&amp; <span class="built_in">document</span>.getElementByTagName);</span><br></pre></td></tr></table></figure>
-<h3 id="用户代理检测">用户代理检测</h3><p>用户代理检测通过检测用户代理字符串确定实际使用的浏览器。该字符串在javascript中可以通过navigator.userAgent属性访问。</p>
-<h4 id="用户代理字符串检测技术">用户代理字符串检测技术</h4><p>使用用户代理字符串来检测特定浏览器，一般情况下知道呈现引擎和最低限度的版本就可以决定正确的操作方法。</p>
-<p><strong>识别呈现引擎</strong></p>
-<p>知道确切的浏览器名字和版本号不如确切知道它使用的什么呈现引擎。如果Firefox，Camino和Netscape都使用相同版本的Gecko，那它们肯定支持相同的特性。因此，可以编写脚本检测5大呈现引擎：IE，Gecko，WebKit，KHTML和Opera。</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> clientCheck = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> engine = &#123;</span><br><span class="line">		ie: <span class="number">0</span>,</span><br><span class="line">		gecko: <span class="number">0</span>,</span><br><span class="line">		webkit: <span class="number">0</span>,</span><br><span class="line">		khtml: <span class="number">0</span>,</span><br><span class="line">		opera: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//具体版本号</span></span><br><span class="line">		version: <span class="literal">null</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		engine: engine</span><br><span class="line">	&#125;</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
-<p><strong>识别浏览器</strong></p>
-<p>大多数情况下，识别了浏览器的呈现引擎就可以为我们采取正确的操作提供依据了。但只有呈现引擎还不能说明存在所需的JavaScript功能。</p>
-<p>因此，还需要在上面代码的基础中加入一下部分代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var browser = &#123;</span><br><span class="line">	ie: <span class="number">0</span>,</span><br><span class="line">	firefox: <span class="number">0</span>,</span><br><span class="line">	safari: <span class="number">0</span>,</span><br><span class="line">	konq: <span class="number">0</span>,</span><br><span class="line">	opera: <span class="number">0</span>,</span><br><span class="line">	chrome: <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">	version: null</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">	engine: engine,</span><br><span class="line">	browser: browser</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>识别平台</strong></p>
-<p>很多时候，只要知道呈现引擎就足以编写适当的代码了。但在某些条件下，平台可能是必须关注的问题，那些具有各种平台版本的浏览器在不同平台下可能会有不同的问题。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var <span class="keyword">system</span> = &#123;</span><br><span class="line">	win: <span class="constant">false</span>,</span><br><span class="line">	mac: <span class="constant">false</span>,</span><br><span class="line">	unix: <span class="constant">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="constant">return</span> &#123;</span><br><span class="line">	engine: engine,</span><br><span class="line">	browser: browser,</span><br><span class="line">	<span class="keyword">system</span>: <span class="keyword">system</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>识别Window平台</strong></p>
-<p>在Windows平台下，还可以通过用户代理字符串中进一步取得具体的操作系统信息。</p>
-<p>使用下面的正则表达式匹配各个Windows版本：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">Win</span>(?:dows)?([^<span class="keyword">do</span>]&#123;2&#125;)\s?(\<span class="keyword">d</span>+\.\<span class="keyword">d</span>+)?/</span><br></pre></td></tr></table></figure>
-<p><strong>识别移动设备</strong></p>
-<p>添加所有移动设备属性。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable"><span class="keyword">var</span> system</span> = &#123;</span><br><span class="line">	<span class="comment">//移动设备</span></span><br><span class="line">	iphone: <span class="literal">false</span>,</span><br><span class="line">	ipod: <span class="literal">false</span>,</span><br><span class="line">	ipad: <span class="literal">false</span>,</span><br><span class="line">	ios: <span class="literal">false</span>,</span><br><span class="line">	android: <span class="literal">false</span>,</span><br><span class="line">	nokiaN: <span class="literal">false</span>,</span><br><span class="line">	winMobile: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>检测IOS版本：</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">va ua = navigator.userAgent;</span><br><span class="line"><span class="keyword">if</span>(system.mac &amp;&amp; ua.indexOf(<span class="string">'Mobile'</span>) &gt; -<span class="number">1</span>) &#123;</span><br><span class="line">	if(/CPU (?:iPhone)?OS (\d+<span class="number">_</span>\d+)/.test(ua)) &#123;</span><br><span class="line">		system.ios = parseFloat(RegExp.<span class="variable">$1</span>.replace(<span class="string">'_'</span>, <span class="string">'.'</span>));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		system.ios = <span class="number">2</span>; // 默认</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>识别游戏系统</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> system = &#123;</span><br><span class="line">	wii: <span class="literal">false</span>,</span><br><span class="line">	ps: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">system.wii = ua.indexOf(<span class="string">'Wii'</span>) &gt; -<span class="number">1</span>;</span><br><span class="line">system.ps = <span class="regexp">/playstation/i</span>.test(ua);</span><br></pre></td></tr></table></figure>
-<p>上面简单介绍了检测呈现引擎、浏览器、平台及移动设备等的基本思路，完整的检测呈现引擎、浏览器、平台、Window操作系统、移动设备和游戏系统的代码请猛戳<a href="https://github.com/baizn/client-detecting/blob/master/clientDetecting.js" target="_blank" rel="external">这里</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1521,7 +1484,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">49</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1531,7 +1494,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-count">99</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
