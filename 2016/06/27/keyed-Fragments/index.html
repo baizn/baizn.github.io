@@ -1,0 +1,596 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React,createFragment,props," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="大多数情况下，可以使用prop的key指定render方法返回的元素的key。然而，这里有一个例外情况：如果有两个需要排序的子元素，则没有办法把一个key作用到每一个子元素上，除非添加一个元素把他们包起来。
+也就是说，如果你有这样的组件：
+123456789101112131415var Swapper = React.createClass(&amp;#123;	propTypes: &amp;#123;		l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keyed Fragments">
+<meta property="og:url" content="http://baizn.github.io/2016/06/27/keyed-Fragments/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="大多数情况下，可以使用prop的key指定render方法返回的元素的key。然而，这里有一个例外情况：如果有两个需要排序的子元素，则没有办法把一个key作用到每一个子元素上，除非添加一个元素把他们包起来。
+也就是说，如果你有这样的组件：
+123456789101112131415var Swapper = React.createClass(&amp;#123;	propTypes: &amp;#123;		l">
+<meta property="og:updated_time" content="2016-06-27T05:40:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="keyed Fragments">
+<meta name="twitter:description" content="大多数情况下，可以使用prop的key指定render方法返回的元素的key。然而，这里有一个例外情况：如果有两个需要排序的子元素，则没有办法把一个key作用到每一个子元素上，除非添加一个元素把他们包起来。
+也就是说，如果你有这样的组件：
+123456789101112131415var Swapper = React.createClass(&amp;#123;	propTypes: &amp;#123;		l">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://baizn.github.io/2016/06/27/keyed-Fragments/"/>
+
+  <title> keyed Fragments | baizn的github博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">baizn的github博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                keyed Fragments
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-27T13:39:43+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>大多数情况下，可以使用prop的key指定render方法返回的元素的key。然而，这里有一个例外情况：如果有两个需要排序的子元素，则没有办法把一个key作用到每一个子元素上，除非添加一个元素把他们包起来。</p>
+<p>也就是说，如果你有这样的组件：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Swapper = React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		leftChildren: React.PropTypes.node,</span><br><span class="line">		rightChidlren: React.PropTypes.node,</span><br><span class="line">		swapped: React.PropTypes.bool</span><br><span class="line">	&#125;,</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> children;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.props.swapped) &#123;</span><br><span class="line">			chidlren = [<span class="keyword">this</span>.props.rightChilren, <span class="keyword">this</span>.props.leftChildren];</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			chidlren = [<span class="keyword">this</span>.props.leftChildren, <span class="keyword">this</span>.props.rightChilren];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当改变了包装元素的prop后，子元素都将会被卸载并且重现加载，因为这里没有任何key可以同时标注在所有子元素上。</p>
+<p>为了解决这个问题，你可以使用createFragment附加key给子元素。</p>
+<h3 id="Array_createFragment(object_children)">Array<reactnode> createFragment(object children)</reactnode></h3><p>而不是创建数组，可以这样写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> crateFragment = <span class="built_in">require</span>(<span class="string">'react-addons-create-fragment'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">this</span>.props.swapped) &#123;</span><br><span class="line">	children = createFragment(&#123;</span><br><span class="line">		right: <span class="keyword">this</span>.props.rightChildren,</span><br><span class="line">		left: <span class="keyword">this</span>.props.leftChildren</span><br><span class="line">	&#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	children = createFragment(&#123;</span><br><span class="line">		left: <span class="keyword">this</span>.props.leftChildren,</span><br><span class="line">		right: <span class="keyword">this</span>.props.rightChildren</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传递的对象（即left和right）的key作用于集合中的所有子元素，对象的key的顺序确定渲染子元素的顺序。这种修改后，子元素在DOM中将适当重新排序而没有卸载。</p>
+<p>createFragment的返回值应视为一个不透明的对象；可以使用React.Children helpers通过一个fragment来循环，而不应该直接访问它。还要注意的是我们依靠JS引擎确保对象的枚举顺序，它不受规范保护，但被所有主流浏览器和虚拟机通过非数字键的对象来实现。</p>
+<p><strong>Note</strong></p>
+<p>将来，createFragment也许被如下的API代替：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">return <span class="list">(</span><br><span class="line">	<span class="keyword">&lt;div&gt;</span></span><br><span class="line">		&lt;x<span class="keyword">:frag</span> key=<span class="quoted">'right</span><span class="quoted">'&gt;</span>&#123;this.props.rightChildren&#125;&lt;/x<span class="keyword">:frag&gt;</span></span><br><span class="line">		&lt;x<span class="keyword">:frag</span> key=<span class="quoted">'left</span><span class="quoted">'&gt;</span>&#123;this.props.leftChildren&#125;&lt;/x<span class="keyword">:frag&gt;</span></span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">)</span></span><br></pre></td></tr></table></figure>
+<p>允许我们直接在JSX上指定键，而不用添加包装元素。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+            <a href="/tags/createFragment/" rel="tag">#createFragment</a>
+          
+            <a href="/tags/props/" rel="tag">#props</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/27/翻译-React性能优化/" rel="next" title="[翻译]React性能优化">
+                <i class="fa fa-chevron-left"></i> [翻译]React性能优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/23/React设计原则/" rel="prev" title="React设计原则">
+                React设计原则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="baizn" />
+          <p class="site-author-name" itemprop="name">baizn</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Array_createFragment(object_children)"><span class="nav-number">1.</span> <span class="nav-text">Array createFragment(object children)</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">baizn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

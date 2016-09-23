@@ -248,6 +248,391 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/06/ECMAScript-2015新增的函数特性/" itemprop="url">
+                  ECMAScript 2015新增的函数特性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-06T17:18:55+08:00" content="2015-11-06">
+              2015-11-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ES6新增的函数特性">ES6新增的函数特性</h2><h3 id="函数参数的默认值">函数参数的默认值</h3><p>在ES5之前，不能直接给函数的参数指定默认值，可以才有下面的方式实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">	y = y || <span class="string">'OK'</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(x, y);</span><br><span class="line">&#125;;</span><br><span class="line">myFunc(<span class="string">'hi'</span>); <span class="comment">// hi OK</span></span><br><span class="line">myFunc(<span class="string">'hi'</span>, <span class="string">'bzn'</span>); <span class="comment">//hi bzn</span></span><br><span class="line">myFunc(<span class="string">'hi'</span>, <span class="string">''</span>); <span class="comment">// hi OK</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码可以实现绝大多数的需求，但最后一次调用myFunc(‘hi’, ‘’)显然不符合我们的需求，本来是希望输出hi就行，结果输出的是hi OK。为了避免这种情况，在函数中赋默认值之前还需要判断一下。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> y === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">	y = <span class="string">'OK'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES6中允许直接给参数设置默认值，即直接写在参数定义的后面。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span><span class="params">(x, y = <span class="string">'OK'</span>)</span> </span>&#123;</span><br><span class="line">	console.log(x, y);</span><br><span class="line">&#125;;</span><br><span class="line">myFunc(<span class="string">'hi'</span>); <span class="comment">// hi OK</span></span><br><span class="line">myFunc(<span class="string">'hi'</span>, <span class="string">'bzn'</span>); <span class="comment">//hi bzn</span></span><br><span class="line">myFunc(<span class="string">'hi'</span>, <span class="string">''</span>); <span class="comment">// hi</span></span><br></pre></td></tr></table></figure>
+<p>参数默认值可以与解构赋值结合起来使用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">myFunc</span><span class="params">(&#123;x, y = <span class="number">3</span>&#125;)</span> </span>&#123;</span><br><span class="line">	console.<span class="built_in">log</span>(x, y);</span><br><span class="line">&#125;</span><br><span class="line">myFunc(&#123;&#125;); <span class="comment">//undefined, 3</span></span><br><span class="line">myFunc(&#123;x: <span class="number">1</span>&#125;); <span class="comment">// 1, 3</span></span><br><span class="line">myFunc(&#123;x: <span class="number">1</span>, y:<span class="number">2</span>&#125;); <span class="comment">//1, 2</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，函数参数是一个对象，变量x和y用于解构赋值，y设有默认值。</p>
+<p><strong>参数变量是默认声明的，不能使用let或const再次声明。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">myFunc</span><span class="params">(x = <span class="number">3</span>)</span> </span>&#123;</span><br><span class="line">	let x = <span class="number">1</span>; <span class="comment">//error</span></span><br><span class="line">	<span class="keyword">const</span> x = <span class="number">2</span>; <span class="comment">//error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双重默认值">双重默认值</h4><p>ES6允许为函数的参数设置双重默认值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">myFunc</span><span class="params">(x, &#123;y = <span class="string">'a'</span>, z = &#123;&#125;&#125;)</span> </span>&#123;</span><br><span class="line">	console.<span class="built_in">log</span>(x, y);</span><br><span class="line">&#125;</span><br><span class="line">myFunc(<span class="number">1</span>, &#123;&#125;); <span class="comment">//1 a</span></span><br><span class="line">myFunc(<span class="number">1</span>); <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码为第二个参数的属性设置了默认值，当调用方法时候不传第二个参数时候就会报错。为了解决上面的饿问题，可以给第二个参数再设置默认值，如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">myFunc</span><span class="params">(x, &#123;y = <span class="string">'a'</span>, z = &#123;&#125;&#125; = &#123;&#125;)</span> </span>&#123;</span><br><span class="line">	console.<span class="built_in">log</span>(x, y);</span><br><span class="line">&#125;</span><br><span class="line">myFunc(<span class="number">1</span>, &#123;&#125;); <span class="comment">//1 a</span></span><br><span class="line">myFunc(<span class="number">1</span>); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<h4 id="参数默认值的位置">参数默认值的位置</h4><blockquote>
+<ul>
+<li>如果设置了默认值的参数不是函数的最后一个参数，则这个参数是不能省略的</li>
+<li>传递设置了默认值的参数，如果传递null则默认值不起作用，传递undefined时默认值起作用</li>
+</ul>
+</blockquote>
+<h4 id="函数的length属性">函数的length属性</h4><p>函数的length属性，返回的是参数中没有设置默认值参数的个数。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>&#123;&#125;).length; <span class="comment">//1</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">(a, b = 1)</span></span>&#123;&#125;).length; <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<h4 id="作用域">作用域</h4><p>设置了默认值参数的作用域和没有设置默认值参数的一样的，即先是当前函数的作用域，然后才是全局作用域。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable"><span class="keyword">var</span> x</span> = <span class="number">1</span>;</span><br><span class="line">function <span class="function"><span class="title">fun</span><span class="params">(x, y = x)</span> &#123;</span></span><br><span class="line">	console.log(y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">(2)</span>; <span class="comment">// 2</span></span></span><br></pre></td></tr></table></figure>
+<p>上面的代码，由于在调用函数时候，传递了参数x，函数作用域内部的变量x已经生成了，所以y等于参数x，而不是全局变量x。</p>
+<p>如果调用时候，函数作用域内部的变量x还没有生成，则会有不同的结果。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let x = <span class="number">1</span>;</span><br><span class="line">function <span class="function"><span class="keyword">fun</span>(<span class="title">y</span></span> = x) &#123;</span><br><span class="line">	let x = <span class="number">2</span>;</span><br><span class="line">	console.log(y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span>(); <span class="title">/</span></span>/ <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>函数的作用域是其声明时所在的作用域。</strong>当参数的默认值为函数时候，该函数的作用域是它声明时候的作用域。</p>
+<h3 id="rest参数">rest参数</h3><p>为了获取函数的多余参数，而不使用arguments，ES6引入了rest参数（形式为“…变量名”）。rest参数的变量是一个数组，该变量将多余的参数放入数组中。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(<span class="rest_arg">...values</span>)</span> </span>&#123;</span><br><span class="line">	let sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(let value of values) &#123;</span><br><span class="line">		sum += value;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>); <span class="comment">//9</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+<p>使用rest参数可以代替arguments变量。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//arguments变量的写法</span></span><br><span class="line"><span class="keyword">const</span> sortNums = () =&gt; <span class="keyword">Array</span>.prototype.slice.call(arguments).sort();</span><br><span class="line"></span><br><span class="line"><span class="comment">//rest参数的写法</span></span><br><span class="line"><span class="keyword">const</span> sortNums = (...numbers) =&gt; numbers.sort();</span><br></pre></td></tr></table></figure>
+<p>有关rest参数的几点说明。</p>
+<blockquote>
+<ul>
+<li>rest参数代表一个数组，所以数组的所有方法都可以用于rest参数的变量</li>
+<li>rest参数之后不能再有其他参数（rest参数是最后一个参数），否则会报错</li>
+<li>函数的length属性，不包括rest参数</li>
+</ul>
+</blockquote>
+<h3 id="扩展运算符">扩展运算符</h3><p>扩展运算符的表示法：(…)。扩展运算符类似rest参数的逆运算，将一个数组转为用逗号分割的参数序列。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.<span class="built_in">log</span>(...[<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]); <span class="comment">//2, 3, 5</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="number">1</span>, ...[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="number">5</span>); <span class="comment">//1, 2, 3, 4, 5</span></span><br></pre></td></tr></table></figure>
+<p>扩展运算符主要用于<strong>函数调用</strong>。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">push</span><span class="params">(array, <span class="rest_arg">...items</span>)</span> </span>&#123;</span><br><span class="line">	array.push(...items);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(x, y)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let arr = [<span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">let toarr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">add(...arr); <span class="comment">//9</span></span><br><span class="line">push(toarr, arr); <span class="comment">//toarr=[1, 2, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<p>扩展运算符与正常的函数参数可以结合使用。</p>
+<h4 id="替代数组的apply方法">替代数组的apply方法</h4><p>扩展运算符可以展开数组，所以可以不需要apply方法，将数组转为函数的参数了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5</span></span><br><span class="line">function <span class="function"><span class="title">fun</span><span class="params">(x, y, z)</span> &#123;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">let args = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br><span class="line"><span class="function"><span class="keyword">fun</span>.<span class="title">apply</span><span class="params">(null, args)</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">function <span class="function"><span class="title">fun</span><span class="params">(x, y, z)</span> &#123;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">let args = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">(...args)</span>;</span></span><br></pre></td></tr></table></figure>
+<p>再如下面的代码，可以通过ES5和ES6的不同写法加深理解。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">let arr1 = [<span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES5</span></span><br><span class="line">Array.prototype.push.apply(arr, arr1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">arr.push(...arr1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES5</span></span><br><span class="line">Math.max.apply(null, [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">Math.max(...[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]);</span><br></pre></td></tr></table></figure>
+<p>ES5中，当push的参数是数组时候，不会自动将数组展开成参数序列，所以需要通过apply方法。</p>
+<h4 id="扩展运算符的应用">扩展运算符的应用</h4><blockquote>
+<p>合并数组</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr1 = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">var arr2 = [<span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">var arr3 = [<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES5</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>].concat(arr1); <span class="comment">//[0, 1, 1, 2]</span></span><br><span class="line">arr1.cocat(arr2, arr3); <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, ...arr1]; <span class="comment">//[0, 1, 1, 2]</span></span><br><span class="line">[...arr1, ...arr2, ...arr3]; <span class="comment">//[1, 2, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>与解构赋值结合</p>
+</blockquote>
+<p>扩展运算符可以与解构赋值结合起来，生成数组。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5</span></span><br><span class="line">let a = <span class="built_in">list</span>[<span class="number">0</span>];</span><br><span class="line">let rest = <span class="built_in">list</span>.slice(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">[a, ...rest] = <span class="built_in">list</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [arg, ...arr] = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br><span class="line">arg; <span class="comment">// 1</span></span><br><span class="line">arr; <span class="comment">// [3, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [arg, ...arr] = [<span class="number">1</span>];</span><br><span class="line">arg; <span class="comment">// 1</span></span><br><span class="line">arr; <span class="comment">// []</span></span><br></pre></td></tr></table></figure>
+<p>如果将扩展运算符用于数组赋值，只能放到作为最后一个参数，否则会报语法错误。</p>
+<blockquote>
+<p>字符串</p>
+</blockquote>
+<p>扩展运算符可以将字符串转为真正的数组。</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[...<span class="string">'hello'</span>]; // [<span class="string">'h'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>]</span><br></pre></td></tr></table></figure>
+<p>使用扩展运算符一个很重要的好处是：<strong>能够正确识别32位的Unicode字符。</strong></p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let <span class="built_in">str</span> = <span class="string">'x\uD83D\uDE80y'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span>.<span class="built_in">split</span>(<span class="string">''</span>).<span class="built_in">reverse</span>().<span class="built_in">join</span>(<span class="string">''</span>); <span class="comment">// y\uDE80\uD83Dx</span></span><br><span class="line"></span><br><span class="line">[...<span class="built_in">str</span>].<span class="built_in">reverse</span>().<span class="built_in">join</span>(<span class="string">''</span>); <span class="comment">// y\uD83D\uDE80x</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码，如果不使用扩展运算符，字符串的reverse操作就不正确。</p>
+<blockquote>
+<p>类似数组的对象</p>
+</blockquote>
+<p>任何类似数组的对象，都可以使用扩展运算符转为真正的数组。</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let nodeList =<span class="function"> document.querySelectorAll(</span>'div'<span class="function">)</span>;</span><br><span class="line">let<span class="instruction"> array </span>= <span class="keyword">[</span>...node<span class="class">List];</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Map和Set结构，Generator函数</p>
+</blockquote>
+<p>扩展运算符内部调用的是<strong>数据结构的Iterator接口</strong>，因此只要具有Iterator接口的对象，都可以使用扩展运算符，如Map结构。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let <span class="built_in">map</span> = <span class="keyword">new</span> Map([</span><br><span class="line">	[<span class="number">1</span>, <span class="string">'a'</span>],</span><br><span class="line">	[<span class="number">2</span>, <span class="string">'b'</span>]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">let arr = [...<span class="built_in">map</span>.keys()]; <span class="comment">// [1, 2]</span></span><br></pre></td></tr></table></figure>
+<p>Generator函数运行后，返回一个遍历器对象，因此也可以使用扩展运算符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> generator = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">yield</span> <span class="string">'bzn'</span>;</span><br><span class="line">	<span class="keyword">yield</span> <span class="string">'hi'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">[...generator()]; <span class="comment">//['bzn', 'hi']</span></span><br></pre></td></tr></table></figure>
+<p>如果没有Iterator接口的对象，使用扩展运算符就会报错。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;a: <span class="number">1</span>, b: <span class="number">2</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> arr = [...obj]; <span class="comment">//error</span></span><br></pre></td></tr></table></figure>
+<h3 id="name属性">name属性</h3><p>函数的name属性，返回该函数的函数名。</p>
+<p>如果将一个匿名函数赋值给一个变量，ES5的name属性会返回空字符串，而ES6的name属性会返回实际的函数名。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES5</span></span><br><span class="line">func.name; <span class="comment">// ''</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line">func.name; /<span class="string">'func'</span></span><br></pre></td></tr></table></figure>
+<p>Function构造函数返回的函数实例，name属性的值为“anonymous”。</p>
+<p>bind返回的函数，name属性会加上“bound”前缀。</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">new</span> <span class="function"><span class="keyword">Function</span>).<span class="title">name</span>;</span> <span class="comment">// 'anonymous'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> <span class="comment">&#123;&#125;</span></span><br><span class="line"><span class="title">foo</span>.<span class="title">bind</span><span class="params">(&#123;&#125;)</span>.<span class="title">name</span>;</span> <span class="comment">//'bound foo'</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span> <span class="comment">&#123;&#125;</span>).<span class="title">bind</span><span class="params">(&#123;&#125;)</span>.<span class="title">name</span>;</span> <span class="comment">//'bound'</span></span><br></pre></td></tr></table></figure>
+<h3 id="箭头函数">箭头函数</h3><h4 id="基本用法">基本用法</h4><p>ES6允许使用箭头（＝&gt;）定义函数。</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> func = <span class="keyword">value</span> =&gt; <span class="keyword">value</span>;</span><br></pre></td></tr></table></figure>
+<p>ES5中，上面的代码可以写成：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> func = <span class="keyword">function</span>(<span class="keyword">value</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果箭头函数不需要参数或需要多个参数时候，就使用一个圆括号代表参数部分。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let fun = <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">let func = <span class="function"><span class="params">(x, y)</span> =&gt;</span> x + y;</span><br></pre></td></tr></table></figure>
+<p>由于大括号被解释为代码块，如果箭头函数直接返回一个对象，则必须在对象外面加上大括号。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let getTemp = id =&gt; (&#123;<span class="string">id:</span> id, <span class="string">name:</span> <span class="string">'bzn'</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>箭头函数可以和变量解构结合使用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> full = (&#123;first, last&#125;) =&gt; first + <span class="string">' '</span> + last;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">full</span><span class="params">(person)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> person.first + <span class="string">' '</span> + person.last;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>rest参数结合箭头函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nums = (...nums) =&gt; nums;</span><br><span class="line">nums(<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>); <span class="comment">//[1, 3, 5];</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> hand = (head, ...tail) =&gt; [head, tail];</span><br><span class="line">hand(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">//[1, [2, 3, 4, 5]]</span></span><br></pre></td></tr></table></figure>
+<p>使用箭头函数需要注意的几点：</p>
+<blockquote>
+<ul>
+<li><strong>函数体内的this对象，是定义时所在的对象，而不是使用时所在的对象</strong></li>
+<li>不可以当作构造函数，即箭头函数不可以使用new命令</li>
+<li>不可以使用arguments对象，该对象在箭头函数体内不存在，可以使用rest参数达到相同的目的</li>
+<li>不可以使用yield命令，箭头函数不是Generator函数</li>
+</ul>
+</blockquote>
+<p><strong>this对象的指向是可变的，但在箭头函数中，它是固定的。</strong></p>
+<blockquote>
+<p>箭头函数this指向的固定，并不是因为箭头函数内部有绑定this的机制，而是因为箭头函数根本没有自己的this，因此内部的this就是外层代码块的this。正因为它没有this，所以不能用作构造函数。</p>
+</blockquote>
+<p>除了this，一下三个变量在箭头函数中也是不存在的：<strong>arguments、super、new.target</strong>。</p>
+<p>由于箭头函数没有自己的this，因此也不能使用<strong>call(),apply(),bind()</strong>这些方法去改变this的指向。</p>
+<p>箭头函数也可以嵌套使用。</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">(value)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		into: <span class="function"><span class="keyword">function</span><span class="params">(array)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> &#123;</span><br><span class="line">				after: <span class="function"><span class="keyword">function</span><span class="params">(afterValue)</span> </span>&#123;</span><br><span class="line">					<span class="keyword">array</span>.splice(<span class="keyword">array</span>.indexOf(afterValue) + <span class="number">1</span>, <span class="number">0</span>, value);</span><br><span class="line">					<span class="keyword">return</span> <span class="keyword">array</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line"><span class="keyword">let</span> insert = (value) =&gt; (</span><br><span class="line">	&#123;</span><br><span class="line">		into: (<span class="keyword">array</span>) =&gt; (&#123;</span><br><span class="line">			after: (afterValue) =&gt; &#123;</span><br><span class="line">				<span class="keyword">array</span>.splice(<span class="keyword">array</span>.splice(atferValue) + <span class="number">1</span>, <span class="number">0</span>, value);</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">array</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">insert(<span class="number">2</span>).into([<span class="number">1</span>, <span class="number">3</span>]).after(<span class="number">1</span>); <span class="comment">//[1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="函数绑定">函数绑定</h3><p>箭头函数简化了显示绑定this对象的写法（call，apply，bind）。但箭头函数并不适用于所有的场合，所以ES7提出了“函数绑定”运算符，用来取代call，apply，bind调用。</p>
+<p>函数绑定运算符是并排的两个双冒号(::)，双冒号左边是一个对象，右边是一个函数。该运算符会自动将左边的对象，作为上下文环境（this对象），绑定到右边的函数上面。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">foo::bar; == bar.bind(foo);</span><br><span class="line"></span><br><span class="line">foo::bar(...arguments); == bar.apply(foo, arguments);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> hasOwnProperty = Object.prototype.hasOwnProperty;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasOwn</span><span class="params">(obj, key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> obj::hasOwnProperty(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果双冒号左边为空，右边是一个对象的方法，则将该方法绑定在该对象上面。</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let <span class="function"><span class="keyword">method</span> = <span class="title">obj</span>:</span>:obj.foo; == let <span class="function"><span class="keyword">method</span> = :</span>:obj.foo;</span><br><span class="line"></span><br><span class="line">let log = ::console.log; == let log = console.log.bind(console);</span><br></pre></td></tr></table></figure>
+<p>双冒号运算符返回的是原对象，因此可以采用链式写法。</p>
+<h3 id="尾调用优化">尾调用优化</h3><h4 id="尾调用概念">尾调用概念</h4><p>尾调用是函数式编程的一个重要概念，式指某个函数的最后一步是调用另一个函数。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="keyword">fun</span>(<span class="title">x</span></span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> gen(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尾调用不一定出现在函数最后一行，只要是最后一步即可。</p>
+<h4 id="尾调用优化-1">尾调用优化</h4><p>函数调用会在内存中形成一个调用记录，成为<strong>调用帧</strong>，保存调用位置和内部变量等信息。</p>
+<p><strong>调用栈：</strong>如果在函数A的内部调用函数B，那么在A的调用帧上方还会形成一个B的调用帧，等B运行结束，将结果返回给A，B的调用帧才会消失。如果B函数内部还调用了函数C，那还有一个C的调用帧。所有的调用帧就形成一个“调用栈”。</p>
+<p>尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因此调用位置、内部变量等信息都不会再用到，只要直接用内层函数的调用帧取代外层函数的调用帧就可以了。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="keyword">fun</span>() &#123;</span><br><span class="line">	<span class="title">let</span></span> x = <span class="number">1</span>;</span><br><span class="line">	let y = <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">return</span> g(x + y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span>();</span><br><span class="line"></span><br><span class="line"><span class="title">/</span></span>/等同于</span><br><span class="line">function <span class="function"><span class="keyword">fun</span>() &#123;</span><br><span class="line">	<span class="title">return</span></span> g(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span>();</span><br><span class="line"></span><br><span class="line"><span class="title">/</span></span>/等同于</span><br><span class="line">g(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>尾调用优化：</strong>只保留内层函数的调用帧。</p>
+<p><strong>只有不再用到外层函数的内部变量，内层函数的调用帧才会取代外层函数的调用帧，否则无法进行“尾调用优化”。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addOne</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> one = <span class="number">1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">inner</span>(<span class="params">b</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> b + one;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> inner(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码不会进行尾调用优化，因为内层inner函数用到了外层addOne函数的局部变量one。</p>
+<h4 id="尾递归">尾递归</h4><p>函数调用自身，称为递归，如果尾调用自身，就称为尾递归。</p>
+<p>递归调用很容易引发“栈溢出”错误，但对于尾递归来说，由于只存在一个调用帧，因此不存在“栈溢出”问题。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">factorial</span><span class="params">(n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="function">n * <span class="title">factorial</span><span class="params">(n - <span class="number">1</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">factorial(<span class="number">5</span>); <span class="comment">//120</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码最多保存n个调用记录，复杂度是O(n)。</p>
+<p>如果改成尾递归，只保留一个调用记录，复杂度是O(1)。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function factorial(<span class="keyword">n</span>, <span class="keyword">total</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">n</span> === 1) <span class="keyword">return</span> <span class="keyword">total</span>;</span><br><span class="line">	<span class="keyword">return</span> factorial(<span class="keyword">n</span> - 1, <span class="keyword">n</span> * <span class="keyword">total</span>);</span><br><span class="line">&#125;</span><br><span class="line">factorial(5, 1); <span class="comment">//120</span></span><br></pre></td></tr></table></figure>
+<h4 id="递归函数的改写">递归函数的改写</h4><p>递归的实现，往往需要改写递归函数，确保最后一步只调用自身。实现的方法是<strong>把所有用到的内部变量改写成函数的参数</strong>。</p>
+<p>函数式编程有柯里化的概念，意思是将多参数的函数转换成单参数的形式。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function currFac(fn, <span class="keyword">n</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> function(<span class="keyword">m</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> fn.call(this, <span class="keyword">m</span>, <span class="keyword">n</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function tailFactorial(<span class="keyword">n</span>, <span class="keyword">total</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">n</span> === 1) <span class="keyword">return</span> <span class="keyword">total</span>;</span><br><span class="line">	<span class="keyword">return</span> tailFactorial(<span class="keyword">n</span> - 1, <span class="keyword">n</span> * <span class="keyword">total</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> factorial = currFac(tailFactorial, 1);</span><br><span class="line"></span><br><span class="line">factorial(5); <span class="comment">//120</span></span><br></pre></td></tr></table></figure>
+<p>可以采用ES6的参数默认值来简化上面的代码。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function factorial(<span class="keyword">n</span>, <span class="keyword">total</span> = 1) &#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">n</span> === 1) <span class="keyword">return</span> <span class="keyword">total</span>;</span><br><span class="line">	<span class="keyword">return</span> factorial(<span class="keyword">n</span> - 1, <span class="keyword">n</span> * <span class="keyword">total</span>);</span><br><span class="line">&#125;</span><br><span class="line">factorial(5); <span class="comment">//120</span></span><br></pre></td></tr></table></figure>
+<p>递归本质上是一种循环操作。纯粹的函数式编程语言没有循环命令，所以用递归来实现。如果使用递归，最好使用<strong>尾递归</strong>。</p>
+<h3 id="函数参数的尾逗号">函数参数的尾逗号</h3><p>ES7提案允许函数的最后一个参数有尾逗号。</p>
+<p>目前，函数定义和调用时，都不允许有参数的尾逗号。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function <span class="function"><span class="keyword">func</span><span class="params">(x, y)</span> &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(<span class="number">1</span>, <span class="number">2</span>)</span>;</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/05/ECMAScript术语/" itemprop="url">
+                  ECMAScript术语
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-05T17:35:40+08:00" content="2015-11-05">
+              2015-11-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ECMAScript术语">ECMAScript术语</h2><h3 id="类型（type）">类型（type）</h3><p>ECMAScript规范定义数据的集合。</p>
+<h3 id="原始值（primitive_value）">原始值（primitive value）</h3><p>ECMAScript规范定义的未定义、空、布尔、数字、字符串类型之一的成员。</p>
+<p><strong>原始值代表语言实现的最底层的数据。</strong></p>
+<h3 id="对象（object）">对象（object）</h3><p>对象类型的成员</p>
+<p><strong>对象属性的集合，并有一个原型对象，原型可以是空值。</strong></p>
+<h3 id="构造器（constructor）">构造器（constructor）</h3><p>创建和初始化对象的函数对象。</p>
+<p><strong>构造器的“prototype”属性值是一个原型对象，它用来实现继承和共享属性。</strong></p>
+<h3 id="原型（prototype）">原型（prototype）</h3><p>为其他对象提供共享属性的对象。</p>
+<p><strong>当构造器创建一个对象，为了解决对象的属性引用，该对象会隐式引用构造器的“prototype”属性，通过程序表达式constructor.prototype可以引用到构造器的“prototype”属性，并且添加到对象原型里的属性，会通过继承与所有共享此原型的对象共享。另外，可使用Object.create内置函数，通过明确指定原型来创建一个新对象。</strong></p>
+<h3 id="原生对象（native_object）">原生对象（native object）</h3><p>ECMAScript实现中，并非由宿主环境，而是完全由规范定义其语义的对象。</p>
+<p><strong>标准的原生对象由ECMAScript规范定义，一些原生对象是内置的，其他的可在ECMAScript程序执行过程中构建。</strong></p>
+<h3 id="内置对象（built-in_object）">内置对象（built-in object）</h3><p>由ECMAScript实现提供，独立于宿主环境的对象，ECMAScript程序开始执行时就存在。</p>
+<p><strong>标准的内置对象由ECMAScript规范定义，ECMAScript实现可以指定和定义其他的。所有内置对象都是原生对象，一个内置构造器是个内置对象，也是个构造器。</strong></p>
+<h3 id="宿主对象（host_object）">宿主对象（host object）</h3><p>由宿主环境提供的对象，用于完善ECMAScript执行环境。</p>
+<p><strong>任何对象，不是原生对象就是宿主对象。</strong></p>
+<h3 id="未定义值（undefined_value）">未定义值（undefined value）</h3><p>说明一个变量没有被分配值的一个原始值。</p>
+<h3 id="未定义类型（undefined_type）">未定义类型（undefined type）</h3><p>拥有唯一值“未定义值”的类型。</p>
+<h3 id="空值（null_value）">空值（null value）</h3><p>代表对象值为空的一个原始值。</p>
+<h3 id="空类型（null_type）">空类型（null type）</h3><p>拥有唯一值“空值”的类型。</p>
+<h3 id="布尔值（boolean_value）">布尔值（boolean value）</h3><p>布尔类型的成员。</p>
+<p><strong>只有两个布尔值，true和false。</strong></p>
+<h3 id="布尔类型（boolean_type）">布尔类型（boolean type）</h3><p>由原始值true和false组成的类型。</p>
+<h3 id="布尔对象（boolean_object）">布尔对象（boolean object）</h3><p>对象类型的成员，它是标准内置构造器Boolean的一个实例。</p>
+<p><strong>通过使用new表达式，以一个布尔值作为参数调用Boolean构造器来创建布尔对象。由此产生的对象包含一个值为此布尔值的内部属性。一个Boolean对象可以强制转换为布尔值。</strong></p>
+<h3 id="字符串值（string_value）">字符串值（string value）</h3><p>原始值，它是零个或多个16位无符号整数组成的有限有序序列。</p>
+<p><strong>一个字符串值是字符串类型的成员。通过序列中的每个整数值代表UTF-16文本的单个16位单元。然而，对于其值，ECMAScript只要求必须是16位无符号整数，除此之外没有任何限制或要求。</strong></p>
+<h3 id="字符串类型（string_type）">字符串类型（string type）</h3><p>所有可能的字符串值的集合。</p>
+<h3 id="字符串对象（string_object）">字符串对象（string object）</h3><p>对象类型的成员，它是标准内置构造器String的一个实例。</p>
+<p><strong>通过使用new表达式，以一个字符串值为参数调用String构造其来创建字符串对象。由此产生的对象包含一个值为此字符串的内部属性。将String构造器作为一个函数来调用，可将一个字符串对象强制转换为一个字符串值。</strong></p>
+<h3 id="数字值（number_value）">数字值（number value）</h3><p>原始值，对应一个64位双精度二进制IEEE754值。</p>
+<p><strong>一个数字值是数字类型的成员，直接代表一个数字。</strong></p>
+<h3 id="数字类型（number_type）">数字类型（number type）</h3><p>所有可能的数字值的集合，包括特殊的“Not-a-Number”(NaN)值，正无穷，负无穷。</p>
+<h3 id="数字对象（number_object）">数字对象（number object）</h3><p>对象类型的成员，它是标准内置构造器Number的一个实例。</p>
+<p><strong>通过使用new表达式，以一个数字值为参数调用Number构造器来创建数字对象。由此产生的对象包含一个值为数字值的内部属性。将Number构造器作为一个函数来调用，可将一个Number对象强制转换为一个数字值。</strong></p>
+<h3 id="无穷（Infinity）">无穷（Infinity）</h3><p>正无穷数字值。</p>
+<h3 id="NaN">NaN</h3><p>值为IEEE 754“Not-a-Number”的数字值。</p>
+<h3 id="函数（function）">函数（function）</h3><p>对象类型的成员，标准内置构造器Function的一个实例，并且可做为子程序被调用。</p>
+<p><strong>函数除了拥有命名的属性，还包含执行代码、状态、用来确定被调用时的行为。</strong></p>
+<h3 id="内置函数（built-in_function）">内置函数（built-in function）</h3><p>函数的内置对象。</p>
+<p><strong>如parseInt，Math.max就是内置函数。一个实现可以提供ECMAScript规范没有描述的依赖于实现的内置函数。</strong></p>
+<h3 id="属性（property）">属性（property）</h3><p>对象的一部分key和value。</p>
+<p><strong>属性可能根据属性值的不同表现为直接的数据值（原始值、对象或一个函数对象）或间接的一对访问器函数。</strong></p>
+<h3 id="方法（method）">方法（method）</h3><p>属性值的函数。</p>
+<p><strong>当一个函数被作为一个对象的方法调用，此对象将作为this值传递给函数。</strong></p>
+<h3 id="内置方法（built-in_method）">内置方法（built-in method）</h3><p>内置函数的方法。</p>
+<p><strong>标准内置方法由ECMAScript规范定义，一个ECMAScript实现可指定，提供其他额外方法。</strong></p>
+<h3 id="特性（attribute）">特性（attribute）</h3><p>定义来一个属性的一些特性的内部值。</p>
+<h3 id="自身属性（own_property）">自身属性（own property）</h3><p>对象直接拥有的属性。</p>
+<h3 id="继承属性（inherited_property）">继承属性（inherited property）</h3><p>不是对象的自身属性，但是是对象原型的属性（原型的自身属性或继承属性）。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/05/Webpack-缓存策略/" itemprop="url">
                   Webpack 缓存策略
                 </a>
@@ -1039,7 +1424,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1049,7 +1434,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">98</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

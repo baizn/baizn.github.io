@@ -1,0 +1,636 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Component,React,设计原则," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="CompositionReact的关键特性就是组件的组合。不同人开发的组件应该能够很好的协同工作。向一个组件中添加功能不会引起整个代码库的动荡，这点对我们而言是很重要的。
+比如说，应该向组件中添加一些本地state而不应该修改任何引用它的组件。相同地，当必要时候也可能向任何组件添加一些初始化和卸载的代码。
+关于在组件中使用state或生命周期方法，并不是不好的方式。就像任何复杂功能，他们就应该适当">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React设计原则">
+<meta property="og:url" content="http://baizn.github.io/2016/09/23/React设计原则/index.html">
+<meta property="og:site_name" content="baizn的github博客">
+<meta property="og:description" content="CompositionReact的关键特性就是组件的组合。不同人开发的组件应该能够很好的协同工作。向一个组件中添加功能不会引起整个代码库的动荡，这点对我们而言是很重要的。
+比如说，应该向组件中添加一些本地state而不应该修改任何引用它的组件。相同地，当必要时候也可能向任何组件添加一些初始化和卸载的代码。
+关于在组件中使用state或生命周期方法，并不是不好的方式。就像任何复杂功能，他们就应该适当">
+<meta property="og:updated_time" content="2016-09-23T14:32:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React设计原则">
+<meta name="twitter:description" content="CompositionReact的关键特性就是组件的组合。不同人开发的组件应该能够很好的协同工作。向一个组件中添加功能不会引起整个代码库的动荡，这点对我们而言是很重要的。
+比如说，应该向组件中添加一些本地state而不应该修改任何引用它的组件。相同地，当必要时候也可能向任何组件添加一些初始化和卸载的代码。
+关于在组件中使用state或生命周期方法，并不是不好的方式。就像任何复杂功能，他们就应该适当">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://baizn.github.io/2016/09/23/React设计原则/"/>
+
+  <title> React设计原则 | baizn的github博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">baizn的github博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                React设计原则
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T22:30:09+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Composition">Composition</h2><p>React的关键特性就是组件的组合。不同人开发的组件应该能够很好的协同工作。向一个组件中添加功能不会引起整个代码库的动荡，这点对我们而言是很重要的。</p>
+<p>比如说，应该向组件中添加一些本地state而不应该修改任何引用它的组件。相同地，当必要时候也可能向任何组件添加一些初始化和卸载的代码。</p>
+<p>关于在组件中使用state或生命周期方法，并不是不好的方式。就像任何复杂功能，他们就应该适当的使用这些，我们也并不打算移除它们。相反，我们认为它们是使用React过程中的不可分割的一部分。将来我们可能会添加很多功能模式，本地state和生命周期方法都将会是其一部分。</p>
+<p>组件经常为描述为只是一个Function，然而在我们的视图中，它需要有更多的用途。在React中，描述组件的任何组合行为时，就包含渲染、生命周期和state。一些第三方库，如Relay来增强组件的描述数据依赖的职责。某些情况下，这些想法可能会使它回退到React中。</p>
+<h2 id="Common_Abstraction">Common Abstraction</h2><p>一般来说，我们抵制添加一些可以在用户层面实现的功能。我们不希望由于这些无用的库文件导致你的应用膨胀。不过，也有例外情况。</p>
+<p>比如，如果React不提供对本地state或生命周期方法的支持，人们想要对它们创建通用的抽象。当有多个抽象竞争时，React不能强制或利用任何一个的性能优势。它会以两者最低的共同标准来工作。</p>
+<p>这也是为什么有时我们向React本身添加一些功能。如果我们注意到很多组件都实现了一些兼容和效率不高的功能时，我们更倾向于将它们添加到React里面。我们不会轻描淡写地去做。当我们这样做的时候，是因为我们相信提高抽象层次更有利于整个生态系统。state、生命周期、跨浏览器事件标准化都是很好的例子。</p>
+<h2 id="Escape_Hatches">Escape Hatches</h2><p>React是实用的。它是Facebook在产品需求驱动下开发的。虽然它受到一些还不是很主流的规范的影响，如函数式编程，和更广范围内的不同技能和经验水平的开发者保持接触是该项目一个明确的目标。</p>
+<p>如果我们想要废弃一个我们不喜欢的模式，在废弃之前考虑到它现有的所有用例和社区相关的替代品，这是我们的责任。如果一些在构建应用方法很有用的模式很难使用声明式的方式来表达，我们将会提供一个命令式的API。如果我们不能向很多我们发现的有必要的应用提供一个完美的API，我们将会提供一个临时的欠佳的API，因为后期它是可以被废弃的，这也为今后的改进敞开了大门。</p>
+<h2 id="Stability">Stability</h2><p>我们很重视API的稳定性。在Facebook中，我们有超过2000个组件是使用React的。许多其他公司，包括Twitter和Airbnb，也在使用React。这也就是为什么我们通常都不愿意改变公共的API和其行为。</p>
+<p>然而，我们认为“没有任何改变”的稳定性在这个意义上被高估了。这样会快速地停歇下来。相反，我们更喜欢这种意义上的稳定性：在生产中大量使用，当更新了的时候，有一个明显的（最好是自动）路径迁移。</p>
+<p>当我们废弃一个模式时候，我们会先在Facebook内部研究使用和添加废弃警告。他们让我们评估变化带来的影响。有时候，如果我们发现这种变化太早了，我们就会回退，我们需要将更多的战略性思考过的代码加入到代码库中，在这个点上，他们已经准备好了接受这种变化。如果我们确认了这种变化不是很具破坏性，并且迁移策略对所有用例都是可行的，我们将会在开源社区发布废弃警告的声明。我们正在与Facebook以外的React用户联系，我们监测流行的开源项目，指导他们解决这些弃用的问题。</p>
+<p>鉴于Facebook庞大的React代码库规模，成功的内部迁移往往是一个很好的指标，其他公司将不会有任何问题。不过有时也会有人指出一些我们没有想到的额外使用的情况，我们为他们增加escape hatches，或重新考虑我们的做法。</p>
+<p>没有一个很好的理由，我们是不会废弃任何东西的。我们承认，有时一些警告会导致挫折感，但我们加入它们，因为这样为改进和增加新功能扫清了障碍，社区中的很多人都认为这些改进和新功能是有价值的。</p>
+<p>比如，在React0.15.2版本中，我们增加了识别不了DOM属性的警告。许多项目受此影响。但是，解决这种警告是很重要的，我们引入了对React自定义属性的支持。这就是我们每增加一个弃用背后的原因。</p>
+<p>当我们添加一个弃用警告，我们保证在当前主要版本可以放心使用的，会在下一个主要版本中进行修改。如果有很多涉及到重复的手工劳动，我们realease了大部分自动变化的codemod脚本。Codemods使得我们可以继续前进而不是在一个庞大的代码库前停滞，我们鼓励您使用它们。</p>
+<p>你可以在<a href="https://github.com/reactjs/react-codemod" target="_blank" rel="external">react-codemod</a>找到我们release的codemod。</p>
+<h2 id="Interoperability">Interoperability</h2><p>我们和现有的系统和逐步过渡的有高价值的项目在互通。Facebook拥有一个庞大的非React代码库。它的网站使用名为XHP的一个服务器端组件的系统，它的内部UI库就是使用的React。任何团队的产品都可以在一个小功能上使用React，而不是重写代码，这对我们来说是很重要的。</p>
+<p>这就是为什么React为多种模式的工作提供了escape hatches，并试图与其他UI库很好的协同工作。你可以在一个声明式组件中包裹现有的命令式UI，反之亦然。这是逐步采用的关键。</p>
+<h2 id="Scheduling">Scheduling</h2><p>即使你使用function来定义组件，当你使用React时不能直接调用他们。每个组件都会返回对需要渲染内容的描述，这个描述包括用户自己编写的组件，如<likebutton>，和平台提供的具体组件，如<div>。在某个时间点上依靠React来解析<likebutton>，根据递归渲染组件的结果来更新UI树。</likebutton></div></likebutton></p>
+<p>这是一个微妙但功能强大的区别。因此你不用调用React的组件功能，而是让React调用它，这就意味着在需要的时候，React有延迟调用它的权利。目前实现的React递归渲染树和调用整个更新树的功能是在单个tick期间。然而，未来它可能会开始延迟一些更新，以避免丢帧现象。</p>
+<p>React设计中这是一个通用的主题。一些流行的库实现“PUSH”的方式是当有新数据可用的时候来计算执行。React不同，坚持使用“PULL”的方式，只有当需要的时候才去计算。</p>
+<p>React不是一个普通的数据处理库。它是一个构建用户界面的库。我们认为这是在一个应用中唯一可以定位那些计算需要立刻执行和哪些不需要。</p>
+<p>没有在当前屏幕中显示的，我们可以延迟其相关的任何逻辑计算。如果接收到数据比帧速快，我们可以合并并批量更新。我们会优先考虑从用户交互（如点击一个按钮触发动画）而不是一些不是很重要的幕后的工作（如渲染从网络加载的内容），以避免出现丢帧现象。</p>
+<p>需要声明的是，我们并没有采取这一权利的优势。然而可以自由选择如何做，这就是为什么我们宁愿在调度时候控制，这也是为什么setState()是异步的。从概念上讲，我们认为它是“调度更新”。</p>
+<p>如果让用户在一些常见的函数式编程模式下直接基于“PUSH”模式编写视图，这将会很难在调度的时候去做控制。我们希望拥有“glue”代码。对于React而言这是关键的目标，返回到React中之前，执行的用户代码量是最少的。这也确保了React具有调度和根据它所知道的UI来进行块分割的能力。</p>
+<p>在团队内部都戏称React应该被叫做“调度程序”，因为React并不想完全没有活性。</p>
+<h2 id="Developer_Experience">Developer Experience</h2><p>对我们而言，提供一个良好的开发者体验是很重要的。</p>
+<p>比如，我们维护的React DevTools可以让你在Chrome和Firefox中检查React组件树。我们从Facebook工程师和社区中听说到它极大地提升了开发效率。我们也试图做一些额外的努力，为了给开发者提供一些有用的警告信息。比如，在开发环境下，如果你以某种方式嵌套的标签浏览器不能识别，或在API中犯了一个通常的拼写错误，React就会给出警告提示。开发环境下的警告和相关检查是React开发版本比生产版本慢的主要原因。</p>
+<p>在Facebook内部我们看到的使用模式有助于我们了解常见的错误是什么，以及如何提前预防它们。当我们添加新的功能时，我们也会尝试预见到常见的错误和警告。</p>
+<p>我们一直在探索提高开发体验的方式。我们乐意倾听您的建议，并接受您的贡献，使得React变得更好。</p>
+<h2 id="Debugging">Debugging</h2><p>当出现错误的时候，在代码库的源码中有breadcrumbs来跟踪错误是很重要的。在React中，props和state就是这些breadcrumbs。</p>
+<p>如果发生了错误，你可以打开React DevTools，找到渲染的组件，验证下props和state是否正确。如果都正确，则你就知道问题是出在了组件的render()方法上，或者一些调用render()方法的方法。这些问题都是孤立的。</p>
+<p>如果state是错误的，你就知道是文件中某处调用setState()方法导致的错误。相对来说找到并修复这样的问题也是比较简单的，因为在一个文件中不会有太多的setState()被调用。</p>
+<p>如果props是错误的，你可以遍历并检查整个树，找出第一个向下传递错误props的组件。</p>
+<p>在React中，跟踪任何UI上通过当前props和state产生的数据的能力是非常重要的。 state在闭包和组合中是不受控的，可直接被React使用，这是一个非常明确的设计目标。</p>
+<p>虽然UI是动态的，但我们相信相对于调试时候无聊的推测props和state的过程，同步的render()是确定的。我们希望在React中保持这种约束，即便是在更复杂的用例中，如复杂的动画，或更复杂的情况。</p>
+<h2 id="Configuration">Configuration</h2><p>我们发现全局运行时配置选项是有问题的。</p>
+<p>例如，偶尔要求我们实现如React.configure(options)或React.register(component)的方法。然而这会带来很多问题，我们并没有很好的解决方案。</p>
+<p>如果有人调用第三方组件库中的方法会发生什么？如果一个React应用中嵌入了另一个React应用，而他们需要的配置不兼容会发生什么？怎会有一个第三方组件指定它需要一个特定的配置？我们认为全局配置不能很好的组合工作。由于组合是React的核心，因此在代码中我们不在提供全局配置。</p>
+<p>我们的确这样做了，但在构建级别提供了一些全局配置。比如，我们单独提供开发和生产版本。将来我们也可能会提供一个性能分析的build，我们也会考虑其他构建标识。</p>
+<h2 id="Beyond_the_DOM">Beyond the DOM</h2><p>我们可以看到React在开发的组件BUG很少以及组件相互组合方面的价值。DOM是React的原始渲染目标，但React Native对Facebook和社区是同等重要的。</p>
+<p>成为渲染器无关是一个非常重要的React的设计约束。在内部表现方面增加了一些开销。另一方面，在跨平台兼容方面有核心的改进。</p>
+<p>让开发产品成为一种单一的开发模式，而不是基于平台形式的工程团队。到目前为止，对我们而言这种权衡是有价值的。</p>
+<h2 id="Implementation">Implementation</h2><p>在任何可能的条件下我们都尝试提供优雅的API。我们很少关注如何优雅的实现。现实和完美差的很远，在合理的范围内，如果意味着用户不用写时，我们愿意将一些丑陋的代码添加到代码库中。当我们评估新代码时，我们寻找正确的实现，优异的性能和良好的开发体验。优雅是次要的。</p>
+<p>我们宁愿将无趣的代码转变为巧妙的代码。代码一次性使用和经常改变的。因此，除非非常有必要，否则不要引入新的内部抽象是非常重要的。冗余的代码很容易到处都是，修改和删除是实现优雅的最好方式，最好提前抽象和不要轻易改变。</p>
+<h2 id="Optimized_for_Tooling">Optimized for Tooling</h2><p>一些常用的API有冗长的API。如，我们使用componentDidMount()代替didMount()和onMount()。这是故意而为的。目的就是当看到这些API时就知道是React里面的。</p>
+<p>在Facebook这样一个庞大的代码库中，能够搜索特定的API是非常重要的。我们很重视冗长的命名，尤其是对那些谨慎使用的功能。例如，dangerouslySetInnerHTML在代码审查中很难通过。</p>
+<p>优化搜索也是很重要的，因为我们依赖codemods打断点跟踪变化。在整个代码库中，我们希望它是简单并安全的自动应用变化，这些冗长的命令可以帮我们实现这一目标。同样地，这些与众不同的命名可以让我们很容易的使用React编写自定义规则，而不用担心潜在的冲突。</p>
+<p>JSX起着类似的作用。然而，React中它并不是必须的，Facebook内部广泛的使用它是基于美观和实用的原因。</p>
+<p>在我们的代码库中，JSX只是作为处理React元素树的一个工具。这就使得可以在编译时间上优化，如提升常量元素，安全检测和codemod内部组件的使用，并且JSX的警告可以定位到源代码位置。</p>
+<h2 id="Dogfooding">Dogfooding</h2><p>我们尽我们所能解决社区提出的问题。</p>
+<p>然而，我们可能会优先解决Facebook内部遇到的问题。可能与直觉相反，我们认为这也是为什么社区参与到React中的原因。</p>
+<p>重视内部使用给了我们React不会很快销声匿迹的信心。React是Facebook创建的，是为了解决自己的问题。它为公司带来了实实在在的商业价值，并在许多产品中都使用到了它。内部测试意味着我们有一个清晰的愿景，我们在向一个集中的目标前进。</p>
+<p>这并不意味着我们会忽略社区提出的各种问题。例如，React中我们加入了对web components和svg的支持，即使我们不依赖它们中的任一个。我们正在倾听你的痛点，并尽我们所能解决它们。React社区是专门为我们开设的，我们很荣幸能够做出贡献。</p>
+<p>在Facebook上发布许多开源项目后，我们已经了解到，让每个人都很快乐地开发项目而不专注是不良循环。相反，我们发现选择一小部分人，并着眼于使它们快乐会带来积极的影响。这正是我们用React所做的事情，到目前为止，解决Facebook内部遇到的问题已经转化为良好的开源社区。</p>
+<p>这种做法的缺点是，有时要处理Facebook团队内部的事情而没能给足够的关注，如“getting started”体验。我们已经强烈地意识到了这一点，我们正在考虑，如何改进这一方式，让社区中的每个人都不会犯我们之前在维护开源项目上所犯的相同的错误。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Component/" rel="tag">#Component</a>
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+            <a href="/tags/设计原则/" rel="tag">#设计原则</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/27/keyed-Fragments/" rel="next" title="keyed Fragments">
+                <i class="fa fa-chevron-left"></i> keyed Fragments
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="baizn" />
+          <p class="site-author-name" itemprop="name">baizn</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Composition"><span class="nav-number">1.</span> <span class="nav-text">Composition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common_Abstraction"><span class="nav-number">2.</span> <span class="nav-text">Common Abstraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Escape_Hatches"><span class="nav-number">3.</span> <span class="nav-text">Escape Hatches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stability"><span class="nav-number">4.</span> <span class="nav-text">Stability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Interoperability"><span class="nav-number">5.</span> <span class="nav-text">Interoperability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling"><span class="nav-number">6.</span> <span class="nav-text">Scheduling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Developer_Experience"><span class="nav-number">7.</span> <span class="nav-text">Developer Experience</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debugging"><span class="nav-number">8.</span> <span class="nav-text">Debugging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration"><span class="nav-number">9.</span> <span class="nav-text">Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beyond_the_DOM"><span class="nav-number">10.</span> <span class="nav-text">Beyond the DOM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation"><span class="nav-number">11.</span> <span class="nav-text">Implementation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optimized_for_Tooling"><span class="nav-number">12.</span> <span class="nav-text">Optimized for Tooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dogfooding"><span class="nav-number">13.</span> <span class="nav-text">Dogfooding</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">baizn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
