@@ -248,6 +248,242 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/10/JavaScript获取页面元素坐标/" itemprop="url">
+                  JavaScript获取页面元素坐标
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-10T13:47:28+08:00" content="2015-11-10">
+              2015-11-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JavaScript获取页面坐标">JavaScript获取页面坐标</h3><h4 id="鼠标点击事件的坐标，相对于可视区域（Client）左上角">鼠标点击事件的坐标，相对于可视区域（Client）左上角</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pointX = <span class="keyword">event</span>.clientX;</span><br><span class="line"><span class="keyword">var</span> pointY = <span class="keyword">event</span>.clientY;</span><br></pre></td></tr></table></figure>
+<p><strong>event为鼠标点击事件。</strong></p>
+<h4 id="可视区域左上角坐标，相对于整个页面（page）左上角">可视区域左上角坐标，相对于整个页面（page）左上角</h4><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.pageYOffset !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">	point.x = <span class="built_in">window</span>.pageXOffset;</span><br><span class="line">	point.y = <span class="built_in">window</span>.pageYOffset;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">document</span>.compatMode !== <span class="string">'undefined'</span> &amp;&amp; <span class="built_in">document</span>.compatMode !== <span class="string">'BackCompat'</span>) &#123;</span><br><span class="line">	point.x = <span class="built_in">document</span>.documentElement.scrollLeft;</span><br><span class="line">	point.y = <span class="built_in">document</span>.documentElement.scrollTop;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">document</span>.body !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">	point.x = <span class="built_in">document</span>.body.scrollLeft;</span><br><span class="line">	point.y = <span class="built_in">document</span>.body.scrollTop;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="某元素的左上角坐标，相对于整个页面（page）左上角">某元素的左上角坐标，相对于整个页面（page）左上角</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">elementLeft</span>(<span class="params"><span class="keyword">event</span></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> offset = <span class="keyword">event</span>.offsetLeft;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">event</span>.offsetParent !== <span class="keyword">null</span>) &#123;</span><br><span class="line">		offset += elementLeft(<span class="keyword">event</span>.offsetParent);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> offset;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="网页全文高和宽">网页全文高和宽</h4><blockquote>
+<ul>
+<li>document.body.scrollWidth</li>
+<li>document.body.scrollHeight</li>
+</ul>
+</blockquote>
+<p>IE7+/firefox行为一致，不包括position=absolute的元素，且不管页面缩放的全文高度；chrome计算宽度和高度时候同时包含了position＝absolute的元素，且当页面缩放时，当全文高度／宽度小于可视区域的高度和宽度时候，计算的结果是可视区域的高度和宽度。</p>
+<h4 id="屏幕分辨率的高和宽">屏幕分辨率的高和宽</h4><blockquote>
+<ul>
+<li>window.screen.height</li>
+<li>window.screen.widht</li>
+</ul>
+</blockquote>
+<p>当页面不缩放时候，IE，firefox和chrome都获得真实的屏幕分辨率；当页面缩放时，chrome返回的值不变，IE7+和firefox返回屏幕分辨率/缩放比例。</p>
+<h4 id="网页可视区域的高和宽">网页可视区域的高和宽</h4><blockquote>
+<ul>
+<li>宽度：document.body.clientWidth</li>
+<li>高度：document.body.clientHeight</li>
+</ul>
+</blockquote>
+<p>该高度和宽度不包含浏览器右侧和底部的滚动条，也不包含body的margin。</p>
+<p>高度 ＝ Min(页面高度，可视高度)</p>
+<p>宽度 ＝ Max(页面宽度，可视宽度)</p>
+<p><strong>页面缩放后，高度不变，宽度＝（原始宽度／缩放比例）。</strong></p>
+<h4 id="网页被卷进去的高和宽">网页被卷进去的高和宽</h4><blockquote>
+<ul>
+<li>宽度：window.pageXOffset; document.documentElement.scrollLeft</li>
+<li>高度：window.pageYOffset; document.documentElement.scrollTop</li>
+</ul>
+</blockquote>
+<h4 id="ScrollHeight_/_OffsetHeight_/_ClientHeight的区别">ScrollHeight / OffsetHeight / ClientHeight的区别</h4><blockquote>
+<ul>
+<li>offsetHeight为元素的高度，被挡住部分同样计算在内；其父元素的overflow属性对此没有影响，自身的overflow对此也没影响</li>
+<li>scrollHeight为元素的高度，被挡住的部分同样计算在内；其父元素的overflow对此没影响，受自身overflow影响</li>
+<li>clientHeight为元素的高度，被挡住部分同样计算在内；其父元素的overflow对此没影响，受自身overflow的影响</li>
+</ul>
+</blockquote>
+<p>IE系列浏览器的滚动条的宽度和高度是固定的16px，不受缩放影响；firefox和chrome的滚动条在100%的时候是16px，当缩放时，该宽度和高度发生了变化，为16/随风比例 px。</p>
+<h4 id="元素的offsetTop">元素的offsetTop</h4><blockquote>
+<ul>
+<li>对于position=absolute的元素，offsetTop为其相对于其祖先元素中最近的一个position=relative或position=absolute的元素的偏移</li>
+<li>对于position=absolute的元素，offsetTop为其top属性值指定的值，如果该属性为空，则与position!=absolute时候的算法相同</li>
+</ul>
+</blockquote>
+<h4 id="元素的scrollTop">元素的scrollTop</h4><p>scrollTop是指某一元素内部的元素被卷进去的高度，而不是该元素本身被卷进去的高度。只有当该元素的overflow=auto或scroll时候，该值才有意义。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/10/JavaScript实现div可拖拽/" itemprop="url">
+                  JavaScript实现div可拖拽
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-10T10:13:05+08:00" content="2015-11-10">
+              2015-11-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="原生JavaScript实现div拖拽">原生JavaScript实现div拖拽</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    @param obj 元素</span><br><span class="line">    @param key 样式属性</span><br><span class="line">    获取obj元素的样式</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">var</span> getCurrentCss = <span class="function"><span class="keyword">function</span>(<span class="params">obj, key</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[key] : <span class="built_in">document</span>.defaultView.getComputedStyle(obj, <span class="literal">false</span>,)[key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> divDrag = <span class="function"><span class="keyword">function</span>(<span class="params">bar, target, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        currentX: <span class="number">0</span>,</span><br><span class="line">        currentY: <span class="number">0</span>,</span><br><span class="line">        flag: <span class="literal">false</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> labelFrom = <span class="built_in">document</span>.getElementById(<span class="string">'label-from'</span>);</span><br><span class="line">    <span class="keyword">var</span> labelTo = <span class="built_in">document</span>.getElementById(<span class="string">'label-to'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(getCurrentCss(target, <span class="string">'left'</span>) !== <span class="string">'auto'</span>) &#123;</span><br><span class="line">        params.left = getCurrentCss(target, <span class="string">'left'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(getCurrentCss(target, <span class="string">'top'</span>) !== <span class="string">'auto'</span>) &#123;</span><br><span class="line">        params.top = getCurrentCss(target, <span class="string">'top'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bar.onmousedown = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">        params.falg = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!event) &#123;</span><br><span class="line">            event = <span class="built_in">window</span>.event;</span><br><span class="line">            bar.onselectstart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        params.currentX = event.clientX;</span><br><span class="line">        params.currentY = event.clientY;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.onmouseup = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        params.flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(getCurrentCss(target, <span class="string">'left'</span>) !== <span class="string">'auto'</span>) &#123;</span><br><span class="line">            params.left = getCurrentCss(target, <span class="string">'left'</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(getCurrentCss(target, <span class="string">'top'</span>) !== <span class="string">'auto'</span>) &#123;</span><br><span class="line">            params.top = getCurrentCss(target, <span class="string">'top'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    bar.onmousemove = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> e = event ? event : <span class="built_in">window</span>.event;</span><br><span class="line">        <span class="keyword">if</span>(params.flag) &#123;</span><br><span class="line">            <span class="keyword">var</span> disX = e.clientX - params.currentX;</span><br><span class="line">            <span class="keyword">var</span> disY = e.clientY - params.currentY;</span><br><span class="line"></span><br><span class="line">            target.style.left = <span class="built_in">parseInt</span>(params.left) + disX + <span class="string">'px'</span>;</span><br><span class="line">            target.style.top = <span class="built_in">parseInt</span>(params.top) + disY + <span class="string">'px'</span>;</span><br><span class="line"></span><br><span class="line">            labelFrom.style.top = <span class="built_in">parseInt</span>(params.top) + disY + <span class="number">45</span> + <span class="string">'px'</span>;</span><br><span class="line">            labelTo.style.top = <span class="built_in">parseInt</span>(params.top) + disY + <span class="number">85</span> + <span class="string">'px'</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> callback === <span class="string">'function'</span>) &#123;</span><br><span class="line">            callback(<span class="built_in">parseInt</span>(params.left) + disX, <span class="built_in">parseInt</span>(params.top) + disY);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/10/ECMAScript自动分号插入机制/" itemprop="url">
                   ECMAScript自动分号插入机制
                 </a>
@@ -1393,130 +1629,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/03/JavaScript之Cookie/" itemprop="url">
-                  JavaScript之Cookie
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-03T15:14:21+08:00" content="2015-11-03">
-              2015-11-03
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Javascript之Cookie">Javascript之Cookie</h2><h3 id="什么是cookie">什么是cookie</h3><p>cookie是存储于访问者的计算机中的变量。每当同一台计算机通过浏览器请求某个页面时，就会发送这个cookie。</p>
-<p>cookie是访问过的网站创建的文件，用于存储浏览信息。</p>
-<p>在javascript中可以通过document.cookie来读取或设置这些信息。</p>
-<h3 id="cookie基础知识">cookie基础知识</h3><blockquote>
-<ul>
-<li>cookie有大小限制，每个cookie所存放的数据不能超过4KB，如果超过，则返回空字符串</li>
-<li>cookie是以文本形式存放在客户端的计算机中</li>
-<li>cookie的格式：<cookie名>＝<cookie值></cookie值></cookie名></li>
-<li>cookie的有效期，默认的生命周期是浏览器关闭时候，如果希望在浏览器关闭后还能使用，则需要设置cookie的有效期</li>
-<li>typeof document.cookie的结果是string</li>
-<li>cookie有域和路径的概念，默认不能跨域访问cookie</li>
-<li>多个cookie可以存放在一个cookie文件中</li>
-</ul>
-</blockquote>
-<h3 id="操作cookie">操作cookie</h3><h4 id="设置cookie">设置cookie</h4><p>在javascript中存取cookie时，必须使用Document对象的cookie属性：</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'name=baizn'</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="读取cookie">读取cookie</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> start = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">var</span> end = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">document</span>.cookie.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		start = <span class="built_in">document</span>.cookie.indexOf(name + <span class="string">'='</span>);</span><br><span class="line">		<span class="keyword">if</span>(start !== -<span class="number">1</span>) &#123;</span><br><span class="line">			<span class="comment">//获取cookie值的开始位置</span></span><br><span class="line">			start = start + name.length + <span class="number">1</span>;</span><br><span class="line">			end = <span class="built_in">document</span>.cookie.indexOf(<span class="string">';'</span>, start);</span><br><span class="line">			<span class="keyword">if</span>(end === -<span class="number">1</span>) &#123;</span><br><span class="line">				end = <span class="built_in">document</span>.cookie.length;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">decodeURI</span>(<span class="built_in">document</span>.cookie.substring(start, end));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="设置cookie的有效期">设置cookie的有效期</h4><p>默认情况下，cookie会在浏览器关闭时候自动清除。可以通过expires来设置cookie的有效期，语法如下：</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'name=baizn; expires=data'</span>;</span><br></pre></td></tr></table></figure>
-<p>data的格式如下：</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var _date = new Date()<span class="comment">;</span></span><br><span class="line">_date.setDate(_date.getDate() + 30)<span class="comment">;</span></span><br><span class="line">_date.toGMTString()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<h3 id="cookie的路径">cookie的路径</h3><p>cookie一般都是由于用户访问页面而创建的。默认情况下，只有与创建cookie的页面在同一个目录下的网页才可以访问。</p>
-<p>如何让cookie能被其他目录或路径访问呢，可以通过设置cookie的路径来实现：</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'name=baizn; path=path'</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="cookie的域">cookie的域</h3><p>实现cookie同域之间的访问：</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'name=baizn; domain=b.cn'</span>;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1557,7 +1674,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1567,7 +1684,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1604,7 +1721,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

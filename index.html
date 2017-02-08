@@ -248,6 +248,285 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/08/Three-js中的光源/" itemprop="url">
+                  Three.js中的光源
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-08T21:15:44+08:00" content="2017-02-08">
+              2017-02-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="光源的基类">光源的基类</h3><p>Three.js中，光源用Light表示，它是所有光源的基类。构造函数是：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THREE.<span class="function"><span class="title">Light</span><span class="params">(hex)</span></span></span><br></pre></td></tr></table></figure>
+<p>参数hex：接受一个16进制的颜色值。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">var</span> redLight = new THREE.<span class="function"><span class="title">Light</span><span class="params">(<span class="number">0</span>xFF0000)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="其他种类光源">其他种类光源</h3><p>THREE.Light只是其他所有光源的基类，其他光源都继承它。</p>
+<ul>
+<li>环境光：THREE.AmbientLight</li>
+<li>区域光：THREE.AreaLight</li>
+<li>方向光：THREE.DirectionalLight</li>
+<li>聚光等：THREE.SpotLight</li>
+<li>点光源：THREE.PointLight</li>
+</ul>
+<h3 id="环境光">环境光</h3><p>环境光是经过多次反射而来的光，无法确定其最初的方向。环境光源放出的光线被认为来自任何方向，因此，当仅为场景指定环境光时，所有的物体无论法向量如何，都将表现为同样的明暗程度。</p>
+<p>环境光的构造函数如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THREE.<span class="function"><span class="title">AmbientLight</span><span class="params">(hex)</span></span></span><br></pre></td></tr></table></figure>
+<p>环境光的使用如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">var</span> light = new THREE.<span class="function"><span class="title">AmbientLight</span><span class="params">(<span class="number">0</span>xff0000)</span></span></span><br><span class="line">scene.<span class="function"><span class="title">add</span><span class="params">(light)</span></span></span><br></pre></td></tr></table></figure>
+<p>只需要将光源加入场景，场景就能够通过光源渲染出好的效果来了。</p>
+<h3 id="点光源">点光源</h3><p>点光源放出的光线来自同一点，且方向辐射自四面八方。如蜡烛的光，萤火虫的光。</p>
+<p>点光源用PointLight表示，构造函数如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">PointLight</span><span class="params">(color, intensity, distance)</span></span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>color：光的颜色</li>
+<li>intensity：光的强度，默认1.0，即100%强度的光</li>
+<li>distance：光的距离，从光源所在的位置，经过distance距离后，光的强度将从intensity衰减到0，默认为0，表示光源强度不衰减</li>
+</ul>
+<h3 id="聚光灯">聚光灯</h3><p>这种光源的光线从一个锥体中射出，在被照射的物体上产生聚光的效果。使用这种光源需要指定光的射出方向以及椎体的顶角。</p>
+<p>聚光灯的构造函数如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THREE.<span class="function"><span class="title">SpotLight</span><span class="params">(hex, intensity, distance, angle, exponent)</span></span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>hex：聚光灯发出的颜色</li>
+<li>intensity：光源的强度，默认1.0</li>
+<li>distance：光线的强度从最大值衰减到0需要的距离，默认为0，表示不衰减</li>
+<li>angle：聚光灯着色的角度，用弧度作为单位，这个角度是和光源方向形成的角度</li>
+<li>exponent：光源模型中，衰减的一个参数，越大衰减越快</li>
+</ul>
+<h3 id="材质与光源的关系">材质与光源的关系</h3><p>材质就是材料和质感的完美结合。</p>
+<p>渲染程序中，材质是表面各种可视属性的结合，这些可视属性是指表面的色彩、纹理、光滑度、透明度、反射率、折射率、发光度等。</p>
+<p>材质的真相仍然是光，离开光材质是无法体现的。</p>
+<h4 id="不带任何光源的物体">不带任何光源的物体</h4><p>画一个物体，不带任何的光源，定义物体颜色为黑色，定义材质如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> material = <span class="keyword">new</span> THREE.MeshLambertMaterial(&#123;</span><br><span class="line">	color: <span class="number">0x000000</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当没有光源的时候，最终的颜色将是材质的颜色。</p>
+<h4 id="材质与光源">材质与光源</h4><p>最常见的材质之一就是Lambert材质，这是在灰暗或不光滑的表面产生均匀散射而形成的材质类型。Lambert材质表面会在所有方向上均匀地散射灯光，这就会使颜色看上去比较均匀。</p>
+<p>Lambert材质会受环境光的影响，呈现环境光的颜色，与材质本身颜色关系不大。</p>
+<h4 id="环境光对物体的影响">环境光对物体的影响</h4><p>环境光就是在场景中无处不在的光，它对物体的影响是均匀的，也就是无论从物体的那个角度观察，物体的颜色都是一样的。</p>
+<h3 id="平行光">平行光</h3><p>平行光又称为方向光，是一组没有衰减的平行的光线，类似太阳光的效果。</p>
+<p>方向光的构造函数如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THREE.<span class="function"><span class="title">DirectionalLight</span><span class="params">(hex, intensity)</span></span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>hex：关系的颜色，用16进制表示</li>
+<li>intensity：光线的强度，默认为1</li>
+</ul>
+<p>平行光有一个方向，它的方向是如何决定的呢？方向由位置和原点（0, 0, 0）来决定，方向光只与方向有关，与离物体的远近无关。</p>
+<h3 id="环境光与方向光">环境光与方向光</h3><p>当环境光与方向光同时存在的时候，会出现怎么样的情况呢？</p>
+<p>可以把这种情况想成两种光源同时作用于物体，它产生的情况，和每种光源分别作用于物体，然后将两者的结果相加是一样的效果。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">initLight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	light = <span class="keyword">new</span> THREE.AmbientLight(<span class="number">0x00FF00</span>)</span><br><span class="line">	light.position.<span class="built_in">set</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">200</span>)</span><br><span class="line">	scene.add(light)</span><br><span class="line"></span><br><span class="line">	light = <span class="keyword">new</span> THREE.DirectionalLight(<span class="number">0xFF0000</span>)</span><br><span class="line">	light.position.<span class="built_in">set</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">	scene.add(light)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当方向光照射过来的时候，被照射的表面呈现光的颜色，而由于是方向光，没有照射到的表面，就呈现暗色，一般是黑色，表示没有任何光源照到该表面。</p>
+<h3 id="点光源-1">点光源</h3><p>点光源的特点是发光部分为一个小圆点，近似一个点。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">light = new THREE.<span class="function"><span class="title">PointLight</span><span class="params">(<span class="number">0</span>xFF0000)</span></span></span><br><span class="line">light<span class="class">.position</span><span class="class">.set</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>)</span><br><span class="line"><span class="function"><span class="title">scene</span><span class="params">(light)</span></span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/Three-js中的相机/" itemprop="url">
+                  Three.js中的相机
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-08T21:14:11+08:00" content="2017-02-08">
+              2017-02-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="相机种类">相机种类</h3><p>在Three.js中，相机的表示是THREE.Camera，它是相机的抽象基类，其子类有两个，分别是正投影相机和透视投影相机。</p>
+<ul>
+<li>正投影相机：THREE.OrthographicCamera</li>
+<li>透视投影相机：THREE.PerspectiveCmaera</li>
+</ul>
+<h3 id="两者的区别">两者的区别</h3><p>正投影相机和透视投影相机的区别是：透视投影有一个基本点，就是远处的物体比近处的物体小；正投影远近高低比例都相同。</p>
+<h4 id="正投影相机">正投影相机</h4><p>正投影相机的构造函数：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">OrthographicCamera</span>(<span class="attribute">left</span>, <span class="attribute">right</span>, <span class="attribute">top</span>, <span class="attribute">bottom</span>, near, far)</span><br></pre></td></tr></table></figure>
+<p>构造函数参数说明：</p>
+<ul>
+<li>left参数：左平面距离相机中心点的垂直距离</li>
+<li>right参数：右平面距离相机中心点的垂直距离</li>
+<li>top参数：顶平面距离相机中心点的垂直距离</li>
+<li>bottom参数：底平面距离相机中心点的垂直距离</li>
+<li>near参数：近平面距离相机中心点的垂直距离</li>
+<li>far参数：远平面距离相机中心点的垂直距离</li>
+</ul>
+<p>相机的中心点可以定义为相机的位置。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var <span class="built_in">camera</span> = <span class="keyword">new</span> THREE.OrthographicCamera(<span class="variable">width</span>/-<span class="number">2</span>, <span class="variable">width</span>/<span class="number">2</span>, <span class="variable">height</span>/<span class="number">2</span>, <span class="variable">height</span>/-<span class="number">2</span>, <span class="number">1</span>, <span class="number">1000</span>)</span><br><span class="line">scene.<span class="built_in">add</span>(<span class="built_in">camera</span>)</span><br></pre></td></tr></table></figure>
+<p>上面的代码就是将浏览器窗口的宽度和高度作为了视景体的高度和宽度，相机正好在窗口的中心点上。</p>
+<h4 id="透视投影相机">透视投影相机</h4><p>透视投影相机的构造函数如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">PerspectiveCamera</span><span class="params">(fov, aspect, near, far)</span></span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>视角fov：视角大小</li>
+<li>近平面near：近处的平面的距离</li>
+<li>远平面far：远处的平面</li>
+<li>纵横比aspect：宽度除以高度</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">var</span> camera = new THREE.<span class="function"><span class="title">PerspectiveCamera</span><span class="params">(<span class="number">45</span>, width/height, <span class="number">1</span>, <span class="number">1000</span>)</span></span></span><br><span class="line">scene.<span class="function"><span class="title">add</span><span class="params">(camera)</span></span></span><br></pre></td></tr></table></figure>
+<p>视角越大，中间的物体越小，这是因为视角越大，看到的场景越大，中间物体相对于整个场景来说，就会越小。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/23/Immutable-js中文API文档-持续更新/" itemprop="url">
                   Immutable.js中文API文档(持续更新)
                 </a>
@@ -1265,216 +1544,11 @@ x === y; <span class="comment">// false</span>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/12/使用JS修改文本框样式/" itemprop="url">
-                  使用JS修改文本框样式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-12T10:56:45+08:00" content="2016-05-12">
-              2016-05-12
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="使用JavaScript修改文本框的样式">使用JavaScript修改文本框的样式</h3><p>当上传文件时，默认的文本框样式直接丑到哭，可以使用JS进行自定义样式。基本步骤如下：</p>
-<blockquote>
-<ul>
-<li>隐藏掉type=file的输入框</li>
-<li>自定义控件样式</li>
-<li>定义事件，当点击自定义控件时，调用隐藏的输入框click事件</li>
-</ul>
-</blockquote>
-<p>基本代码框架如下：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="class"><span class="keyword">type</span>=</span><span class="symbol">'fil</span>e' name=<span class="symbol">'fil</span>e' id=<span class="symbol">'fil</span>e' style=<span class="symbol">'display</span>: none;' /&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span>=</span><span class="symbol">'selfstyl</span>e'&gt;</span><br><span class="line">	&lt;input <span class="class"><span class="keyword">type</span>=</span><span class="symbol">'tex</span>t' id=<span class="symbol">'showur</span>l' <span class="class"><span class="keyword">class</span>=</span><span class="symbol">'inputstyl</span>e' disabled /&gt;</span><br><span class="line">	&lt;a <span class="class"><span class="keyword">class</span>=</span><span class="symbol">'btn</span> btn-info' id=<span class="symbol">'triggerFil</span>e'&gt;</span><br><span class="line">		&lt;i <span class="class"><span class="keyword">class</span>=</span><span class="symbol">'icon</span>-folder-open-alt'&gt;&lt;/i&gt;浏览</span><br><span class="line">	&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">$('#file').change(function() &#123;</span><br><span class="line">	<span class="keyword">var</span> path = $(<span class="keyword">this</span>).<span class="keyword">val</span>();</span><br><span class="line">	path = path.split('\\');</span><br><span class="line">	path = path[path.length - <span class="number">1</span>];</span><br><span class="line">	$('#showurl').<span class="keyword">val</span>(path);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/12/CSS实现全屏自适应/" itemprop="url">
-                  CSS实现全屏自适应
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-12T10:54:05+08:00" content="2016-05-12">
-              2016-05-12
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="CSS实现没有宽度和高度声明的全屏自适应效果">CSS实现没有宽度和高度声明的全屏自适应效果</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css"></span><br><span class="line">	<span class="tag">html</span>, <span class="tag">body</span> <span class="rules">&#123;</span><br><span class="line">		<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100%</span></span></span>;</span><br><span class="line">	&#125;</span></span><br><span class="line"></span><br><span class="line">	<span class="class">.overlay</span> <span class="rules">&#123;</span><br><span class="line">		<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#000</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">opacity</span>:<span class="value"> <span class="number">0.5</span></span></span>;</span><br><span class="line">		<span class="rule"><span class="attribute">filter</span>:<span class="value"> <span class="function">alpha</span>(apacity=<span class="number">50</span>)</span></span>;</span><br><span class="line">	&#125;</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"overlay"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>对于positiono为absolute或fixed的元素，同时设置left和right和width，即可margin:auto水平居中；同理可以设置top,bottom,height垂直居中。</p>
-<h3 id="absolute与整体布局">absolute与整体布局</h3><h4 id="body降级，子元素升级">body降级，子元素升级</h4><p>升级的子div满屏</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class">.page</span> &#123;</span><br><span class="line">	<span class="attribute">position</span><span class="value">: absolute;</span></span><br><span class="line">	<span class="attribute">left</span><span class="value">: <span class="number">0</span>;</span></span><br><span class="line">	<span class="attribute">top</span><span class="value">: <span class="number">0</span>;</span></span><br><span class="line">	<span class="attribute">right</span><span class="value">: <span class="number">0</span>;</span></span><br><span class="line">	<span class="attribute">bottom</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>绝对定位受限于父级，因此需要</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">html</span>, <span class="tag">body</span> <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100%</span></span></span>;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="各模块－头尾及侧边栏（PC端）各居其位">各模块－头尾及侧边栏（PC端）各居其位</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">header</span>, <span class="tag">footer</span> <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">header</span> <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">48px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">footer</span> <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">52px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">aside</span>(侧边栏) <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="内容区域想象成body">内容区域想象成body</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class">.content</span> <span class="rules">&#123;</span><br><span class="line">	<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">48px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">52px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">300px</span></span></span>;</span><br><span class="line">	<span class="rule"><span class="attribute">overflow</span>:<span class="value"> auto</span></span>;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="全屏覆盖与page平级">全屏覆盖与page平级</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.overlay &#123;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top: <span class="number">0</span>;</span><br><span class="line">	left: <span class="number">0</span>;</span><br><span class="line">	right: <span class="number">0</span>;</span><br><span class="line">	bottom: <span class="number">0</span>;</span><br><span class="line">	background-color: rgba(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>);</span><br><span class="line">	z-index: <span class="number">8</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"page"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"overlay"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1515,7 +1589,7 @@ x === y; <span class="comment">// false</span>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1525,7 +1599,7 @@ x === y; <span class="comment">// false</span>
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1562,7 +1636,7 @@ x === y; <span class="comment">// false</span>
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
