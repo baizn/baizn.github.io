@@ -248,6 +248,121 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/11/详解CSS之浮动/" itemprop="url">
+                  详解CSS之浮动
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-11T12:15:55+08:00" content="2015-12-11">
+              2015-12-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="详解CSS之浮动">详解CSS之浮动</h2><h3 id="浮动带来的缺陷">浮动带来的缺陷</h3><blockquote>
+<ul>
+<li>元素设置浮动后，会影响它的兄弟元素</li>
+<li>浮动的元素脱离了文档流（仍在文档流中），包含它的父元素不会因为这个浮动元素的存在而自动撑高，这样就会造成父元素高度塌陷的问题</li>
+</ul>
+</blockquote>
+<h3 id="清除浮动常见的方法">清除浮动常见的方法</h3><p>在受影响的兄弟元素上设置clear:both;属性后，不会跟浮动元素同行，而是占据一整行，也不是根据内容自动调整宽度。</p>
+<p>clear的原理：clear会为元素添加足够的空白空间，使得该元素的位置会放置在它之前得一个浮动元素之下，这跟增加元素外边距使得元素占据满行而强制换行得效果是一样得。</p>
+<p>使用在受影响的兄弟元素上设置clear:both;属性得方法后，只是清除了浮动元素对兄弟元素得影响，并没有解决父元素高度塌陷得问题，因此，我们需要更高级得清除浮动：<strong>闭合浮动</strong>。</p>
+<h4 id="空div方法">空div方法</h4><p>在浮动元素后面添加:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	clear:both;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"clearfix"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="overflow方法">overflow方法</h4><p>在浮动元素得父元素上设置overflow得值为hidden或auto，可以闭合浮动。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	overflow: hidden;</span><br><span class="line">	*zoom: <span class="number">1</span>; <span class="comment">//IE6中触发hasLayout</span></span><br><span class="line">&#125;</span><br><span class="line">&lt;div <span class="keyword">class</span>=<span class="string">"clearfix"</span>&gt;</span><br><span class="line">	&lt;div <span class="keyword">class</span>=<span class="string">"left"</span>&gt;<span class="keyword">float</span> left&lt;/div&gt;</span><br><span class="line">	&lt;div <span class="keyword">class</span>=<span class="string">"left"</span>&gt;left&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>使用overflow可能产生得问题：当元素内包括会超出父元素边界的子元素时，可能会覆盖掉有用的子元素，或是产生多余的滚动条。</p>
+<h4 id="使用:after伪元素的方法">使用:after伪元素的方法</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	*zoom: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">.clearfix:<span class="keyword">after</span> &#123;</span><br><span class="line">	content: '',</span><br><span class="line">	display: block;</span><br><span class="line">	height: <span class="number">0</span>,</span><br><span class="line">	clear: both;</span><br><span class="line">	visibility: hidden;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"box clearfix"</span>&gt;</span><br><span class="line">	&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"main left"</span>&gt;left1&lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">	&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"foot left"</span>&gt;left2&lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="清除浮动方法的实质——CSS_Clear与BFC特性">清除浮动方法的实质——CSS Clear与BFC特性</h3><blockquote>
+<ul>
+<li>利用clear属性：包括在浮动元素尾部添加一个带有clear:both属性的空div来闭合元素，其实利用:after伪元素方法也是在元素尾部添加一个内容为空白字符并带有clear:both属性的元素的实现的</li>
+<li>触发浮动元素父元素的BFC，使得该父元素可以包含浮动元素</li>
+</ul>
+</blockquote>
+<h3 id="参考资料">参考资料</h3><p><a href="http://kayosite.com/remove-floating-style-in-detail.html" target="_blank" rel="external">详说清除浮动</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/11/详解CSS之BFC/" itemprop="url">
                   详解CSS之BFC
                 </a>
@@ -1758,118 +1873,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/10/单页Web应用/" itemprop="url">
-                  单页Web应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-10T14:31:10+08:00" content="2015-11-10">
-              2015-11-10
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="SPA单页面WEB应用">SPA单页面WEB应用</h2><h3 id="什么是SPA">什么是SPA</h3><blockquote>
-<p>单页面Web应用（single-page application 简称SPA）是一种特殊的Web应用。它将所有活动局限于一个Web页面中，仅在该Web页面初始化时加载相应的HTML，CSS和JavaScript。一旦页面加载完成，SPA不会因为用户的操作而进行页面的重新加载或跳转，而是利用JS动态的变换HTML的内容，从而实现用户与UI之间的交互。由于避免了页面的重新加载，SPA可以提供较为流畅的用户体验。</p>
-</blockquote>
-<h3 id="优缺点">优缺点</h3><p>SPA的出现是富客户端发展的必然结果，但该技术也是有些局限的。</p>
-<h4 id="优点">优点</h4><blockquote>
-<ul>
-<li>良好的交互体验：用户不需要重新刷新页面，获取数据是通过Ajax异步获取，页面显示流畅</li>
-<li>前后端分离：SPA可以和RESTful规约一起使用，通过REST API提供接口数据，并使用Ajax异步获取，有助于分离客户端和服务器端的工作</li>
-<li>减轻服务器压力：服务器只用提供数据，不用管展示逻辑和页面生成</li>
-<li>共用一套后台代码：不用修改后端程序就可以同时用于Web，手机和平板等多种客户端</li>
-</ul>
-</blockquote>
-<h4 id="缺点">缺点</h4><blockquote>
-<ul>
-<li>SEO难度较高：由于所有的内容都在一个页面中动态替换显示，所以在SEO上有劣势</li>
-<li>浏览器自身的前进后退管理：由于SPA在一个页面中显示所有内容，所以不能使用浏览器的进行后退功能，所有的页面切换需要自己建立堆栈管理，可以使用HTML5的history API来实现</li>
-<li>初次加载比较慢：为实现SPA功能及显示效果，需要在加载页面时候将JS，CSS统一加载，部分页面可以在需要的时候加载。所以必须对JS和CSS代码进行合并压缩处理</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1915,7 +1918,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-count">52</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1925,7 +1928,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -248,6 +248,129 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/28/翻译-React可复用组件/" itemprop="url">
+                  [翻译]React可复用组件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-28T14:45:28+08:00" content="2016-01-28">
+              2016-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>设计接口的时候，把常用的设计元素（如按钮，表单，布局组件等）拆成接口良好的定义的可复用的组件。这样，下次开发相同界面时就可以写更少的代码，也意味着更高的开发效率，更少的BUG和更少的程序体积。</p>
+<h3 id="Prop验证">Prop验证</h3><p>随着应用的不断变大，保证组件被正确使用变的非常有用。</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		<span class="comment">//可以声明prop为指定的JS基本类型，默认情况下，这些prop都是可选的</span></span><br><span class="line">		optionalArray: React.PropTypes.<span class="keyword">array</span>,</span><br><span class="line">		optionalBool: React.PropTypes.<span class="keyword">bool</span>,</span><br><span class="line">		optionalFunc: React.PropTypes.func,</span><br><span class="line">		optionalNumber: React.PropTypes.number,</span><br><span class="line">		optionalObject: React.PropTypes.object,</span><br><span class="line">		optionalString: React.PropTypes.string,</span><br><span class="line"></span><br><span class="line">		<span class="comment">//所有类型都可以被渲染，numbers，string，elements或包括这些类型的数组</span></span><br><span class="line">		optionalNode: React.PropTypes.node,</span><br><span class="line"></span><br><span class="line">		<span class="comment">//react element</span></span><br><span class="line">		optionalElement: React.PropTypes.element,</span><br><span class="line"></span><br><span class="line">		<span class="comment">//使用JS的instanceof操作符，可以声明一个class实例的prop</span></span><br><span class="line">		optionalMessage: React.PropTypes.<span class="keyword">instanceOf</span>(Message),</span><br><span class="line"></span><br><span class="line">		<span class="comment">//可以限制props的值只在一个枚举中取值</span></span><br><span class="line">		optionalEnum: React.PropTypes.oneOf([<span class="string">'bbb'</span>, <span class="string">'aaa'</span>]),</span><br><span class="line"></span><br><span class="line">		<span class="comment">//指定多个对象类型中的一个</span></span><br><span class="line">		optionalUnion: React.PropTypes.oneOfType([</span><br><span class="line">			React.PropTypes.string,</span><br><span class="line">			React.PropTypes.number,</span><br><span class="line">			React.PropTypes.<span class="keyword">instanceOf</span>(Message)</span><br><span class="line">		]),</span><br><span class="line"></span><br><span class="line">		<span class="comment">//指定类型的属性构成的对象</span></span><br><span class="line">		optionalObjectOf: React.PropTypes.objectOf(React.PropTypes.number),</span><br><span class="line"></span><br><span class="line">		<span class="comment">//特定对象参数</span></span><br><span class="line">		optionalObjectWithShape: React.PropTypes.shape(&#123;</span><br><span class="line">			color: React.PropTypes.string,</span><br><span class="line">			fontSize: React.PropTypes.number</span><br><span class="line">		&#125;),</span><br><span class="line"></span><br><span class="line">		<span class="comment">//为任意类型添加isRequired时，保证其props不为空</span></span><br><span class="line">		requiredFunc: React.PropTypes.func.isRequired,</span><br><span class="line"></span><br><span class="line">		<span class="comment">//非空的任意数据类型</span></span><br><span class="line">		requiredAny: React.PropTypes.any.isRequired,</span><br><span class="line"></span><br><span class="line">		<span class="comment">//自定义的验证器，如果验证失败则返回一个Error对象，不要使用console.warn或抛异常，因为会导致oneOfType失效</span></span><br><span class="line">		customProp: <span class="function"><span class="keyword">function</span><span class="params">(props, propName, componentName)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(!/matchme/.test(props[propName])) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">new</span> Error(<span class="string">'Validation failed!'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Signle_Child">Signle Child</h3><p>使用React.PropTypes.element，你只能指定一个子元素作为children传递给组件。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HelloReact = React.createClass(&#123;</span><br><span class="line">	propTypes: &#123;</span><br><span class="line">		children: React.PropTypes.element.isRequired</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&#123;<span class="comment">/*必选是一个元素，否则会出现警告*/</span>&#125;</span><br><span class="line">				&#123;<span class="keyword">this</span>.props.children&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="默认Props值">默认Props值</h3><p>React支持以声明的方式来定义props的默认值。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ComponentWithDefaultProps = React.createClass(&#123;</span><br><span class="line">	getDefaultProps: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			value: <span class="string">'default value'</span></span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>当父级没有传入props时，getDefaultProps()可以保证this.props.value有默认值，getDefaultProps()的结果会被缓存。可以直接使用props，而不必手动编写一些重复或无意义的代码。</p>
+<h3 id="传递Props的小技巧">传递Props的小技巧</h3><p>有一些常用的React组件只是对HTML做简单扩展。通常，希望少写点代码把传入组件的props复制到对应的HTML元素上，可以使用JSX的spread语法：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CheckLink = React.createClass(&#123;</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		&#123;<span class="comment">/*会把CheckLink所有的props复制到&lt;a&gt;标签上面*/</span>&#125;</span><br><span class="line">		<span class="keyword">return</span> &lt;a &#123;...<span class="keyword">this</span>.props&#125;&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;/a&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">	&lt;CheckLink href=<span class="string">'/checked.html'</span>&gt;</span><br><span class="line">		Click <span class="keyword">here</span></span><br><span class="line">	&lt;/CheckLink&gt;,</span><br><span class="line">	document.querySelector(<span class="string">'#container'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="Mixins">Mixins</h3><p>组件是React里复用代码的最佳方式，但有时一些复杂的组件间也需要共用一些功能。有时会被称为跨切面关注点。React使用mixins来解决此类问题。</p>
+<p>一个通用的场景是：一个组件需要定期更新。用setInterval()很容易实现，但当不需要它的时候取消定时器来节约内存是非常重要的。React提供了<a href="http://baizn.github.io/2016/01/28/React%E7%BB%84%E4%BB%B6%E7%8A%B6%E6%80%81%E5%8F%8A%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期方法</a>来告知组件创建或销毁的时间。下面实现一个简单的mixin，使用setInterval()并保证在组件销毁时清理定时器。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> SetIntervalMixin = &#123;</span><br><span class="line">	componentWillMount: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.intervals = [];</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	setInterval: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.intervals.push(setInterval.apply(<span class="literal">null</span>, arguments));</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	componentWillUnmount: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.intervals.map(clearInterval);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> TickTock = React.createClass(&#123;</span><br><span class="line">	mixins: [SetIntervalMixin], <span class="comment">//引用mixin</span></span><br><span class="line">	getInitialState: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			second: <span class="number">0</span></span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	componentDidMount: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.setInterval(<span class="keyword">this</span>.tick, <span class="number">1000</span>); <span class="comment">//调用mixin的setInterval方法</span></span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	tick: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.setState(&#123;</span><br><span class="line">			second: <span class="keyword">this</span>.state.second + <span class="number">1</span></span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			&lt;p&gt;React has been running <span class="keyword">for</span> &#123;<span class="keyword">this</span>.state.second&#125; seconds.&lt;/p&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">	&lt;TickTock /&gt;,</span><br><span class="line">	document.querySelector(<span class="string">'#container'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>关于mixin值得一提的优点是，如果一个组件使用了多个mixin，并且有多个mixin定义了同样的生命周期方法（多个mixin都需要在组件销毁时做资源清理操作），所有这些生命周期方法都保证会被执行到。方法执行的顺序是：首先按mixin引入顺序执行mixin里的方法，最后执行组件内定义的方法。</p>
+<h3 id="ES6_Classes">ES6 Classes</h3><p>你也可以把React组件作为一个普通的JS类来定义。如使用ES6的class语法。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloReact</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">React</span>.<span class="title">Component</span> &#123;</span></span><br><span class="line">	render() &#123;</span><br><span class="line">		<span class="keyword">return</span> &lt;div&gt;<span class="type">Hello</span> &#123;<span class="keyword">this</span>.props.name&#125;&lt;/div&gt;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">ReactDOM</span>.render(&lt;<span class="type">HelloReact</span> name=<span class="symbol">'reac</span>t' /&gt;, document.body);</span><br></pre></td></tr></table></figure>
+<p>该API类似于没有getInitialState方法的React.createClass。不再单独提供一个getInitialState方法，需要在构造方法中设置state属性。</p>
+<p>另一个区别是propTypes和defaultProps作为属性被定义在构造方法中而不是class内部。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">React</span>.<span class="title">Component</span> &#123;</span></span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		<span class="keyword">super</span>(props);</span><br><span class="line">		<span class="keyword">this</span>.state = &#123;</span><br><span class="line">			count: props.initialCount</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tick() &#123;</span><br><span class="line">		<span class="keyword">this</span>.setState(&#123;</span><br><span class="line">			count: <span class="keyword">this</span>.state.count + <span class="number">1</span></span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			&lt;div onClick=&#123;<span class="keyword">this</span>.tick.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">				<span class="type">Clicks</span>: &#123;<span class="keyword">this</span>.state.count&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">Counter</span>.propTypes = &#123;</span><br><span class="line">	initialCount: <span class="type">React</span>.<span class="type">PropTypes</span>.number</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">Counter</span>.defaultProps = &#123;</span><br><span class="line">	initialCount: <span class="number">0</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="没有自动绑定">没有自动绑定</h3><p>如普通的ES6类，这些方法都遵循相同的语义，这意味着它们不会自动绑定到这个实例上面。你必须显式地使用bind(this)或箭头函数 =&gt;。</p>
+<h3 id="没有Mixin">没有Mixin</h3><p>可惜的是ES6不再支持任何Mixin。因此，当你使用ES6的classes来开发React应用时不再支持mixins。相反，我们正在努力使得支持类似的用例更容易而不是混入mixins。</p>
+<h3 id="无状态的Functions">无状态的Functions</h3><p>你可以像定义一个普通的JS函数那样定义React类。如使用无状态的函数语法。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HelloReact</span><span class="params">(props)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> &lt;div&gt;Hello &#123;props.name&#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;HelloReact name=<span class="string">'react'</span> /&gt;, document.body);</span><br></pre></td></tr></table></figure>
+<p>或使用ES6的箭头函数。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var HelloReact = <span class="function"><span class="params">(props)</span> =&gt;</span> &lt;div&gt;Hello &#123;props.name&#125;&lt;/div&gt;;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;HelloReact name=<span class="string">'react'</span> /&gt;, <span class="built_in">document</span>.body);</span><br></pre></td></tr></table></figure>
+<p>这个简单的组件API适用于带有props的纯函数的组件。这些组件不能有内部状态，没有后续实例，并且没有组件生命周期方法。它们是根据输入转化的纯函数，无副作用。但是，仍然可以指定propTypes和defaultProps，然后将其设置为该函数的属性。就类似于使用ES6类时那样设置。</p>
+<blockquote>
+<p>因为无状态的函数没有后续的实例，因此不能在无状态函数的组件上附加ref属性。通常情况下，这并不是什么问题，因此无状态的函数不提供必须的API。没有必须的API，对一个实例也没有太多的操作。如果用户想在无状态的函数组件中找DOM节点，那么无状态的组件必须包裹在一个有状态组件中（如ES6的类组件），并且在包裹的组件上附加ref属性。</p>
+</blockquote>
+<p>理想状态下，大多数的组件应该都是无状态的函数，因为在React核心内部，这些无状态的函数组件会流动更快。这只是在条件允许的情况下的一种推荐模式。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/28/翻译-React顶层API/" itemprop="url">
                   [翻译]React顶层API
                 </a>
@@ -1340,121 +1463,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/11/详解CSS之浮动/" itemprop="url">
-                  详解CSS之浮动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-12-11T12:15:55+08:00" content="2015-12-11">
-              2015-12-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="详解CSS之浮动">详解CSS之浮动</h2><h3 id="浮动带来的缺陷">浮动带来的缺陷</h3><blockquote>
-<ul>
-<li>元素设置浮动后，会影响它的兄弟元素</li>
-<li>浮动的元素脱离了文档流（仍在文档流中），包含它的父元素不会因为这个浮动元素的存在而自动撑高，这样就会造成父元素高度塌陷的问题</li>
-</ul>
-</blockquote>
-<h3 id="清除浮动常见的方法">清除浮动常见的方法</h3><p>在受影响的兄弟元素上设置clear:both;属性后，不会跟浮动元素同行，而是占据一整行，也不是根据内容自动调整宽度。</p>
-<p>clear的原理：clear会为元素添加足够的空白空间，使得该元素的位置会放置在它之前得一个浮动元素之下，这跟增加元素外边距使得元素占据满行而强制换行得效果是一样得。</p>
-<p>使用在受影响的兄弟元素上设置clear:both;属性得方法后，只是清除了浮动元素对兄弟元素得影响，并没有解决父元素高度塌陷得问题，因此，我们需要更高级得清除浮动：<strong>闭合浮动</strong>。</p>
-<h4 id="空div方法">空div方法</h4><p>在浮动元素后面添加:</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	clear:both;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"clearfix"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="overflow方法">overflow方法</h4><p>在浮动元素得父元素上设置overflow得值为hidden或auto，可以闭合浮动。</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	overflow: hidden;</span><br><span class="line">	*zoom: <span class="number">1</span>; <span class="comment">//IE6中触发hasLayout</span></span><br><span class="line">&#125;</span><br><span class="line">&lt;div <span class="keyword">class</span>=<span class="string">"clearfix"</span>&gt;</span><br><span class="line">	&lt;div <span class="keyword">class</span>=<span class="string">"left"</span>&gt;<span class="keyword">float</span> left&lt;/div&gt;</span><br><span class="line">	&lt;div <span class="keyword">class</span>=<span class="string">"left"</span>&gt;left&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>使用overflow可能产生得问题：当元素内包括会超出父元素边界的子元素时，可能会覆盖掉有用的子元素，或是产生多余的滚动条。</p>
-<h4 id="使用:after伪元素的方法">使用:after伪元素的方法</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.clearfix &#123;</span><br><span class="line">	*zoom: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">.clearfix:<span class="keyword">after</span> &#123;</span><br><span class="line">	content: '',</span><br><span class="line">	display: block;</span><br><span class="line">	height: <span class="number">0</span>,</span><br><span class="line">	clear: both;</span><br><span class="line">	visibility: hidden;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"box clearfix"</span>&gt;</span><br><span class="line">	&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"main left"</span>&gt;left1&lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">	&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"foot left"</span>&gt;left2&lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="清除浮动方法的实质——CSS_Clear与BFC特性">清除浮动方法的实质——CSS Clear与BFC特性</h3><blockquote>
-<ul>
-<li>利用clear属性：包括在浮动元素尾部添加一个带有clear:both属性的空div来闭合元素，其实利用:after伪元素方法也是在元素尾部添加一个内容为空白字符并带有clear:both属性的元素的实现的</li>
-<li>触发浮动元素父元素的BFC，使得该父元素可以包含浮动元素</li>
-</ul>
-</blockquote>
-<h3 id="参考资料">参考资料</h3><p><a href="http://kayosite.com/remove-floating-style-in-detail.html" target="_blank" rel="external">详说清除浮动</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1500,7 +1508,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-count">52</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1510,7 +1518,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
