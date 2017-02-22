@@ -248,6 +248,111 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/11/JavaScript连续赋值/" itemprop="url">
+                  JavaScript连续赋值
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-11T17:25:08+08:00" content="2016-01-11">
+              2016-01-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##JavaScript连续赋值<br>先看一段简单的代码：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="keyword">n</span>: 1&#125;;</span><br><span class="line">a.x = a = &#123;<span class="keyword">n</span>: 2&#125;;</span><br><span class="line">console.<span class="literal">log</span>(a.x);</span><br></pre></td></tr></table></figure>
+<p>上面的代码会打印出什么内容呢？// undefined</p>
+<p>再看下面这段代码：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="keyword">n</span>: 1&#125;;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">a.x = a = &#123;<span class="keyword">n</span>: 2&#125;;</span><br><span class="line">console.<span class="literal">log</span>(b.x, a.x);</span><br></pre></td></tr></table></figure>
+<p>上面这段代码又会打印出什么内容呢？</p>
+<p>不卖关子，直接上答案：</p>
+<blockquote>
+<p>第一部分代码会打印出： undefined;</p>
+<p>第二部分代码会打印出：Object {n: 2}, undefined</p>
+</blockquote>
+<p>实际的执行过程：从右到左赋值，a被赋值为{n: 2}，接着a.x被赋值为{n: 2}。这里很重要的一点就是：a = {n: 2}中的a指向的是对象{n: 2}，而a.x={n: 2}中的a指向的是原对象{n: 1}。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/11/详解CSS之浮动/" itemprop="url">
                   详解CSS之浮动
                 </a>
@@ -1771,108 +1876,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/11/JavaScript类型检测/" itemprop="url">
-                  JavaScript类型检测
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-11T14:45:49+08:00" content="2015-11-11">
-              2015-11-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="JavaScript类型检测">JavaScript类型检测</h2><h3 id="typeof">typeof</h3><p>检测一个变量是不是基本数据类型的最佳工具：<strong>typeof</strong>。</p>
-<p>typeof操作符是确定一个变量是字符串、数值、布尔值还是undefined的最佳工具。</p>
-<p>如果变量的值是一个对象或null，则typeof操作符都返回“object”。</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'bzn'</span>;</span><br><span class="line"><span class="keyword">var</span> <span class="keyword">bool</span> = <span class="keyword">true</span>;</span><br><span class="line"><span class="keyword">var</span> num = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">var</span> unde;</span><br><span class="line"><span class="keyword">var</span> n = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="keyword">typeof</span> str; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="keyword">bool</span>; <span class="comment">// boolean</span></span><br><span class="line"><span class="keyword">typeof</span> num; <span class="comment">// number</span></span><br><span class="line"><span class="keyword">typeof</span> unde; <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">typeof</span> n; <span class="comment">//object</span></span><br><span class="line"><span class="keyword">typeof</span> o; <span class="comment">// object</span></span><br></pre></td></tr></table></figure>
-<h3 id="instanceof">instanceof</h3><p>虽然在检测基本数据类型时typeof是最佳工具，但在检测引用类型的值时，这个操作符就很局限，我们并不是想知道某个值是否是对象，而是想知道它是什么类型的对象。对此，ECMAScript提供了 instanceof 操作符，其语法如下所示：</p>
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">result</span> = variable instanceof <span class="function"><span class="keyword">constructor</span></span></span><br></pre></td></tr></table></figure>
-<p>如果变量是给定应用类型（根据原型链来识别）的实例，那么instanceof操作符就会返回true。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">person <span class="keyword">instanceof</span> <span class="built_in">Object</span>; <span class="comment">// true</span></span><br><span class="line">colors <span class="keyword">instanceof</span> <span class="built_in">Array</span>;</span><br><span class="line">pattern <span class="keyword">instanceof</span> <span class="built_in">RegExp</span>;</span><br></pre></td></tr></table></figure>
-<p>所有引用类型的值都是Object的实例。因此，在检测一个引用类型值和Object构造函数时，instanceof操作符始终返回true。如果使用instanceof操作符检测基本类型的值，则instanceof返回false，因为基本类型不是对象。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1918,7 +1921,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">52</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1928,7 +1931,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">103</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

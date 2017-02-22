@@ -248,6 +248,156 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/28/翻译-React组件状态及生命周期/" itemprop="url">
+                  [翻译]React组件状态及生命周期
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-28T14:46:33+08:00" content="2016-01-28">
+              2016-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="组件规范">组件规范</h2><p>当调用React.createClass()方法创建组件的时候，我们应该提供一个包含了render方法的规范的对象，并且可以包含其它生命周期方法的描述。</p>
+<blockquote>
+<p>另外，也可以使用普通的JS类来定义组件。这些类可以实现大多数相同的方法，但也有一些差异。有关这些差异的详细信息，请参考<a href="http://baizn.github.io/2016/01/14/%E4%BD%BF%E7%94%A8ES6%E5%BC%80%E5%8F%91React/">ES6类的文档</a>。</p>
+</blockquote>
+<h3 id="render">render</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactElement <span class="function"><span class="title">render</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>render()方法是必须的。</p>
+<p>当调用的时候，会检测this.props和this.state，返回一个单子级组件。改子级组件可以是虚拟的本地DOM组件（如\<div>或React.DOM.div()），也可以是自定义的复合组件。</div></p>
+<p>也可以返回null或false来表明不需要渲染任何东西。实际上，React通过渲染一个\<noscript>标签来处理当前的差异检测逻辑。当返回null或false的时候，React.findDOMNode(this)将返回null。</noscript></p>
+<p>render()函数应该是纯函数，即该函数不修改组件的state，每次调用都返回相同的结果，不读写DOM信息，也不和浏览器交互（如通过使用setTimeout）。如果需要和浏览器交互，在componentDidMount()方法中或其它生命周期方法中来做。保持render()函数为纯函数，可以使得服务端渲染更加切实可行，也使得组件更容易被理解。</p>
+<h3 id="getInitialState">getInitialState</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> <span class="function"><span class="title">getInitialState</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在组件挂载之前调用一次。返回值将会作为this.state的初始值。</p>
+<h3 id="getDefaultProps">getDefaultProps</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> <span class="function"><span class="title">getDefaultProps</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在组件类创建的时候调用一次，然后返回值被缓存下来。如果父组件没有指定props中的某个健，则此处返回的对象中的相应属性会合并到this.props（使用in检测属性）。</p>
+<p>该方法在任何实例创建之前调用，因此不能依赖于this.props。另外，getDefaultProps()返回的任何复杂对象将会在实例间共享，而不是每个实例拥有一份拷贝。</p>
+<h3 id="propTypes">propTypes</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> propTypes</span><br></pre></td></tr></table></figure>
+<p>propTypes对象允许验证传入到组件的props。更多关于propTypes的信息，参考<a href="http://baizn.github.io/2016/01/27/React%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6/">React可复用组件</a> 。</p>
+<h3 id="mixins">mixins</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span> mixins</span><br></pre></td></tr></table></figure>
+<p>mixin数组允许使用混合来在多个组件之间共享行为。更多关于mixin的信息，参考<a href="http://baizn.github.io/2016/01/27/React%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6/">React可复用组件</a> 。</p>
+<h3 id="statics">statics</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">object</span> statics</span><br></pre></td></tr></table></figure>
+<p>statics对象允许定义静态方法，这些静态方法可以在组件类上调用。如：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HelloReact = React.createClass(&#123;</span><br><span class="line">	statics: &#123;</span><br><span class="line">		customMethod: <span class="function"><span class="keyword">function</span><span class="params">(foo)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> foo === <span class="string">'bar'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">HelloReact.customMethod(<span class="string">'bar'</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p>在这个块里面定义的方法都试静态的，意味着你可以在任何组件实例创建之前调用它们，这些方法不能获取组件的props和state。如果想在静态方法中检测props的值，在调用处把props作为参数传入到静态方法。</p>
+<h3 id="displayName">displayName</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">string</span> displayName</span><br></pre></td></tr></table></figure>
+<p>displayName字符串用于输出调试信息，JSX自动设置该值。</p>
+<h2 id="生命周期方法">生命周期方法</h2><p>许多方法在组件生命周期中某个确定的时间点执行。</p>
+<h3 id="挂载(Mounting)：componentWillMount">挂载(Mounting)：componentWillMount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentWillMount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>服务端和客户端都只调用一次，在初始化渲染执行之前立即调用。如果在这个方法内调用setState，render()将会感知到更新后的state，将会执行一次，尽管state改变了。</p>
+<h3 id="挂载(Mounting)：componentDidMount">挂载(Mounting)：componentDidMount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentDidMount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>在初始化渲染执行之后立即调用一次，仅客户端有效（服务端不会调用）。在生命周期的这个时间点上，可以访问子组件的任何refs（如访问底层DOM）。子组件的componentDidMount()方法在父组件之前调用。</p>
+<p>如果想和其它JS框架集成，使用setTimeout或setInterval来设置定时器，或发送AJAX请求，可以在该方法中执行这些操作。</p>
+<h3 id="更新(Updating)：componentWillReceiveProps">更新(Updating)：componentWillReceiveProps</h3><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> componentWillReceiveProps(</span><br><span class="line">	<span class="keyword">object</span> nextProps</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在组件接收到新的props时候调用。在初始化渲染时候，该方法不会被调用。</p>
+<p>用此函数可以作为React在prop传入之后，render()方法被调用之前更新state的机会。老得props可以通过this.props获取到。在该函数中调用this.setState()将不会引起第二次渲染。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">componentWillReceiveProps</span>: <span class="tag">function</span>(nextProps) &#123;</span><br><span class="line">	<span class="tag">this</span><span class="class">.setState</span>(&#123;</span><br><span class="line">		<span class="attribute">likesIncreasing</span>: nextProps.likeCount &gt; this.props.likeCount</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>一个常见的错误是生命周期方法在执行过程中假设props被改变了。要理解这样为什么是无效的，请参考<a href="http://baizn.github.io/2016/01/28/%E7%BF%BB%E8%AF%91-A-B-B-A/">A implies B does not imply B implies A</a>。</p>
+<p>没有类似的componentWillReceiveState方法。传入的prop可能会导致state改变，反之则不然。如果需要在state改变的时候执行一些操作，请使用componentWillUpdate。</p>
+</blockquote>
+<h3 id="更新(Updating)：shouleComponentUpdate">更新(Updating)：shouleComponentUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">boolean shouldComponentUpdate(</span><br><span class="line">	<span class="tag">object</span> nextProps, <span class="tag">object</span> nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在接收到新的props或state，将要渲染之前调用。该方法在初始化渲染的时候不会调用，在使用forceUpdate方法时候也不会被调用。</p>
+<p>如果确定新的props或state不会导致组件更新，则此处应该返回false。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate: <span class="function"><span class="keyword">function</span><span class="params">(nextProps, nextState)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> nextProps.id !== <span class="keyword">this</span>.props.id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果shouldComponentUpdate返回false，则render()将不会执行，直到下一次state改变。另外，componentWillUpdate和componentDidUpdate也不会被调用。</p>
+<p>默认情况下，shouldComponentUpdate总会返回true，在state改变的时候可以避免一些细微的BUG，但如果总是小心地把state当做不可变的，在render()中只从props和state读取值，此时可以覆盖shouldComponentUpdate方法，实现新旧props和state的比对逻辑。</p>
+<p>如果性能是个瓶颈，尤其是有几十个甚至上百个组件的时候，使用shouldComponentUpdate可以提升应用的性能。</p>
+<h3 id="更新(Updating)：componentWillUpdate">更新(Updating)：componentWillUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentWillUpdate(</span><br><span class="line">	<span class="tag">object</span> nextProps, <span class="tag">object</span> nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在接收到新的props或state之前立即调用，在初始化渲染的时候该方法不会被调用。</p>
+<p>使用该方法做一些更新之前的准备工作。</p>
+<blockquote>
+<p>在该方法中不能使用this.setState()。如果需要更新state来响应某个prop的改变，请使用componentWillReceiveProps方法。</p>
+</blockquote>
+<h3 id="更新(Updating)：componentDidUpdate">更新(Updating)：componentDidUpdate</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void componentDidUpdate(</span><br><span class="line">	<span class="tag">object</span> prevProps, <span class="tag">object</span> prevState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在组件的更新已经同步到DOM中之后立即被调用，该方法不会在初始化渲染的时候调用。</p>
+<p>使用该方法可以在组件更新后操作DOM元素。</p>
+<h3 id="卸载(Unmounting)：componentWillUnmount">卸载(Unmounting)：componentWillUnmount</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">componentWillUnmount</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>组件从DOM中卸载之前立即被调用。</p>
+<p>可以在该方法中执行任何必须的清理工作，如清除定时器或清除在componentDidMount中创建的任何DOM元素。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/28/翻译-React可复用组件/" itemprop="url">
                   [翻译]React可复用组件
                 </a>
@@ -1358,111 +1508,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/11/JavaScript连续赋值/" itemprop="url">
-                  JavaScript连续赋值
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-11T17:25:08+08:00" content="2016-01-11">
-              2016-01-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##JavaScript连续赋值<br>先看一段简单的代码：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="keyword">n</span>: 1&#125;;</span><br><span class="line">a.x = a = &#123;<span class="keyword">n</span>: 2&#125;;</span><br><span class="line">console.<span class="literal">log</span>(a.x);</span><br></pre></td></tr></table></figure>
-<p>上面的代码会打印出什么内容呢？// undefined</p>
-<p>再看下面这段代码：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="keyword">n</span>: 1&#125;;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">a.x = a = &#123;<span class="keyword">n</span>: 2&#125;;</span><br><span class="line">console.<span class="literal">log</span>(b.x, a.x);</span><br></pre></td></tr></table></figure>
-<p>上面这段代码又会打印出什么内容呢？</p>
-<p>不卖关子，直接上答案：</p>
-<blockquote>
-<p>第一部分代码会打印出： undefined;</p>
-<p>第二部分代码会打印出：Object {n: 2}, undefined</p>
-</blockquote>
-<p>实际的执行过程：从右到左赋值，a被赋值为{n: 2}，接着a.x被赋值为{n: 2}。这里很重要的一点就是：a = {n: 2}中的a指向的是对象{n: 2}，而a.x={n: 2}中的a指向的是原对象{n: 1}。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1508,7 +1553,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">52</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1518,7 +1563,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">103</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

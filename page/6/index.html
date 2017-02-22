@@ -248,6 +248,124 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/04/JavaScript之Ajax跨域/" itemprop="url">
+                  JavaScript之Ajax跨域
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-04T10:25:40+08:00" content="2015-11-04">
+              2015-11-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Ajax跨域请求">Ajax跨域请求</h2><h3 id="Jsonp">Jsonp</h3><p>Jsonp可以解决XmlHttpRequest请求不能跨域的限制，原理是<strong>通过动态创建一个script元素来请求一段js脚本，让这段脚本在页面作用域里执行，迂回实现类似Ajax的请求。</strong></p>
+<p>Jsonp的缺陷：只能是GET请求，不能使用POST请求，请求内容长度有限制，没有XHR的状态，服务器端无法获取用户信息。</p>
+<h3 id="CORS(Cross-Origin_Resource_Sharing)">CORS(Cross-Origin Resource Sharing)</h3><p>CORS是W3C解决跨域请求的一个规范。被请求的服务器需要设置Access-Control-Allow-Origin: 允许请求的域。</p>
+<p>请求过程：发送方XHR请求报头里有一条Origin:请求页面的域，被请求服务器设置根据Access-Control-Allow-Origin设置判断是否允许该请求，如果允许会把内容返回给请求页面。</p>
+<p>详情可参考MDN文档：<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&amp;redirectslug=HTTP_access_control" target="_blank" rel="external">HTTP access control CORS</a>。</p>
+<h3 id="服务器代理请求">服务器代理请求</h3><p>页面发送请求给本域服务器的一个代理脚本，代理脚本完成对其他域的请求，然后把结果返回给客户端。优点是可以模拟GET或POST请求方法，并把参数和客户端Cookies传递过去，缺点是实施起来比较麻烦。</p>
+<h2 id="不同域之间的JavaScript交互">不同域之间的JavaScript交互</h2><h3 id="document-domain">document.domain</h3><p>只能解决一个域名下的不同二级域名页面跨域，如bzn.zbj.com和yxl.bzj.com，设置document.domain=’zbj.com’。</p>
+<h3 id="window-name">window.name</h3><p>window.name一般用来获取子窗口：window.frames[windowName]。一个窗口无论加载什么页面，window.name都保持不变。</p>
+<h3 id="window-postMessage">window.postMessage</h3><p>window.postMessage出现在HTML5规范中，可以实现脚本跨域通信。当window.postMessage方法被调用时，目标窗口的message事件被触发，就可以实现不同域之间的信息交流。</p>
+<h3 id="Iframe">Iframe</h3><p>页面Iframe呈树形嵌套，它的特点如下：</p>
+<blockquote>
+<ul>
+<li>任何一个节点窗口都能获取树上其他窗口的引用。子iframe可以通过top／parent来引用父窗口，父窗口可以通过window.frames[0]或window.frames[name]来引用子窗口</li>
+<li>树上不同源的窗口不能获取对方的内部状态</li>
+<li>树上任何窗口可以设置(不能读取)其他窗口的location/url</li>
+<li>一个页面URL的锚点(<a href="http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新" target="_blank" rel="external">http://www.bzn.com/index.html#bai中的#bai)改变不会引起页面刷新</a></li>
+</ul>
+</blockquote>
+<p>根据以上特点，Iframe进行跨域交互的方法：</p>
+<blockquote>
+<ul>
+<li>改变iframe嵌套树上的目标窗口的URL，目标窗口通过轮询来监听URL的变化，以此通过锚点链在不同iframe直接传递数据</li>
+<li>不同域的iframe不能获取内部状态，可以通过创建一个根目标iframe相同域的隐藏iframe来传递数据</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/04/JavaScript基础知识点/" itemprop="url">
                   JavaScript基础知识点
                 </a>
@@ -489,7 +607,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">52</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -499,7 +617,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">103</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
